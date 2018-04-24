@@ -693,7 +693,7 @@ public class Graph <E,T> {
 	
 	//////////////////////////// I/O /////////////////////////////
 	
-	public void AppendEdge(String fileName,int firstVertex,int SecondVertex,int weight)
+	public void AppendEdge(String fileName,int firstVertex,int SecondVertex,String weight)
 	{
 		
 	    BufferedReader file = null;
@@ -701,7 +701,7 @@ public class Graph <E,T> {
 			file = new BufferedReader(new FileReader(fileName));
 		    String line;
 
-		    Graph<String, String> graph = graph = Graph.inParser("MIT.txt", true);
+		    Graph<String, String> graph = graph = Graph.inParser(fileName, true);
 		    Vertex<String,String>[] vert = graph.vertices_array();
 		    Edge<String,String>[] edg = graph.edges_array();
 		    String[] vertices = new String[vert.length];
