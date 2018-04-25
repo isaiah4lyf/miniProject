@@ -23,7 +23,7 @@ public class Jframe extends JFrame {
 
 	public Jframe()
 	{
-		
+		TabedPane pane = new TabedPane();
 
 		JMenuBar menubar = new JMenuBar();
 		JMenu menu = new JMenu("Project");
@@ -31,8 +31,8 @@ public class Jframe extends JFrame {
 		JMenu menu2 = new JMenu("Help");
 		
 
-		JMenuItem size = new JMenuItem("size");
-		JMenuItem size2 = new JMenuItem("size");
+		JMenuItem size = new JMenuItem("New Project");
+		JMenuItem size2 = new JMenuItem("Open Project From:");
 		menu.add(size);
 		menu.add(size2);
 		menubar.add(menu);
@@ -45,18 +45,19 @@ public class Jframe extends JFrame {
 		stPanel3.setOpaque(false);
 		
 		
-		JPanel stPanel2= new ItemPanel(stPanel3);
-		JPanel stPanel4= new ItemPanel(stPanel3);
-		stPanel4.setLayout(new GridLayout(14,1));
+		JPanel stPanel2= new DependenciesPanel();
+		stPanel2.setLayout(new GridLayout(10,1));
+		JPanel stPanel4= new ItemPanel(pane);
+		stPanel4.setLayout(new GridLayout(15,1));
 		//stPanel3.setBackground(Color.black);
 		stPanel3.setBounds(50, 50, 100, 100);
-		setLayout(new GridLayout(2,1));
+		setLayout(new GridLayout(1,1));
 
 		stPanel3.setPreferredSize(new Dimension( 1200,550));
 		JScrollPane scrollFrame = new JScrollPane(stPanel3);
 		stPanel3.setAutoscrolls(true);
 		scrollFrame.setPreferredSize(new Dimension( 800,300));
-		this.add(scrollFrame);
+
 
 		
 		stPanel2.setPreferredSize(new Dimension( 500,550));
@@ -74,8 +75,33 @@ public class Jframe extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,2));
 		panel.add(scrollFrame2);
-		panel.add(stPanel4);
-		this.add(panel);
+		panel.add(stPanel4);	
+		
+		JPanel panel2 = new JPanel();
+		
+		
+		
+		
+		JPanel panel3 = new JPanel();
+		panel3.setLayout(new GridLayout(2,1));
+		panel3.add(scrollFrame);
+		panel3.add(panel);
+
+		JPanel panel4 = new JPanel();
+		
+		
+		JPanel panel5 = new JPanel();
+		
+		
+
+		
+		pane.addTab("Components Management", null, panel3, "");
+		pane.addTab("Tasks Management", null, panel2, "");
+		pane.addTab("Time Optimization", null, panel4, "");
+		pane.addTab("Cost Optimization", null, panel5, "");
+		
+		//this.add(scrollFrame);
+		this.add(pane);
 		
 		//add(stPanel3);
 		this.setJMenuBar(menubar);

@@ -36,13 +36,15 @@ public class ItemPanel extends JPanel{
 	private int iWidth2;
 	private int iHeight2;
 	private Graph<String,String> graph = null;
-	public ItemPanel(JPanel itemDisplay)
+	private Vertex<String,String>[] vert = null;
+	public ItemPanel(TabedPane itemDisplay)
 	{
 
 		Object[] items = null;
+		
 		try {
 			graph = Graph.inParser("MIT.txt", true);
-			Vertex<String,String>[] vert = graph.vertices_array();
+			vert = graph.vertices_array();
 			items = new Object[vert.length];
 			for(int i = 0; i<vert.length; i++)
 			{
@@ -72,14 +74,22 @@ public class ItemPanel extends JPanel{
 		
 		
 		
-		JButton butt = new JButton("Select");
-		JButton butt2 = new JButton("Select");
-		JButton butt3 = new JButton("Select");
+		JButton butt = new JButton("Add Dependency");
+		//butt.setBorder();
+		//butt.setBackground(Color.CYAN);
+		JButton butt2 = new JButton("Delete Dependency");
+		JButton butt3 = new JButton("Delete Component");
+		JButton butt4 = new JButton("Add Component");
 		
-		JTextField inputWeight = new HintTextField("Input the weight");
+		
+		JTextField inputWeight = new HintTextField("Input the Dependency");
+		JTextField inputitem = new HintTextField("Input the Component");
 	    Font font = new Font("Serif", Font.ITALIC, 15);
 	    inputWeight.setFont(font);
+	    inputitem.setFont(font);
 	    jcb4.setFont(font);
+	    
+	    
 		butt.addActionListener(new ActionListener() {
 
 	            @Override
@@ -92,13 +102,34 @@ public class ItemPanel extends JPanel{
 	            	itemDisplay.repaint();
 	            }
 	        });
-		JLabel label00 = new JLabel("                                                                 TASK AND DEPEDENCIES MANAGEMENT");
+		butt4.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	//itemDisplay.revalidate();
+            	//itemDisplay.repaint();
+            	
+            	graph.AppendVertex("MIT.txt",inputitem.getText());
+            	itemDisplay.revalidate();
+            	itemDisplay.repaint();
+            }
+        });
+		butt2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	//itemDisplay.revalidate();
+            	//itemDisplay.repaint();           	
+            	graph.DeleteEdge("MIT.txt",0);
+            	itemDisplay.revalidate();
+            	itemDisplay.repaint();
+            }
+        });
+		JLabel label00 = new label("TASK AND DEPEDENCIES MANAGEMENT");
 		add(label00);
 		JLabel label0 = new JLabel("");
 		add(label0);
 		
-		JLabel label1 = new label();
-		label1.setText("Select Tasks and press the butt to add new edge");
+		JLabel label1 = new label("Select Tasks and press the butt to add new edge");
 		add(label1);
 		add(jcb);
 		add(jcb2);
@@ -112,16 +143,18 @@ public class ItemPanel extends JPanel{
 		add(combPanel);
 		
 		
+		JLabel label7 = new label("Add Item");
+		add(label7);
+		add(inputitem);
+		add(butt4);
 		
-		JLabel label2 = new JLabel("");
-		add(label2);
-		JLabel label4 = new JLabel("Select Edge to delete");
+
+		JLabel label4 = new label("Select Edge to delete");
 		add(label4);
 		add(jcb3);
 		add(butt2);
-		JLabel label5 = new JLabel("");
-		add(label5);
-		JLabel label6 = new JLabel("Select Task to delete");
+
+		JLabel label6 = new label("Select Task to delete");
 		add(label6);
 		add(jcb4);
 		add(butt3);
@@ -140,12 +173,44 @@ public class ItemPanel extends JPanel{
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 	}	
-	class label extends JLabel{
+	
+	class button extends JButton{
+		private String label;
+		public button(String label)
+		{
+			this.label = label;
+		}
 		protected void paintComponent(Graphics g)
 		{
 			try 
 			{
-				bgImage = ImageIO.read(new File("bg.jpg"));
+				bgImage = ImageIO.read(new File("but.png"));
+			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
+			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
+			}
+			catch (IOException e)
+			{e.printStackTrace();}
+			
+			g.drawImage(bgImage,0,0,(ImageObserver) this);
+		    Font font = new Font("Serif", Font.BOLD, 18);
+		    g.setFont(font);
+		    g.setColor(Color.BLACK);
+			g.drawString(label, 50, 20);
+		}	
+	}
+	
+	
+	class label extends JLabel{
+		private String label;
+		public label(String label)
+		{
+			this.label = label;
+		}
+		protected void paintComponent(Graphics g)
+		{
+			try 
+			{
+				bgImage = ImageIO.read(new File("df.jpg"));
 			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 			}
@@ -156,7 +221,7 @@ public class ItemPanel extends JPanel{
 		    Font font = new Font("Serif", Font.ITALIC, 18);
 		    g.setFont(font);
 		    g.setColor(Color.BLUE);
-			g.drawString("Select Tasks and press the butt to add new edge", 80, 20);
+			g.drawString(label, 0, 20);
 		}	
 	}
 	class HintTextField extends JTextField implements FocusListener {
@@ -191,7 +256,6 @@ public class ItemPanel extends JPanel{
 		  public String getText() {
 		    return showingHint ? "" : super.getText();
 		  }
-
 
 		}
 }

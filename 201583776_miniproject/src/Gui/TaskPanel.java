@@ -77,7 +77,8 @@ public class TaskPanel extends JPanel{
 		String[][] storeCoordinates = null;
 		try {
 			graph = Graph.inParser("MIT.txt", true);
-			storeCoordinates = new String[15][3];
+			Vertex<String,String>[] vert = graph.vertices_array();
+			storeCoordinates = new String[vert.length][3];
 			int y = 80;
 			int x = 50;
 			int count = 1;

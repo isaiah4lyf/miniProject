@@ -611,7 +611,6 @@ public class Graph <E,T> {
 	}
 	
 	/**
-	 * Transitive Closure by Floyd–Warshall
 	 * Idea: if (i->k->j) then create (i->j) if doesn't already exist
 	 */
 	public void transitiveClosure(){
@@ -691,7 +690,64 @@ public class Graph <E,T> {
 		return output;
 	}
 	
+	
+	
 	//////////////////////////// I/O /////////////////////////////
+	
+	public void AppendVertex(String fileName,String Vertex)
+	{
+		
+	    BufferedReader file = null;
+		try {
+			file = new BufferedReader(new FileReader(fileName));
+		    String line;
+
+		    Graph<String, String> graph = graph = Graph.inParser(fileName, true);
+		    Vertex<String,String>[] vert = graph.vertices_array();
+		    Edge<String,String>[] edg = graph.edges_array();
+		    String[] vertices = new String[vert.length];
+		    String[] edges = new String[edg.length];
+		    String firstLine = file.readLine();
+		    for(int i = 0; i < vert.length; i++)
+		    {
+		    	vertices[i] = file.readLine();
+		    }
+		    file.readLine();
+		    for(int i = 0; i < edg.length; i++)
+		    {
+		    	edges[i] = file.readLine();
+		    }
+
+		    PrintWriter write = new PrintWriter(new File(fileName));
+		    int size = vert.length + 1;
+		    write.println("size="+size);
+		    for(int i = 0; i<vertices.length; i++)
+		    {
+		    	write.println(vertices[i]);
+		    }
+		    //14 = Task O
+		    int length = vert.length;
+		    write.println(length +" "+ "=" + " "+ Vertex);
+		    write.println(";");
+		    for(int i = 0; i<edges.length; i++)
+		    {
+		    	write.println(edges[i]);
+		    }
+		    write.println(";");
+		    write.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	        
+	    try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public void AppendEdge(String fileName,int firstVertex,int SecondVertex,String weight)
 	{
@@ -743,6 +799,65 @@ public class Graph <E,T> {
 			e.printStackTrace();
 		}
 	}
+	
+	public void DeleteEdge(String fileName,int EdgeIndex)
+	{
+		
+	    BufferedReader file = null;
+		try {
+			file = new BufferedReader(new FileReader(fileName));
+		    String line;
+
+		    Graph<String, String> graph = graph = Graph.inParser(fileName, true);
+		    Vertex<String,String>[] vert = graph.vertices_array();
+		    Edge<String,String>[] edg = graph.edges_array();
+		    String[] vertices = new String[vert.length];
+		    String[] edges = new String[edg.length - 1];
+		    String firstLine = file.readLine();
+		    for(int i = 0; i < vert.length; i++)
+		    {
+		    	vertices[i] = file.readLine();
+		    }
+		    file.readLine();
+		    int edgCount = 0;
+		    for(int i = 0; i < edg.length; i++)
+		    {
+		    	if(EdgeIndex != i)
+		    	{
+		    		edges[edgCount] = file.readLine();
+		    		edgCount++;
+		    	}
+		    	else
+		    	{
+		    		file.readLine();
+		    	}
+		    }
+		    PrintWriter write = new PrintWriter(new File(fileName));
+		    write.println(firstLine);
+		    for(int i = 0; i<vertices.length; i++)
+		    {
+		    	write.println(vertices[i]);
+		    }
+		    write.println(";");
+		    for(int i = 0; i<edges.length; i++)
+		    {
+		    	write.println(edges[i]);
+		    }
+		    write.println(";");
+		    write.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	        
+	    try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	/**
 	 * Read graph from input
