@@ -23,13 +23,13 @@ import javax.swing.JPanel;
 import com.sun.prism.BasicStroke;
 
 
-public class TaskPanel extends JPanel{
+public class Display_Graph extends JPanel{
 
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
 	
-	public TaskPanel()
+	public Display_Graph()
 	{
 
 	}

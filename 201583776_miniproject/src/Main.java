@@ -28,8 +28,8 @@ public class Main extends JFrame{
 
 		frame.pack();
 		frame.setTitle("Project Management System");
-		frame.setSize(1300,700);
-		frame.setLocationRelativeTo(null);
+		frame.setSize(1380,780);
+		frame.setLocation(-5,0);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		Image icon = null;
@@ -170,7 +170,19 @@ public class Main extends JFrame{
 				}
 			}
 		
+			Vertex<String,String>[] edg = graph.vertices_array();
+
+			Vertex<String,String>[] neibours = edg[1].getNeighbors_in();
+			System.out.println("\n\n");
+			String str = edg[0].toString();
+			for(int i = 0; i< neibours.length; i++)
+			{
+				System.out.println(neibours[i]);
+			}
+		
+			//graph.DeleteVertex("MIT.txt", 0);
 			
+			//System.out.println(str.substring(0, 1));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -65,7 +65,21 @@ public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 		}
 		return neighbors;
 	}
-	
+	/**
+	 * Get neighbors of a node
+	 * @return array of the neighbor vertices
+	 */
+	public Vertex<E,T>[] getNeighbors_in(){
+		Vertex<E,T>[] neighbors = new Vertex[inEdges.size()];
+		NodeIterator<Edge<E,T>> iter = inEdges.iterator();
+		int index = 0;
+		Edge<E,T> current = null;
+		while(iter.hasNext()){
+			current = iter.next();
+			neighbors[index++] = current.getOpposite(this);
+		}
+		return neighbors;
+	}
 	/**
 	 * Get outEdges/incident edges
 	 * @return iterator on the out edges

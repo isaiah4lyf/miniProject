@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -23,21 +22,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.sun.glass.events.KeyEvent;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
-import graph.Edge;
+import Gui.Components_Management.HintTextField;
+import Gui.Components_Management.label;
 import graph.Graph;
 import graph.Vertex;
 
-public class ItemPanel extends JPanel{
+public class Tasks_Management extends JPanel{
 
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
-	public ItemPanel(TabedPane itemDisplay)
+	public Tasks_Management(TabbedPane itemDisplay)
 	{
 
 		Object[] items = null;
