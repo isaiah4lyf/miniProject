@@ -16,6 +16,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Gui.Components_Management_Panels.Components_Dependencies;
+import Gui.Components_Management_Panels.Components_Management;
+import Gui.Tasks_Management_Panels.Tasks_Management;
+import Gui.Time_Optimization_Panels.Components_Prices_Panel;
+import Gui.Time_Optimization_Panels.Optimization_Graph_Panel;
+import Gui.Time_Optimization_Panels.Prices_Histogram_Panel;
 import graph.*;
 
 public class Jframe extends JFrame {
@@ -130,8 +136,22 @@ public class Jframe extends JFrame {
 		/**
 		 * Time Optimization tab
 		 */
-		JPanel panel4 = new JPanel();
-		pane.addTab("Time Optimization", null, panel4, "");
+		Optimization_Graph_Panel optP = new Optimization_Graph_Panel();
+		
+		Prices_Histogram_Panel price_Histo = new Prices_Histogram_Panel();
+		JScrollPane price_Histoscroll = new JScrollPane(price_Histo);
+		price_Histoscroll.setPreferredSize(new Dimension( 1200,1200));
+	
+		
+		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane);
+
+		
+		JPanel time_Main_Panel = new JPanel();
+		time_Main_Panel.setLayout(new GridLayout(1,2));
+		time_Main_Panel.add(price_Histoscroll);
+		time_Main_Panel.add(price_Man);
+		pane.addTab("Time Optimization", null, time_Main_Panel, "");
+		
 		
 		
 		/**

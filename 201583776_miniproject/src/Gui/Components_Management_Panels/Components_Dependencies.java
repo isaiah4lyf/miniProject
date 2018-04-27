@@ -1,4 +1,4 @@
-package Gui;
+package Gui.Components_Management_Panels;
 
 import java.awt.Color;
 import java.awt.Font;

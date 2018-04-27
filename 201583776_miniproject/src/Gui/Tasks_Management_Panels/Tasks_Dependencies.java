@@ -1,4 +1,4 @@
-package Gui;
+package Gui.Tasks_Management_Panels;
 
 import javax.swing.JPanel;
 

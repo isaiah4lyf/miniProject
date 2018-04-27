@@ -1,4 +1,4 @@
-package Gui;
+package Gui.Tasks_Management_Panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,8 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Gui.Components_Management.HintTextField;
-import Gui.Components_Management.label;
+import Gui.TabbedPane;
 import graph.Graph;
 import graph.Vertex;
 

@@ -1,4 +1,4 @@
-package Gui;
+package Gui.Components_Management_Panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import com.sun.glass.events.KeyEvent;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
+import Gui.TabbedPane;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
