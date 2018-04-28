@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 
 import Gui.Components_Management_Panels.Components_Dependencies;
 import Gui.Components_Management_Panels.Components_Management;
+import Gui.Tasks_Management_Panels.Tasks_Dependencies;
 import Gui.Tasks_Management_Panels.Tasks_Management;
 import Gui.Time_Optimization_Panels.Components_Prices_Panel;
 import Gui.Time_Optimization_Panels.Optimization_Graph_Panel;
@@ -74,10 +75,10 @@ public class Jframe extends JFrame {
 		display_Graph_Panel_scroll.setPreferredSize(new Dimension( 800,800));
 		
 		JPanel dependency_Panel = new Components_Dependencies();
-		dependency_Panel.setPreferredSize(new Dimension( 1500,1500));
+		dependency_Panel.setPreferredSize(new Dimension( 500,550));
 		JScrollPane dependency_Panel_scroll = new JScrollPane(dependency_Panel);
 		dependency_Panel.setAutoscrolls(true);
-		dependency_Panel_scroll.setPreferredSize(new Dimension(1500,1500));
+		dependency_Panel_scroll.setPreferredSize(new Dimension(800,800));
 		
 		JPanel Management_Panel = new Components_Management(pane);
 		Management_Panel.setLayout(new GridLayout(15,1));
@@ -90,6 +91,7 @@ public class Jframe extends JFrame {
 		dependency_and_Manage_P.setLayout(new GridLayout(1,2));
 		dependency_and_Manage_P.add(dependency_Panel_scroll);
 		dependency_and_Manage_P.add(Management_Panel_Scroll);
+		
 		
 		JPanel components_Man_Panel = new JPanel();
 		components_Man_Panel.setLayout(new GridLayout(2,1));
@@ -109,14 +111,14 @@ public class Jframe extends JFrame {
 		JScrollPane display_Graph_Panel_scroll_2 = new JScrollPane(display_Graph_Panel_2);
 		display_Graph_Panel_scroll_2.setPreferredSize(new Dimension( 800,300));
 		
-		JPanel dependency_Panel_2 = new Components_Dependencies();
+		JPanel dependency_Panel_2 = new Tasks_Dependencies();
 		dependency_Panel_2.setPreferredSize(new Dimension( 500,550));
 		JScrollPane dependency_Panel_scroll_2 = new JScrollPane(dependency_Panel_2);
 		dependency_Panel_scroll_2.setAutoscrolls(true);
 		dependency_Panel_scroll_2.setPreferredSize(new Dimension( 800,800));
 		
 		JPanel Management_Panel_2 = new Tasks_Management(pane);
-		Management_Panel_2.setLayout(new GridLayout(15,1));
+		Management_Panel_2.setLayout(new GridLayout(16,1));
 		Management_Panel_2.setPreferredSize(new Dimension( 500,100));
 		JScrollPane Management_Panel_Scroll_2 = new JScrollPane(Management_Panel_2);
 		Management_Panel_Scroll_2.setAutoscrolls(true);
@@ -177,6 +179,16 @@ public class Jframe extends JFrame {
 		 */
 		JPanel panel5 = new JPanel();
 		pane.addTab("Time Optimization", null, panel5, "");
+		
+		
+		/**
+		 * Overall project statistics
+		 * View tasks with less cost
+		 * View tasks with short completion time
+		 * View components with less cost but with with many dependees
+		 */
+		JPanel panel6 = new JPanel();
+		pane.addTab("Overall Project Optimization", null, panel6, "");
 		
 
 		this.add(pane);

@@ -115,7 +115,7 @@ public class Display_Graph extends JPanel{
 						{
 							if(e.getV2().getData() == storeCoordinates[j][0])
 							{
-								drawArrow(g3,Integer.parseInt(storeCoordinates[i][1]), Integer.parseInt(storeCoordinates[i][2]),Integer.parseInt(storeCoordinates[j][1]), Integer.parseInt(storeCoordinates[j][2]));
+								drawArrow(g3,Integer.parseInt(storeCoordinates[i][1]) + 70, Integer.parseInt(storeCoordinates[i][2]),Integer.parseInt(storeCoordinates[j][1]) - 10, Integer.parseInt(storeCoordinates[j][2]));
 								//g3.drawLine();
 								//g.drawString("some", Integer.parseInt(storeCoordinates[i][1])/2, Integer.parseInt(storeCoordinates[i][1])/2);
 							}

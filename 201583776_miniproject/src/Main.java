@@ -31,6 +31,7 @@ public class Main extends JFrame{
 		frame.setSize(1380,780);
 		frame.setLocation(-5,0);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
 		frame.setVisible(true);
 		Image icon = null;
 

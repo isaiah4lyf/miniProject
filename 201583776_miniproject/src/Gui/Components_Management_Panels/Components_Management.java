@@ -73,19 +73,11 @@ public class Components_Management extends JPanel{
 		}
 		
 		JComboBox jcb = new JComboBox(items);
-		jcb.setForeground(Color.red);
-		jcb.setBackground(Color.white);
-		//jcb.setSelectedItem("rtg");
-		jcb.setSize(50, 50);
-		
+
 		JComboBox jcb2 = new JComboBox(items);
 		JComboBox jcb3 = new JComboBox(Dependency);
 		JComboBox jcb4 = new JComboBox(items);
-		//TaskPanel pan5 = stPanel3;
-		
-		jcb2.setForeground(Color.red);
-		jcb2.setBackground(Color.white);
-		//jcb2.setSelectedItem("rtg");
+
 		jcb2.setPreferredSize(new Dimension( 50,50));
 		
 		
@@ -96,12 +88,15 @@ public class Components_Management extends JPanel{
 
 		
 		
-		JTextField inputWeight = new HintTextField("Input Dependency");
-		JTextField inputitem = new HintTextField("Input Component");
+		JTextField inputWeight = new HintTextField("Required Quantity");
+		JTextField inputitem = new HintTextField("Component Name");
 	    Font font = new Font("Serif", Font.ITALIC, 15);
 	    inputWeight.setFont(font);
 	    inputitem.setFont(font);
 	    jcb4.setFont(font);
+	    jcb2.setFont(font);
+	    jcb3.setFont(font);
+	    jcb.setFont(font);
 	    
 		JButton butt = new JButton("Add Dependency");
 		butt.addActionListener(new ActionListener() {
@@ -189,12 +184,12 @@ public class Components_Management extends JPanel{
 
             }
         });
-		JLabel label00 = new label("TASK AND DEPEDENCIES MANAGEMENT");
+		JLabel label00 = new tableName("Components And Dependencies Management");
 		add(label00);
 		JLabel label0 = new JLabel("");
 		add(label0);
 		
-		JLabel label1 = new label("Select Tasks and press the butt to add new edge");
+		JLabel label1 = new label("Dependency Addition (NB: Option 1 = Component & Option 2 = Required Component)");
 		add(label1);
 		add(jcb);
 		add(jcb2);
@@ -208,18 +203,18 @@ public class Components_Management extends JPanel{
 		add(combPanel);
 		
 		
-		JLabel label7 = new label("Add Item");
+		JLabel label7 = new label("Component Addition");
 		add(label7);
 		add(inputitem);
 		add(butt4);
 		
 
-		JLabel label4 = new label("Select Edge to delete");
+		JLabel label4 = new label("Dependency Deletion");
 		add(label4);
 		add(jcb3);
 		add(butt2);
 
-		JLabel label6 = new label("Select Task to delete");
+		JLabel label6 = new label("Component Deletion");
 		add(label6);
 		add(jcb4);
 		add(butt3);
@@ -287,7 +282,36 @@ public class Components_Management extends JPanel{
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 	}	
-	
+	class tableName extends JLabel{
+		Image bgImage2 = null;
+		private int iWidth;
+		private int iHeight;
+		private String label;
+
+		public tableName(String label)
+		{
+			this.label = label;
+		}
+		protected void paintComponent(Graphics g)
+		{
+			try 
+			{
+				bgImage2 = ImageIO.read(new File("df.jpg"));
+			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
+			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
+			}
+			catch (IOException e)
+			{e.printStackTrace();}
+			
+			g.drawImage(bgImage2,0,0,(ImageObserver) this);
+		    Font font = new Font("Serif", Font.BOLD, 18);
+		    g.setFont(font);
+		    g.setColor(Color.BLUE);
+		    String dep = label;
+			g.drawString(label,180, 15);
+			g.drawLine(180, 15, 180+dep.length()*10-30, 15);
+		}	
+	}
 	class button extends JButton{
 		private String label;
 		public button(String label)

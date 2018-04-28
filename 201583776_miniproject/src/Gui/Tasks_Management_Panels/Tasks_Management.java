@@ -1,5 +1,7 @@
 package Gui.Tasks_Management_Panels;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,18 +13,25 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.image.ImageObserver;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Gui.Jframe;
 import Gui.TabbedPane;
+import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
 
@@ -33,11 +42,12 @@ public class Tasks_Management extends JPanel{
 	private int iHeight2;
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
+	private Edge<String,String>[] edg = null;
 	public Tasks_Management(TabbedPane itemDisplay)
 	{
 
 		Object[] items = null;
-		
+		Object[] Dependency = null;
 		try {
 			graph = Graph.inParser("MIT.txt", true);
 			vert = graph.vertices_array();
@@ -47,85 +57,151 @@ public class Tasks_Management extends JPanel{
 				items[i] = vert[i].getData();
 			}
 			
+			edg = graph.edges_array();
+			Dependency = new Object[edg.length];
+			for(int i = 0; i<edg.length; i++)
+			{
+				Dependency[i] = edg[i].getV1() + " & " + edg[i].getV2();
+			}
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		JComboBox jcb = new JComboBox(items);
-		jcb.setForeground(Color.red);
-		jcb.setBackground(Color.white);
-		//jcb.setSelectedItem("rtg");
-		jcb.setSize(50, 50);
-		
+
 		JComboBox jcb2 = new JComboBox(items);
-		JComboBox jcb3 = new JComboBox(items);
+		JComboBox jcb3 = new JComboBox(Dependency);
 		JComboBox jcb4 = new JComboBox(items);
-		//TaskPanel pan5 = stPanel3;
-		
-		jcb2.setForeground(Color.red);
-		jcb2.setBackground(Color.white);
-		//jcb2.setSelectedItem("rtg");
+
 		jcb2.setPreferredSize(new Dimension( 50,50));
 		
 		
-		
-		JButton butt = new JButton("Add Dependency");
-		//butt.setBorder();
-		//butt.setBackground(Color.CYAN);
-		JButton butt2 = new JButton("Delete Dependency");
-		JButton butt3 = new JButton("Delete Component");
-		JButton butt4 = new JButton("Add Component");
-		
-		
-		JTextField inputWeight = new HintTextField("Input the Dependency");
-		JTextField inputitem = new HintTextField("Input the Component");
+		JTextField inputWeight = new HintTextField("Task Duration");
+		JTextField inputitem = new HintTextField("Task Name");
 	    Font font = new Font("Serif", Font.ITALIC, 15);
 	    inputWeight.setFont(font);
 	    inputitem.setFont(font);
 	    jcb4.setFont(font);
+	    jcb2.setFont(font);
+	    jcb3.setFont(font);
+	    jcb.setFont(font);
 	    
-	    
+		JButton butt = new JButton("Add Dependency");
 		butt.addActionListener(new ActionListener() {
 
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	//itemDisplay.revalidate();
-	            	//itemDisplay.repaint();
+
+
+	            	if(inputWeight.getText() == "")
+	            	{
+	            		showMessageDialog(null, "Enter the duration of the task in the 'Task Duration' textbox!", "Input Required!", 0);
+	            	}
+	            	else
+	            	{
+	            		try
+	            		{
+	            			int dep = Integer.parseInt(inputWeight.getText());
+			            	graph.AppendEdge("MIT.txt",jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
+			            	itemDisplay.revalidate();
+			            	itemDisplay.repaint();	
+	            		}
+	            		catch(Exception ex)
+	            		{
+	            			showMessageDialog(null, "Dependency input should be a number!", "Input Required!", 0);
+	            		}
+            	}
 	            	
-	            	graph.AppendEdge("MIT.txt",jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
-	            	itemDisplay.revalidate();
-	            	itemDisplay.repaint();
 	            }
 	        });
+		JButton butt4 = new JButton("Add Task");
 		butt4.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	//itemDisplay.revalidate();
-            	//itemDisplay.repaint();
-            	
-            	graph.AppendVertex("MIT.txt",inputitem.getText());
-            	itemDisplay.revalidate();
-            	itemDisplay.repaint();
+            	if(inputitem.getText() == "")
+            	{
+            		showMessageDialog(null, "Enter the name of the task in the 'Task Name' textbox!", "Input Required!", 0);
+            	}
+            	else
+            	{
+                	graph.AppendVertex("MIT.txt",inputitem.getText());
+                	itemDisplay.invalidate();
+                	itemDisplay.revalidate();
+                	itemDisplay.repaint();
+                	showMessageDialog(null, "Task added successfully!", "Task Addition", 2);
+            	}
+
             }
         });
+		
+		JButton butt2 = new JButton("Delete Dependency");
 		butt2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	//itemDisplay.revalidate();
-            	//itemDisplay.repaint();           	
-            	graph.DeleteEdge("MIT.txt",0);
-            	itemDisplay.revalidate();
-            	itemDisplay.repaint();
+  
+            	int dialogButton = JOptionPane.YES_NO_OPTION;
+            	int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete: "+jcb3.getSelectedItem() + "?", "Deletion confirmatoion", dialogButton);
+            	if(dialogResult == 0) {
+                	graph.DeleteEdge("MIT.txt",jcb3.getSelectedIndex());
+                	itemDisplay.revalidate();
+                	itemDisplay.repaint();
+                		
+            	} else {
+            	  //No option
+            	} 
+
             }
         });
-		JLabel label00 = new label("TASK AND DEPEDENCIES MANAGEMENT");
-		add(label00);
+		JButton butt3 = new JButton("Delete Task");
+		butt3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	int dialogButton = JOptionPane.YES_NO_OPTION;
+            	int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete: "+jcb4.getSelectedItem() + "? \n\n Note that all dependenc formed with this component will be deleted!", "Deletion confirmatoion", dialogButton);
+            	if(dialogResult == 0) {
+                	
+                	graph.DeleteVertex("MIT.txt", jcb4.getSelectedIndex());
+                	itemDisplay.revalidate();
+                	itemDisplay.repaint();
+                		
+            	} else {
+            	  //No option
+            	} 
+
+            }
+        });
+		JLabel label00 = new tableName("Tasks And Dependencies Management");
+		JButton manageComponents = new JButton("Manage Components For a Specific Task");
+
+		manageComponents.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame();
+        		frame.setTitle("Manage Task For a Specific Task");
+        		frame.setSize(350,450);
+        		frame.setResizable(false);
+        		frame.setLocation(550,200);
+        		frame.setVisible(true);
+        		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		
+        		frame.setIconImage(icon);
+            }
+        });
+		add(manageComponents);
 		JLabel label0 = new JLabel("");
-		add(label0);
 		
-		JLabel label1 = new label("Select Tasks and press the butt to add new edge");
+		add(label0);
+		add(label00);
+		
+		JLabel label1 = new label("Dependency Addition (NB: Option 1 = Task & Option 2 = Required Task)");
 		add(label1);
 		add(jcb);
 		add(jcb2);
@@ -139,23 +215,23 @@ public class Tasks_Management extends JPanel{
 		add(combPanel);
 		
 		
-		JLabel label7 = new label("Add Item");
+		JLabel label7 = new label("Task Addition");
 		add(label7);
 		add(inputitem);
 		add(butt4);
 		
 
-		JLabel label4 = new label("Select Edge to delete");
+		JLabel label4 = new label("Dependency Deletion");
 		add(label4);
 		add(jcb3);
 		add(butt2);
 
-		JLabel label6 = new label("Select Task to delete");
+		JLabel label6 = new label("Task Deletion");
 		add(label6);
 		add(jcb4);
 		add(butt3);
 	}
-	
+
 	protected void paintComponent(Graphics g)
 	{
 		try 
@@ -169,7 +245,37 @@ public class Tasks_Management extends JPanel{
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 	}	
-	
+	class tableName extends JLabel{
+		Image bgImage2 = null;
+		private int iWidth;
+		private int iHeight;
+		private String label;
+
+		public tableName(String label)
+		{
+			this.label = label;
+		}
+		protected void paintComponent(Graphics g)
+		{
+			try 
+			{
+				bgImage2 = ImageIO.read(new File("df.jpg"));
+			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
+			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
+			}
+			catch (IOException e)
+			{e.printStackTrace();}
+			
+			g.drawImage(bgImage2,0,0,(ImageObserver) this);
+		    Font font = new Font("Serif", Font.BOLD, 18);
+		    g.setFont(font);
+		    g.setColor(Color.BLUE);
+		    String dep = label;
+			g.drawString(label,180, 15);
+			g.drawLine(180, 15, 180+dep.length()*10-30, 15);
+			
+		}	
+	}
 	class button extends JButton{
 		private String label;
 		public button(String label)
