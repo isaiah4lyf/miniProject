@@ -70,7 +70,8 @@ public class Tasks_Management extends JPanel{
 		}
 		
 		JComboBox jcb = new JComboBox(items);
-
+	
+		
 		JComboBox jcb2 = new JComboBox(items);
 		JComboBox jcb3 = new JComboBox(Dependency);
 		JComboBox jcb4 = new JComboBox(items);
@@ -179,8 +180,8 @@ public class Tasks_Management extends JPanel{
 		manageComponents.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame();
-        		frame.setTitle("Manage Task For a Specific Task");
+            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(0);
+        		frame.setTitle("Manage Components For a Specific Task");
         		frame.setSize(350,450);
         		frame.setResizable(false);
         		frame.setLocation(550,200);
@@ -245,6 +246,10 @@ public class Tasks_Management extends JPanel{
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 	}	
+	
+	
+	
+	
 	class tableName extends JLabel{
 		Image bgImage2 = null;
 		private int iWidth;

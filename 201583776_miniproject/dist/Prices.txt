@@ -1,0 +1,10 @@
+size=9
+Task A = 88
+Task B = 80
+Task C = 70
+Task D = 7
+Task E = 77
+Task F= 77
+Task E= 3
+Task I= 345
+Task J = 100

@@ -11,9 +11,12 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -38,7 +41,7 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
 	private Edge<String,String>[] edg = null;
-	public Manage_Tasks_Components_Frame()
+	public Manage_Tasks_Components_Frame(int SelectedTaskIndex)
 	{
 		setLayout(new GridLayout(2,1));
 		
@@ -46,6 +49,8 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		
 		Object[] items = null;
 		Object[] Dependency = null;
+
+
 		try {
 			graph = Graph.inParser("MIT.txt", true);
 			vert = graph.vertices_array();
@@ -67,17 +72,18 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			e.printStackTrace();
 		}
 		
+		JComboBox jcb = new JComboBox(items);
+		jcb.setSelectedIndex(SelectedTaskIndex);
+		JComboBox jcb2 = new JComboBox(items);
+		JComboBox jcb3 = new JComboBox(items);
 		
-		JButton changeTask = new JButton("Change Task");
-		
+		JButton changeTask = new JButton("Change Task");	
 		JFrame fram = this;
-
 		changeTask.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame();
-        		frame.setTitle("Manage Task For a Specific Task");
+            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(jcb.getSelectedIndex());
+        		frame.setTitle("Manage Components For a Specific Task");
         		frame.setSize(350,450);
         		frame.setResizable(false);
         		frame.setLocation(550,200);
@@ -98,12 +104,34 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		
 		
 		JButton addComponent = new JButton("Add Component");
+		addComponent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            	addTaskComponents("Task_Components.txt",jcb.getSelectedItem().toString(),jcb2.getSelectedItem().toString());
+            	
+            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(jcb.getSelectedIndex());
+        		frame.setTitle("Manage Components For a Specific Task");
+        		frame.setSize(350,450);
+        		frame.setResizable(false);
+        		frame.setLocation(550,200);
+
+        		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		frame.setVisible(true);
+        		frame.setIconImage(icon);
+            	fram.setVisible(false);
+        		fram.dispose();
+        		
+            }
+        });
 		JButton deleteComponent = new JButton("Delete Component");
 		
 
-		JComboBox jcb = new JComboBox(items);
-		JComboBox jcb2 = new JComboBox(items);
-		JComboBox jcb3 = new JComboBox(items);
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(9,1));
@@ -120,7 +148,7 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		mainPanel.add(deleteComponent);
 		
 		
-		ComponentsPanel compPanel = new ComponentsPanel();
+		ComponentsPanel compPanel = new ComponentsPanel(jcb.getSelectedItem().toString(),"Task_Components.txt");
 		compPanel.setPreferredSize(new Dimension( 500,550));
 		JScrollPane compScroll = new JScrollPane(compPanel);
 		compScroll.setAutoscrolls(true);
@@ -161,35 +189,161 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			g.drawString(label, 5, 25);
 
 		}	
+		
 	}
-	
+
+	public void addTaskComponents(String fileName, String TaskName,String TaskNameToAdd)
+	{
+		 BufferedReader file = null;
+			try {
+				file = new BufferedReader(new FileReader(fileName));
+			    String size =  file.readLine();;
+		
+			    String[] fileLines = new String[Integer.parseInt(size) + 1];
+			    boolean TaskExist = false;
+			    
+
+			    for(int i = 0; i < Integer.parseInt(size); i++)
+			    {
+			    	String line = file.readLine();
+			    	String[] lineTokens = line.split(" = ");
+			    	if(TaskName.equals(lineTokens[0]))
+			    	{
+			    		String[] TaskComponents = lineTokens[1].split(",");
+			    		int componentsNum = Integer.parseInt(TaskComponents[0]);
+			    		
+			    		String newComponents = "";
+			    		boolean compExist = false;
+			    		
+			    		
+			    		for(int j = 0; j< componentsNum; j++)
+			    		{
+			    			if(TaskNameToAdd.equals(TaskComponents[j+1]))
+			    			{
+			    				compExist = true;
+			    				newComponents += TaskComponents[j+1] + ",";
+			    			}
+			    			else
+			    			{
+			    				newComponents += TaskComponents[j+1] + ",";
+			    			}
+			    		}
+			    		if(compExist == false)
+			    		{
+			    			newComponents  += TaskNameToAdd + ",";
+			    			componentsNum++;
+			    		}
+			    		
+			    		TaskExist = true;
+			    		String FinalComponents = componentsNum + "," + newComponents.substring(0, newComponents.length()-1);
+			    		fileLines[i] = TaskName + " = " + FinalComponents;
+			    	}
+			    	else
+			    	{
+			    		fileLines[i] = line;
+
+			    	}
+			    	
+			    }
+			    if(TaskExist == false)
+			    {
+			    	int newSize = Integer.parseInt(size);
+			    	fileLines[newSize] = TaskName + " = " + 1 + "," + TaskNameToAdd;
+			    }
+			    PrintWriter write = new PrintWriter(new File(fileName));
+			    if(TaskExist == false)
+			    {
+				    write.println(Integer.parseInt(size) + 1);
+				    for(int i = 0; i<Integer.parseInt(size) + 1; i++)
+				    {
+				    	write.println(fileLines[i]);
+				    }
+			    }
+			    else
+			    {
+				    write.println(Integer.parseInt(size));
+				    for(int i = 0; i<Integer.parseInt(size); i++)
+				    {
+				    	write.println(fileLines[i]);
+				    }
+			    }
+
+			    write.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		        
+		    try {
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 	
 	class ComponentsPanel extends JPanel
 	{
 		Image bgImage = null;
 		private int iWidth2;
 		private int iHeight2;
-		public ComponentsPanel()
+		public ComponentsPanel(String TaskName, String FileName)
 		{
-			Graph<String, String> graph;
 
-			try {
-				graph = Graph.inParser("MIT.txt", true);
-				
-			    Edge<String,String>[] edg = graph.edges_array();
-			    this.add(new tableName("Dependencies"));
-				for(int i = 0; i<3; i++)
+			String[] Componets = ReturnComponentsForTask(FileName,TaskName);
+		    this.add(new tableName("Components Required by '" + TaskName +"'"));
+		    if(Componets != null)
+		    {
+				for(int i = 0; i<Componets.length - 1; i++)
 				{
-					this.add(new label2(i+""));
+					this.add(new label2(i+ 1 +". "+Componets[i + 1]));
 
 				}
-				this.setLayout(new GridLayout(edg.length+2,1));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				this.setLayout(new GridLayout(Componets.length+10,1));
+		    }
+		    else
+		    {
+		    	this.setLayout(new GridLayout(1,1));
+		    }
 
+			
 
+		}
+		public String[] ReturnComponentsForTask(String fileName,String TaskName)
+		{
+			 BufferedReader file = null;
+			 String[] Components = null;
+				try {
+					file = new BufferedReader(new FileReader(fileName));
+				    String size =  file.readLine();
+
+				    for(int i = 0; i < Integer.parseInt(size); i++)
+				    {
+				    	String line = file.readLine();
+				    	String[] lineTokens = line.split(" = ");
+				    	if(TaskName.equals(lineTokens[0]))
+				    	{
+				    		String[] TaskComponents = lineTokens[1].split(",");
+				    		int componentsNum = Integer.parseInt(TaskComponents[0]);
+			    		
+				    		Components = TaskComponents;
+	
+				    	}
+
+				    }
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			        
+			    try {
+					file.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				    
+			return Components;
 		}
 		class tableName extends JLabel{
 			Image bgImage2 = null;
@@ -216,9 +370,9 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			    Font font = new Font("Serif", Font.BOLD, 18);
 			    g.setFont(font);
 			    g.setColor(Color.BLUE);
-			    String dep = "Dependencies";
-				g.drawString("Dependencies",10, 15);
-				g.drawLine(10, 15, 10+dep.length()*10-15, 15);
+			    String dep = label;
+				g.drawString(label,10, 15);
+				g.drawLine(10, 15, 10+dep.length()*10-50, 15);
 			}	
 		}
 		
