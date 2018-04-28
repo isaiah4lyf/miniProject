@@ -87,8 +87,7 @@ public class Components_Prices_Panel extends JPanel{
             	}
             	else
             	{
-            		add_Price(jcb.getSelectedItem().toString(),inpiutPrice.getText(),"Prices.txt");
-            		
+            		add_Price(jcb.getSelectedItem().toString(),inpiutPrice.getText(),"Prices.txt","Reuired_Prices.txt");		
             		prices_Histo.revalidate();
             		prices_Histo.repaint();  
                 	showMessageDialog(null, "Component price added successfully!", "Price Addition", 2);
@@ -105,7 +104,7 @@ public class Components_Prices_Panel extends JPanel{
 		add(combPanel);
 	}
 	
-	public void add_Price(String ComponentsName, String price, String priceFileName)
+	public void add_Price(String ComponentsName, String price, String priceFileName,String requiredPricesFole)
 	{
 	    BufferedReader file = null;
 		try {
@@ -129,6 +128,7 @@ public class Components_Prices_Panel extends JPanel{
 		    }
 		    write.println(ComponentsName + "= " + price);
 		    write.close();
+		    DeleteReuired_Price(ComponentsName,requiredPricesFole);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,6 +140,33 @@ public class Components_Prices_Panel extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void DeleteReuired_Price(String component,String requiredPricesFole)
+	{
+	   
+		try {
+
+		    String[] prices = Return_Priced_Components(requiredPricesFole);
+		    PrintWriter write = new PrintWriter(new File(requiredPricesFole));
+		    int new_size = prices.length - 1;
+		    
+		    write.println(new_size);
+		    int count = 0; 
+		    for(int i = 0; i<prices.length; i++)
+		    {
+		    	if(!component.equals(prices[i]))
+		    	{
+		    		write.println(prices[count]);
+		    		count++;
+		    	}
+		    }
+		    write.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	        
 	}
 	
 	public String[] Return_Priced_Components(String priceFileName)
@@ -160,15 +187,13 @@ public class Components_Prices_Panel extends JPanel{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	        
+		}   
 	    try {
 			file.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    
 	    return components;
 	}
 	
@@ -230,4 +255,5 @@ public class Components_Prices_Panel extends JPanel{
 		  }
 
 		}
+	
 }

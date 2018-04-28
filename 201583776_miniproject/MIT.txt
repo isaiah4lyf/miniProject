@@ -1,50 +1,6 @@
-size=27
+size=2
 0 = Task A
-1 = Task B
-2 = Task C
-3 = Task D
-4 = Task E
-5 = Task F
-6 = Task G
-7 = Task H
-8 = Task I
-9 = Task J
-10 = Task K
-11 = Task L
-12 = Task M
-13 = Task N
-14 = Task O
-15 = Task P
-16 = vfgy
-17 = sdf
-18 = sdffd
-19 = sdffdfd
-20 = sdffdfd
-21 = sdffdfd
-22 = sdffdfd
-23 = sdffdfd
-24 = dae
-25 = gjhjjh
-26 = 7mi
+1 = fd
 ;
-(0,6,4)
-(1,5,2)
-(0,1,4)
-(10,4,4)
-(6,3,4)
-(3,8,4)
-(8,2,4)
-(8,11,4)
-(11,5,4)
-(4,2,2)
-(14,2,2)
-(13,9,4)
-(13,12,4)
-(12,8,4)
-(19,19,80)
-(19,19,80)
-(19,19,80)
-(17,19,80)
-(17,19,80)
-(7,19,80)
+(0,1,6)
 ;

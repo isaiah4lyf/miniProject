@@ -147,7 +147,7 @@ public class Jframe extends JFrame {
 
 		
 		JPanel time_Main_Panel = new JPanel();
-		time_Main_Panel.setLayout(new GridLayout(1,2));
+		time_Main_Panel.setLayout(new GridLayout(2,1));
 		time_Main_Panel.add(price_Histoscroll);
 		time_Main_Panel.add(price_Man);
 		pane.addTab("Time Optimization", null, time_Main_Panel, "");

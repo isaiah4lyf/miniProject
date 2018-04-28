@@ -2,23 +2,41 @@ package Gui.Time_Optimization_Panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Prices_Histogram_Panel extends JPanel{
-
+	Image bgImage = null;
+	private int iWidth2;
+	private int iHeight2;
 	public Prices_Histogram_Panel()
 	{
 		
 	}
 	protected void paintComponent(Graphics g)
 	{
+		try 
+		{
+			bgImage = ImageIO.read(new File("df.jpg"));
+		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
+		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
+		}
+		catch (IOException e)
+		{e.printStackTrace();}
+		
+		g.drawImage(bgImage,0,0,(ImageObserver) this);
+
+		
 		double[] prices_ = Read_Prices("Prices.txt");
 		String[] components = Return_Priced_Components("Prices.txt");
 		g.setColor(Color.CYAN);
@@ -43,7 +61,7 @@ public class Prices_Histogram_Panel extends JPanel{
 			g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
 			g.drawString(components[i], initialPos, this.getHeight() - 30);
 			String priceString = String.valueOf(prices_[i]);
-			g.drawString("R "+priceString, initialPos - 10, this.getHeight() - 45 - barHeight);
+			g.drawString("R "+priceString, initialPos , this.getHeight() - 45 - barHeight);
 			initialPos += interval;
 		}
 		
@@ -112,4 +130,5 @@ public class Prices_Histogram_Panel extends JPanel{
 	    
 	    return components;
 	}
+	
 }

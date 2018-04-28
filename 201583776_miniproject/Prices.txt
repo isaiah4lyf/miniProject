@@ -1,11 +1,3 @@
-size=10
-Task A= 100
-Task F= 1000
-Task E= 880
-Task G= 70
-Task A= 707
-Task B= 77
-7mi= 757
-Task E= 11
-Task D= 111
-Task B= 111
+size=2
+Task A = 0
+fd= 80

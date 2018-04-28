@@ -867,11 +867,11 @@ public class Graph <E,T> {
 			file = new BufferedReader(new FileReader(fileName));
 		    String line;
 
-		    Graph<String, String> graph = graph = Graph.inParser(fileName, true);
+		    Graph<String, String> graph = Graph.inParser(fileName, true);
 		    Vertex<String,String>[] vert = graph.vertices_array();
 		    Edge<String,String>[] edg = graph.edges_array();
 		    String[] vertices = new String[vert.length - 1];
-		    String[] edges = new String[edg.length];
+
 		    String firstLine = file.readLine();
 		    int vert_Count = 0;
 		    for(int i = 0; i < vert.length; i++)
@@ -888,64 +888,48 @@ public class Graph <E,T> {
 		    	
 		    }
 		    file.readLine();
-		    int edgCount = 0;
-			Vertex<String,String>[] neibours = vert[VertextIndex].getNeighbors_in();
-			Vertex<String,String>[] neibours_in = vert[VertextIndex].getNeighbors();
+	
+		    Graph<String, String> cloned = graph.clone();
+		    Vertex<String,String>[] ve = cloned.vertices_array();
+		    Vertex<String,String> vertToRemove = null;
+		    for(int i = 0; i< ve.length; i++)
+		    {
+		    	if(i == VertextIndex)
+		    	{
+		    		vertToRemove = ve[i];
+		    	}
+		    }
 			
-			Vertex<String,String>[] neibours_Combined = new Vertex[neibours.length + neibours_in.length];
-		    for(int i = 0; i<neibours.length;i++)
+		    NodeIterator<Edge<String,String>> outEdg = vertToRemove.getInEdges();
+		    NodeIterator<Edge<String,String>> inEdge = vertToRemove.getOutEdges();
+
+
+		    while(outEdg.hasNext())
 		    {
-		    	neibours_Combined[i] = neibours[i];
+		    	cloned.removeEdge(outEdg.next());
 		    }
-		    for(int i = 0; i<neibours_in.length;i++)
+		    
+		    while(inEdge.hasNext())
 		    {
-		    	neibours_Combined[i+neibours.length] = neibours_in[i];
+		    	cloned.removeEdge(inEdge.next());
 		    }
-			for(int i = 0; i < edg.length; i++)
-		    {
-		    	String edge = file.readLine();
-		    	String sub_Edge = edge.substring(0,edge.length());
-		    	String[] tokens = sub_Edge.split(",");
-		    	String new_Edge = "";
-		    	for(int j = 0; j < neibours_Combined.length; j++)
-		    	{
-		    		if(new_Edge != "")
-		    		{
-			    		if((edg[Integer.parseInt(tokens[0])].getV1()).toString().contains(neibours_Combined[j].toString()) || edg[Integer.parseInt(tokens[1])].getV2() == neibours_Combined[j])
-			    		{
-			    			new_Edge = file.readLine();
-			    			edge = "";
-			    			System.out.println(vert[Integer.parseInt(tokens[1])] + " hello");
-			    			
-			    		}
-		    			
-		    		}
-		    		
-		    	}
-		    	
-		    	if(edge == "")
-		    	{
-	    			edges[edgCount] = new_Edge;
-	    			edgCount++;
-		    	}
-		    	else
-		    	{
-	    			edges[edgCount] = edge;
-	    			edgCount++;
-		    	}
-		    }
+		    
+		    Edge<String,String>[] newEdges = cloned.edges_array();
+		    
 		    PrintWriter write = new PrintWriter(new File(fileName));
 		    write.println("size="+vertices.length);
 		    
 		    for(int i = 0; i<vertices.length; i++)
 		    {
 		    	String[] tokens =  vertices[i].split("=");
-		    	write.println(i + " = " + tokens[1]);
+		    	write.println(i + " =" + tokens[1]);
 		    }
 		    write.println(";");
-		    for(int i = 0; i<edges.length; i++)
+		    for(int i = 0; i<newEdges.length; i++)
 		    {
-		    	write.println(edges[i]);
+		    	int inde1 = vertexIndex(vertices,newEdges[i].getV1().getData());
+		    	int inde2 = vertexIndex(vertices,newEdges[i].getV2().getData());
+		    	write.println("(" + inde1 + ","+ inde2 +","+newEdges[i].getWeight()+")");
 		    }
 		    write.println(";");
 		    write.close();
@@ -962,6 +946,18 @@ public class Graph <E,T> {
 		}
 	}
 	
+	public int vertexIndex(String[] vertices,String Vertex)
+	{
+		int index = -1;
+		for(int i = 0; i<vertices.length;i++)
+		{
+			if(Vertex.equals((vertices[i]).split(" = ")[1]))
+			{
+				index = i;
+			}
+		}
+		return index;
+	}
 	/**
 	 * Read graph from input
 	 * @param fileName

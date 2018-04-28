@@ -12,9 +12,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.image.ImageObserver;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -42,11 +45,12 @@ public class Components_Management extends JPanel{
 	private int iHeight2;
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
+	private Edge<String,String>[] edg = null;
 	public Components_Management(TabbedPane itemDisplay)
 	{
 
 		Object[] items = null;
-		
+		Object[] Dependency = null;
 		try {
 			graph = Graph.inParser("MIT.txt", true);
 			vert = graph.vertices_array();
@@ -54,6 +58,13 @@ public class Components_Management extends JPanel{
 			for(int i = 0; i<vert.length; i++)
 			{
 				items[i] = vert[i].getData();
+			}
+			
+			edg = graph.edges_array();
+			Dependency = new Object[edg.length];
+			for(int i = 0; i<edg.length; i++)
+			{
+				Dependency[i] = edg[i].getV1() + " & " + edg[i].getV2();
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -68,7 +79,7 @@ public class Components_Management extends JPanel{
 		jcb.setSize(50, 50);
 		
 		JComboBox jcb2 = new JComboBox(items);
-		JComboBox jcb3 = new JComboBox(items);
+		JComboBox jcb3 = new JComboBox(Dependency);
 		JComboBox jcb4 = new JComboBox(items);
 		//TaskPanel pan5 = stPanel3;
 		
@@ -97,12 +108,26 @@ public class Components_Management extends JPanel{
 
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	//itemDisplay.revalidate();
-	            	//itemDisplay.repaint();
 
-	            	graph.AppendEdge("MIT.txt",jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
-	            	itemDisplay.revalidate();
-	            	itemDisplay.repaint();
+
+	            	if(inputWeight.getText() == "")
+	            	{
+	            		showMessageDialog(null, "Enter the dependency in the 'Dependency component' textbox!", "Input Required!", 0);
+	            	}
+	            	else
+	            	{
+	            		try
+	            		{
+	            			int dep = Integer.parseInt(inputWeight.getText());
+			            	graph.AppendEdge("MIT.txt",jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
+			            	itemDisplay.revalidate();
+			            	itemDisplay.repaint();	
+	            		}
+	            		catch(Exception ex)
+	            		{
+	            			showMessageDialog(null, "Dependency input should be a number!", "Input Required!", 0);
+	            		}
+            	}
 	            	
 	            }
 	        });
@@ -115,16 +140,13 @@ public class Components_Management extends JPanel{
             	{
             		showMessageDialog(null, "Enter the name of the component in the 'Input component' textbox!", "Input Required!", 0);
             	}
-            	else if(inputitem.getText() == "")
-            	{
-            		
-            	}
             	else
             	{
                 	graph.AppendVertex("MIT.txt",inputitem.getText());
                 	itemDisplay.invalidate();
                 	itemDisplay.revalidate();
                 	itemDisplay.repaint();
+                	AddReuired_Price(inputitem.getText(),"Reuired_Prices.txt");
                 	showMessageDialog(null, "Component added successfully!", "Component Addition", 2);
             	}
 
@@ -153,8 +175,18 @@ public class Components_Management extends JPanel{
 		butt3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	showMessageDialog(null, "Please implement this function", "Input Required!", 0);
-            	//graph.DeleteVertex("MIT.txt", 0);
+            	int dialogButton = JOptionPane.YES_NO_OPTION;
+            	int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete: "+jcb4.getSelectedItem() + "? \n\n Note that all dependenc formed with this component will be deleted!", "Deletion confirmatoion", dialogButton);
+            	if(dialogResult == 0) {
+                	
+                	graph.DeleteVertex("MIT.txt", jcb4.getSelectedIndex());
+                	itemDisplay.revalidate();
+                	itemDisplay.repaint();
+                		
+            	} else {
+            	  //No option
+            	} 
+
             }
         });
 		JLabel label00 = new label("TASK AND DEPEDENCIES MANAGEMENT");
@@ -192,7 +224,56 @@ public class Components_Management extends JPanel{
 		add(jcb4);
 		add(butt3);
 	}
+	public void AddReuired_Price(String component,String requiredPricesFole)
+	{
+	   
+		try {
+
+		    String[] prices = Return_Priced_Components(requiredPricesFole);
+		    PrintWriter write = new PrintWriter(new File(requiredPricesFole));
+		    int new_size = prices.length + 1;
+		    write.println(new_size);
+		    for(int i = 0; i<prices.length; i++)
+		    {
+		    	write.println(prices[i]);
+		    	
+		    }
+		    write.println(component);
+		    write.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	        
+	}
 	
+	public String[] Return_Priced_Components(String priceFileName)
+	{
+	    BufferedReader file = null;
+	    String[] components = null;
+		try {
+			file = new BufferedReader(new FileReader(priceFileName));
+		    String line;
+
+		    String size = file.readLine();
+		    components = new String[Integer.parseInt(size)];
+		    for(int i = 0; i < components.length; i++)
+		    {
+		    	components[i] = file.readLine();
+		    }
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+	    try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return components;
+	}
 	protected void paintComponent(Graphics g)
 	{
 		try 

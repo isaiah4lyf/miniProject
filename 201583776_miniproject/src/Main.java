@@ -91,14 +91,16 @@ public class Main extends JFrame{
 					System.out.println("ok");
 				}
 			}
-			
+		
 			int cost = 0;
+			/*
 			for(Edge<String,String> e: graph.dijkstra(vetA, vetB))
 			{
 				cost += e.getWeight();
 				System.out.println(e);
 				System.out.println("ok");
 			}
+			*/
 			System.out.println("\n" + cost);
 			System.out.println("\n\n\n\n");
 			
