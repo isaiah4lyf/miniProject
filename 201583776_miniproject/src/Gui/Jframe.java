@@ -2,11 +2,14 @@ package Gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -50,16 +53,33 @@ public class Jframe extends JFrame {
 		menubar.add(menu1);
 		menubar.add(menu2);
 		menubar.add(menu3);
+		
+		
+		Jframe fram = this;
 		menu3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
   
-            	try {
-          		   Runtime.getRuntime().exec("java -jar Project.jar");
-          		   TimeUnit.SECONDS.sleep(2);
-          		   System.exit(0);
-          		} catch (Exception ex) {
-          		}
+        		Jframe frame = new Jframe();
+
+        		frame.pack();
+        		frame.setTitle("Project Management System");
+        		frame.setSize(1380,780);
+        		frame.setLocation(-5,0);
+        		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        		frame.pack();
+        		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		frame.setIconImage(icon);
+        		frame.setVisible(true);
+        		frame.setIconImage(icon);
+            	fram.setVisible(false);
+        		fram.dispose();
+
             }
         });
 

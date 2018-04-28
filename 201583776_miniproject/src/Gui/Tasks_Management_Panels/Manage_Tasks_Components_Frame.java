@@ -1,15 +1,20 @@
 package Gui.Tasks_Management_Panels;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -18,6 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.sun.glass.events.WindowEvent;
 
 import Gui.Tasks_Management_Panels.Tasks_Dependencies.head_Label;
 import Gui.Tasks_Management_Panels.Tasks_Dependencies.label2;
@@ -62,10 +69,38 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		
 		
 		JButton changeTask = new JButton("Change Task");
+		
+		JFrame fram = this;
+
+		changeTask.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame();
+        		frame.setTitle("Manage Task For a Specific Task");
+        		frame.setSize(350,450);
+        		frame.setResizable(false);
+        		frame.setLocation(550,200);
+
+        		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		frame.setVisible(true);
+        		frame.setIconImage(icon);
+            	fram.setVisible(false);
+        		fram.dispose();
+        		
+            }
+        });
+		
+		
 		JButton addComponent = new JButton("Add Component");
 		JButton deleteComponent = new JButton("Delete Component");
 		
-		
+
 		JComboBox jcb = new JComboBox(items);
 		JComboBox jcb2 = new JComboBox(items);
 		JComboBox jcb3 = new JComboBox(items);
@@ -83,8 +118,6 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		mainPanel.add(new label2(""));
 		mainPanel.add(jcb3);
 		mainPanel.add(deleteComponent);
-		
-		
 		
 		
 		ComponentsPanel compPanel = new ComponentsPanel();
