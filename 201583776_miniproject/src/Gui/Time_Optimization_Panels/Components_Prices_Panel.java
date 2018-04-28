@@ -65,7 +65,7 @@ public class Components_Prices_Panel extends JPanel{
 		JLabel label1 = new label("Add new Price");
 		
 		JPanel combPanel = new JPanel();
-		combPanel.setLayout(new GridLayout(2,3));
+		combPanel.setLayout(new GridLayout(3,1));
 		for(int i = 0; i< items.length; i++)
 		{
 			System.out.println(items[i] + " Hello");
@@ -90,18 +90,38 @@ public class Components_Prices_Panel extends JPanel{
             		add_Price(jcb.getSelectedItem().toString(),inpiutPrice.getText(),"Prices.txt","Reuired_Prices.txt");		
             		prices_Histo.revalidate();
             		prices_Histo.repaint();  
+
                 	showMessageDialog(null, "Component price added successfully!", "Price Addition", 2);
             	
             	}
 
             }
         });
-		combPanel.add(jcb);
-		combPanel.add(inpiutPrice);
-		combPanel.add(addPrice);
-	
+		
+		//Checkout task costs
+		JComboBox jcb2 = new JComboBox(items);
+		JLabel label2 = new label("Check task cost");
+		JButton check_cost = new JButton("Check Cost");
+		check_cost.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	showMessageDialog(null, "Implement method", "Input Required!", 0);
+
+            }
+        });
+		add(new label("Optimization"));
+		add(new label(""));
 		add(label1);
-		add(combPanel);
+		add(jcb);
+		add(inpiutPrice);
+		add(addPrice);
+		
+		add(new label(""));
+		add(label2);
+		add(jcb2);
+		add(check_cost);
+		
 	}
 	
 	public void add_Price(String ComponentsName, String price, String priceFileName,String requiredPricesFole)
@@ -126,7 +146,7 @@ public class Components_Prices_Panel extends JPanel{
 		    {
 		    	write.println(prices[i]);
 		    }
-		    write.println(ComponentsName + "= " + price);
+		    write.println(ComponentsName + " = " + price);
 		    write.close();
 		    DeleteReuired_Price(ComponentsName,requiredPricesFole);
 		} catch (Exception e) {

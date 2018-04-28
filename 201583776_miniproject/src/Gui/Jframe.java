@@ -21,6 +21,7 @@ import Gui.Components_Management_Panels.Components_Management;
 import Gui.Tasks_Management_Panels.Tasks_Management;
 import Gui.Time_Optimization_Panels.Components_Prices_Panel;
 import Gui.Time_Optimization_Panels.Optimization_Graph_Panel;
+import Gui.Time_Optimization_Panels.Optimization_Histo_Pan;
 import Gui.Time_Optimization_Panels.Prices_Histogram_Panel;
 import graph.*;
 
@@ -130,11 +131,11 @@ public class Jframe extends JFrame {
 		tasks_Man_Panel.setLayout(new GridLayout(2,1));
 		tasks_Man_Panel.add(display_Graph_Panel_scroll_2);
 		tasks_Man_Panel.add(dependency_and_Manage_P_2);
-		pane.addTab("Components Management", null, tasks_Man_Panel, "");
+		pane.addTab("Tasks Management", null, tasks_Man_Panel, "");
 		
 		
 		/**
-		 * Time Optimization tab
+		 * Cost Optimization tab
 		 */
 		Optimization_Graph_Panel optP = new Optimization_Graph_Panel();
 		
@@ -143,22 +144,39 @@ public class Jframe extends JFrame {
 		price_Histoscroll.setPreferredSize(new Dimension( 1200,1200));
 	
 		
-		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane);
 
 		
-		JPanel time_Main_Panel = new JPanel();
-		time_Main_Panel.setLayout(new GridLayout(2,1));
-		time_Main_Panel.add(price_Histoscroll);
-		time_Main_Panel.add(price_Man);
-		pane.addTab("Time Optimization", null, time_Main_Panel, "");
+
+		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane);
+		price_Man.setLayout(new GridLayout(10,1));
+
+
+		
+		
+		Optimization_Histo_Pan someGraph = new Optimization_Histo_Pan();
+		JScrollPane someScrtoll = new JScrollPane(someGraph);
+		someScrtoll.setPreferredSize(new Dimension( 1200,1200));
+		
+		
+		JPanel DownPanel = new JPanel();
+		DownPanel.setLayout(new GridLayout(1,2));
+		DownPanel.add(someScrtoll);
+		DownPanel.add(price_Man);
+
+		
+		JPanel cost_Main_Panel = new JPanel();
+		cost_Main_Panel.setLayout(new GridLayout(2,1));
+		cost_Main_Panel.add(price_Histoscroll);
+		cost_Main_Panel.add(DownPanel);
+		pane.addTab("Cost Optimization", null, cost_Main_Panel, "");
 		
 		
 		
 		/**
-		 * Cost Optimization tab
+		 * Time Optimization tab
 		 */
 		JPanel panel5 = new JPanel();
-		pane.addTab("Cost Optimization", null, panel5, "");
+		pane.addTab("Time Optimization", null, panel5, "");
 		
 
 		this.add(pane);

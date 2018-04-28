@@ -1,8 +1,6 @@
 package Gui.Time_Optimization_Panels;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
@@ -10,16 +8,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class Prices_Histogram_Panel extends JPanel{
+public class Optimization_Histo_Pan extends JPanel{
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
-	public Prices_Histogram_Panel()
+	public Optimization_Histo_Pan()
 	{
 		
 	}
@@ -37,6 +34,7 @@ public class Prices_Histogram_Panel extends JPanel{
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 
 		
+		
 		double[] prices_ = Read_Prices("Prices.txt");
 		String[] components = Return_Priced_Components("Prices.txt");
 		g.setColor(Color.CYAN);
@@ -47,14 +45,10 @@ public class Prices_Histogram_Panel extends JPanel{
 		
 		int initialPos = 10;
 
-	    double maxPrice = prices_[0];
+		double task_Cost = 500;
+	    double maxPrice = task_Cost;
 
-	    for(int i=0;i<prices_.length;i++){
-	        if(prices_[i]>maxPrice){
-	        	maxPrice=prices_[i];
-	        }
 
-	    }
 		for(int i = 0; i< prices_.length; i++ )
 		{
 			int barHeight = (int)(((double)prices_[i] / (double)maxPrice) *(this.getHeight() - 65));
@@ -62,9 +56,16 @@ public class Prices_Histogram_Panel extends JPanel{
 			g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
 			g.drawString(components[i], initialPos, this.getHeight() - 30);
 			String priceString = String.valueOf(prices_[i]);
-			g.drawString("R "+priceString, initialPos , this.getHeight() - 45 - barHeight);
+			g.drawString("R "+priceString, initialPos - 10, this.getHeight() - 45 - barHeight);
 			initialPos += interval;
 		}
+
+		int barHeight = (int)(((double)task_Cost / (double)maxPrice) *(this.getHeight() - 65));
+		g.setColor(Color.RED);
+		g.fill3DRect(initialPos - 10, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
+		g.drawString("Something", initialPos - 30, this.getHeight() - 30);
+		String priceString = String.valueOf(task_Cost);
+		g.drawString("R "+priceString, initialPos -20, this.getHeight() - 45 - barHeight);
 
 	}
 	
