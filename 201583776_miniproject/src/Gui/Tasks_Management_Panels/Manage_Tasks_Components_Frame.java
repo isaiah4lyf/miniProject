@@ -1,6 +1,5 @@
 package Gui.Tasks_Management_Panels;
 
-import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.TimeUnit;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -27,44 +26,46 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.sun.glass.events.WindowEvent;
 
-import Gui.Tasks_Management_Panels.Tasks_Dependencies.head_Label;
-import Gui.Tasks_Management_Panels.Tasks_Dependencies.label2;
-import Gui.Tasks_Management_Panels.Tasks_Dependencies.tableName;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
 
 public class Manage_Tasks_Components_Frame extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Graph<String,String> graph = null;
+	private Graph<String,String> graph2 = null;
 	private Vertex<String,String>[] vert = null;
-	private Edge<String,String>[] edg = null;
-	public Manage_Tasks_Components_Frame(int SelectedTaskIndex)
+	private Vertex<String,String>[] vert2 = null;
+	public Manage_Tasks_Components_Frame(int SelectedTaskIndex,String[] files)
 	{
 		setLayout(new GridLayout(2,1));
 		
 		
 		
-		Object[] items = null;
-		Object[] Dependency = null;
+		Object[] tasks = null;
+		Object[] components = null;
 
 
 		try {
-			graph = Graph.inParser("MIT.txt", true);
+			graph = Graph.inParser(files[3], true);
+			graph2 = Graph.inParser(files[1], true);
 			vert = graph.vertices_array();
-			items = new Object[vert.length];
+			tasks = new Object[vert.length];
 			for(int i = 0; i<vert.length; i++)
 			{
-				items[i] = vert[i].getData();
+				tasks[i] = vert[i].getData();
 			}
 			
-			edg = graph.edges_array();
-			Dependency = new Object[edg.length];
-			for(int i = 0; i<edg.length; i++)
+			vert2 = graph2.vertices_array();
+			components = new Object[vert2.length];
+			for(int i = 0; i<vert2.length; i++)
 			{
-				Dependency[i] = edg[i].getV1() + " & " + edg[i].getV2();
+				components[i] = vert2[i].getData();
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -72,17 +73,17 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			e.printStackTrace();
 		}
 		
-		JComboBox jcb = new JComboBox(items);
+		JComboBox jcb = new JComboBox(tasks);
 		jcb.setSelectedIndex(SelectedTaskIndex);
-		JComboBox jcb2 = new JComboBox(items);
-		JComboBox jcb3 = new JComboBox(items);
+		JComboBox jcb2 = new JComboBox(components);
+		JComboBox jcb3 = new JComboBox(components);
 		
 		JButton changeTask = new JButton("Change Task");	
 		JFrame fram = this;
 		changeTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(jcb.getSelectedIndex());
+            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(jcb.getSelectedIndex(),files);
         		frame.setTitle("Manage Components For a Specific Task");
         		frame.setSize(350,450);
         		frame.setResizable(false);
@@ -108,9 +109,9 @@ public class Manage_Tasks_Components_Frame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-            	addTaskComponents("Task_Components.txt",jcb.getSelectedItem().toString(),jcb2.getSelectedItem().toString());
+            	addTaskComponents(files[4],jcb.getSelectedItem().toString(),jcb2.getSelectedItem().toString());
             	
-            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(jcb.getSelectedIndex());
+            	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(jcb.getSelectedIndex(),files);
         		frame.setTitle("Manage Components For a Specific Task");
         		frame.setSize(350,450);
         		frame.setResizable(false);
@@ -148,7 +149,7 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		mainPanel.add(deleteComponent);
 		
 		
-		ComponentsPanel compPanel = new ComponentsPanel(jcb.getSelectedItem().toString(),"Task_Components.txt");
+		ComponentsPanel compPanel = new ComponentsPanel(jcb.getSelectedItem().toString(),files[4]);
 		compPanel.setPreferredSize(new Dimension( 500,550));
 		JScrollPane compScroll = new JScrollPane(compPanel);
 		compScroll.setAutoscrolls(true);
@@ -160,12 +161,13 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 	
 	
 	class label2 extends JLabel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		Image bgImage2 = null;
-		private int iWidth;
-		private int iHeight;
 		private String label;
-		private String label2;
-		private String label3;
+
 		public label2(String label)
 		{
 			this.label = label;
@@ -176,8 +178,6 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			try 
 			{
 				bgImage2 = ImageIO.read(new File("df.jpg"));
-			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
-			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -284,9 +284,11 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 	
 	class ComponentsPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		Image bgImage = null;
-		private int iWidth2;
-		private int iHeight2;
 		public ComponentsPanel(String TaskName, String FileName)
 		{
 
@@ -346,9 +348,11 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			return Components;
 		}
 		class tableName extends JLabel{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			Image bgImage2 = null;
-			private int iWidth;
-			private int iHeight;
 			private String label;
 
 			public tableName(String label)
@@ -360,8 +364,6 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 				try 
 				{
 					bgImage2 = ImageIO.read(new File("df.jpg"));
-				    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
-				    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 				}
 				catch (IOException e)
 				{e.printStackTrace();}
@@ -377,12 +379,13 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		}
 		
 		class label2 extends JLabel{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			Image bgImage2 = null;
-			private int iWidth;
-			private int iHeight;
+
 			private String label;
-			private String label2;
-			private String label3;
 			public label2(String label)
 			{
 				this.label = label;
@@ -393,8 +396,6 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 				try 
 				{
 					bgImage2 = ImageIO.read(new File("df.jpg"));
-				    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
-				    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 				}
 				catch (IOException e)
 				{e.printStackTrace();}
@@ -412,8 +413,6 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			try 
 			{
 				bgImage = ImageIO.read(new File("df.jpg"));
-			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
-			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}

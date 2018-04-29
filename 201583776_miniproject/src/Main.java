@@ -5,15 +5,17 @@ import graph.Vertex;
 import graph.doublyLinkedList.DoublyLinkedList;
 
 import java.awt.Image;
-
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public class Main extends JFrame{
+public class Main{
 
 
 
@@ -24,8 +26,11 @@ public class Main extends JFrame{
 
 	public static void main(String[] args) {
 		
-		Jframe frame = new Jframe();
-
+		
+		String[] filesNames = Load_Last_Project();
+		
+		
+		Jframe frame = new Jframe(filesNames);
 		frame.pack();
 		frame.setTitle("Project Management System");
 		frame.setSize(1380,780);
@@ -42,152 +47,107 @@ public class Main extends JFrame{
 		{e.printStackTrace();}
 		
 		frame.setIconImage(icon);
-		try {
-
-			Graph<String,String> graph = Graph.inParser("MIT.txt", true);
-			System.out.println("Print graph state\n");
-			System.out.println(graph);
-			
-			System.out.println("BFS:");
-			for(Vertex<String,String> v : graph.BFS())
-				System.out.print(v + " ");
-			
-			System.out.println("\n\nDFS");
-			for(Vertex<String,String> v : graph.DFS())
-				System.out.print(v + " ");
-			
-			System.out.println("\n\nIs connected: "+graph.isConnected());
-			System.out.println("Is directed: "+graph.isDirected());
-			System.out.println("Is cyclic: "+graph.isCyclic());
-			System.out.println("Number of Connected components: "+graph.connectedComponents());
-			
-			System.out.println("\nClone graph ... ");
-			Graph<String,String> cloned = graph.clone();
-			
-			System.out.println("Apply Transitive closure to the cloned graph");
-			cloned.transitiveClosure();
-			
-			System.out.println("Print state of the new graph\n");
-			System.out.println(cloned);
-			
-			
-			
-			System.out.println("");
-			System.out.println("");
-			
-			
-			Vertex<String,String> vetA = null;
-			Vertex<String,String> vetB = null;
-			
-			for(Vertex<String,String> v : graph.vertices_array())
-			{
-				if(v.getData().equals("Task A"))
-				{
-					vetA = v;
-					System.out.println("ok");
-				}
-				if(v.getData().equals("Task I"))
-				{
-					vetB = v;
-					System.out.println("ok");
-				}
-			}
+		System.out.println(filesNames[0]);
+		System.out.println(filesNames[1]);
+		System.out.println(filesNames[2]);
+		System.out.println(filesNames[3]);
+		System.out.println(filesNames[4]);
 		
-			int cost = 0;
-			/*
-			for(Edge<String,String> e: graph.dijkstra(vetA, vetB))
-			{
-				cost += e.getWeight();
-				System.out.println(e);
-				System.out.println("ok");
-			}
-			*/
-			System.out.println("\n" + cost);
-			System.out.println("\n\n\n\n");
-			
-			
-			DoublyLinkedList<Vertex<String,String>> items_Reqired = new DoublyLinkedList<Vertex<String,String>>();
-			for(Vertex<String,String> v3 : graph.vertices_array())
-			{
-				if(!v3.getData().equals("Task G"))
-				{
-					Vertex<String,String>[] vvv = graph.DFS(v3);
-					for(Vertex<String,String> v : vvv)
-					{
-						System.out.print(v + " ");
-						if(items_Reqired.search(v) == null && !v.getData().equals("Task G"))
-						{
-							items_Reqired.add(v);
-						}
-						
-						if(v.getData().equals("Task G"))
-						{
-							System.out.println("");
-							break;
-						}
-					}
-				}
+		System.out.println(Create_New_Project("Project_4")[0]);
 
-			}
-			System.out.print("\n");
-			System.out.print("\n");
-			
-			items_Reqired.remove(items_Reqired.getTail());
-			System.out.println(items_Reqired);
-			System.out.print("\n");
-			System.out.print("\n");
-			for(Vertex<String,String> v3 : graph.vertices_array())
-			{
-				if(!v3.getData().equals("Task B"))
-				{
-					Vertex<String,String>[] vvv = graph.DFS(v3);
-					for(Vertex<String,String> v : vvv)
-					{
-						System.out.print(v + " ");
-						if(v.getData().equals("Task B"))
-						{
-							System.out.println("Yes");
-							break;
-						}
-						//if(graph.DFS(v).length == 1)
-						//{
-							//System.out.println("\n" + vvv[0]);
-						//}
-					}
-				}
+	}
+	public static String[] Create_New_Project(String project_Name)
+	{
 
-			}
-			System.out.print("\n");
-			System.out.print("\n");
-			for(Vertex<String,String> v3 : graph.vertices_array())
-			{
-				Vertex<String,String>[] vvv = graph.BFS(v3);
-				for(Vertex<String,String> v : vvv)
-				{
-					System.out.print(v + " ");
-					if(graph.BFS(v).length == 1)
-					{
-						System.out.println("\n" + vvv[0]);
-						//System.out.print("\n");
-					}
-				}
-			}
-		
-			Vertex<String,String>[] edg = graph.vertices_array();
+		 String[] files = null;
+		 BufferedReader file = null;
 
-			Vertex<String,String>[] neibours = edg[1].getNeighbors_in();
-			System.out.println("\n\n");
-			String str = edg[0].toString();
-			for(int i = 0; i< neibours.length; i++)
-			{
-				System.out.println(neibours[i]);
+			try {
+				file = new BufferedReader(new FileReader("Files/Projects.txt"));
+			    int size =  Integer.parseInt(file.readLine());
+			    String[] projects = new String[size];
+			    for(int i = 0; i<size; i++)
+			    {
+			    	projects[i] = file.readLine();
+			    }
+			    PrintWriter write0 = new PrintWriter(new File("Files/Projects.txt"));
+			    write0.println(size + 1);
+			    for(int i = 0; i<size; i++)
+			    {
+			    	write0.println(projects[i]);
+			    }
+			    write0.println(project_Name);
+			    write0.close();
+			    
+				new File("Files/"+project_Name).mkdirs();
+			    files = new String[5];
+			    files[0] = "Files/" + project_Name + "/Components_Prices.txt";
+			    new File("Files/" + project_Name + "/Components_Prices.txt").createNewFile();
+			    PrintWriter write1 = new PrintWriter(new File(files[0]));
+			    write1.println("size=0");
+			    write1.close();
+			    
+			    files[1] = "Files/" + project_Name + "/Components.txt";
+			    new File("Files/" + project_Name + "/Components.txt").createNewFile();
+			    PrintWriter write2 = new PrintWriter(new File(files[1]));
+			    write2.println("size=0");
+			    write2.close();
+			    
+			    files[2] = "Files/" + project_Name + "/Required_Components_Prices.txt";
+			    new File("Files/" + project_Name + "/Required_Components_Prices.txt").createNewFile();
+			    PrintWriter write3 = new PrintWriter(new File(files[2]));
+			    write3.println("0");
+			    write3.close();
+			    
+			    files[3] = "Files/" + project_Name + "/Tasks.txt";
+			    new File("Files/" + project_Name + "/Tasks.txt").createNewFile();
+			    PrintWriter write4 = new PrintWriter(new File(files[3]));
+			    write4.println("0");
+			    write4.close();
+			    
+			    files[4] = "Files/" + project_Name + "/Tasks_Components.txt";
+			    new File("Files/" + project_Name + "/Tasks_Components.txt").createNewFile();
+			    PrintWriter write5 = new PrintWriter(new File(files[4]));
+			    write5.println("size=0");
+			    write5.close();
+			    
+			    PrintWriter write6 = new PrintWriter(new File("Files/Last_Project.txt"));
+			    write6.println(project_Name);
+			    write6.close();
+			    
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		
-			//graph.DeleteVertex("MIT.txt", 0);
-			
-			//System.out.println(str.substring(0, 1));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		        
+		return files;
+	}
+	public static String[] Load_Last_Project()
+	{
+		 BufferedReader file = null;
+		 String[] files = null;
+			try {
+				file = new BufferedReader(new FileReader("Files/Last_Project.txt"));
+			    String project_Name =  file.readLine();
+			    files = new String[5];
+			    files[0] = "Files/" + project_Name + "/Components_Prices.txt";
+			    files[1] = "Files/" + project_Name + "/Components.txt";
+			    files[2] = "Files/" + project_Name + "/Required_Components_Prices.txt";
+			    files[3] = "Files/" + project_Name + "/Tasks.txt";
+			    files[4] = "Files/" + project_Name + "/Tasks_Components.txt";
+			    
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+		        
+		    try {
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			    
+		return files;
 	}
 }

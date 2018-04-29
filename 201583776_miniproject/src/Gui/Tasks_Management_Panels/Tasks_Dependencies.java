@@ -22,12 +22,12 @@ public class Tasks_Dependencies extends JPanel{
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
-	public Tasks_Dependencies()
+	public Tasks_Dependencies(String[] files)
 	{
 		Graph<String, String> graph;
 
 		try {
-			graph = Graph.inParser("MIT.txt", true);
+			graph = Graph.inParser(files[3], true);
 			
 		    Edge<String,String>[] edg = graph.edges_array();
 		    this.add(new tableName("Dependencies"));

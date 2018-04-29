@@ -2,11 +2,11 @@ package Gui;
 
 import graph.*;
 import java.awt.Color;
-import java.awt.FlowLayout;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
+
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
@@ -15,39 +15,32 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+
 import javax.swing.JPanel;
 
-import com.sun.prism.BasicStroke;
 
 
 public class Display_Graph extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Image bgImage = null;
-	private int iWidth2;
-	private int iHeight2;
-	
-	public Display_Graph()
+	private String fileName;
+	public Display_Graph(String fileName)
 	{
-
+		this.fileName = fileName;
 	}
-	
-	
     private final int ARR_SIZE = 6;
-
     void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
-
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
         int len = (int) Math.sqrt(dx*dx + dy*dy);
         AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
         at.concatenate(AffineTransform.getRotateInstance(angle));
         g.transform(at);
-
-        // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
         g.fillPolygon(new int[] {len, len-ARR_SIZE, len-ARR_SIZE, len},
                       new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
@@ -64,19 +57,15 @@ public class Display_Graph extends JPanel{
 		try 
 		{
 			bgImage = ImageIO.read(new File("hero11.jpg"));
-		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
-		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
 		catch (IOException e)
 		{e.printStackTrace();}
 
-		 //int x2 = this.getWidth()/2 - iWidth2;
-		 ///int y2 = this.getParent().getHeight()/2 - iHeight2;
-		 g.drawImage(bgImage,0,0,(ImageObserver) this);
+		g.drawImage(bgImage,0,0,(ImageObserver) this);
 		Graph<String, String> graph;
 		String[][] storeCoordinates = null;
 		try {
-			graph = Graph.inParser("MIT.txt", true);
+			graph = Graph.inParser(fileName, true);
 			Vertex<String,String>[] vert = graph.vertices_array();
 			storeCoordinates = new String[vert.length][3];
 			int y = 80;
@@ -86,7 +75,6 @@ public class Display_Graph extends JPanel{
 			g2.setColor(Color.BLACK);
 			for(Vertex<String,String> v : graph.vertices_array())
 			{
-				
 				if(count % 6 == 0) 
 				{
 					y += 150;
@@ -104,8 +92,6 @@ public class Display_Graph extends JPanel{
 				count++;
 			}
 			g3.setColor(Color.red);
-			//Font d = new Font();
-			//g.setFont(Font.ITALIC);
 			for(Edge<String,String> e : graph.edges_array()){
 				for(int i = 0; i<storeCoordinates.length; i++)
 				{
@@ -116,8 +102,6 @@ public class Display_Graph extends JPanel{
 							if(e.getV2().getData() == storeCoordinates[j][0])
 							{
 								drawArrow(g3,Integer.parseInt(storeCoordinates[i][1]) + 70, Integer.parseInt(storeCoordinates[i][2]),Integer.parseInt(storeCoordinates[j][1]) - 10, Integer.parseInt(storeCoordinates[j][2]));
-								//g3.drawLine();
-								//g.drawString("some", Integer.parseInt(storeCoordinates[i][1])/2, Integer.parseInt(storeCoordinates[i][1])/2);
 							}
 						}
 						

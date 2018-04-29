@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -27,32 +26,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.sun.glass.events.KeyEvent;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import Gui.TabbedPane;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
 import static javax.swing.JOptionPane.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+
 public class Components_Management extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Image bgImage = null;
-	private int iWidth2;
-	private int iHeight2;
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
 	private Edge<String,String>[] edg = null;
-	public Components_Management(TabbedPane itemDisplay)
+	public Components_Management(TabbedPane itemDisplay,String[] files)
 	{
 
 		Object[] items = null;
 		Object[] Dependency = null;
 		try {
-			graph = Graph.inParser("MIT.txt", true);
+			graph = Graph.inParser(files[1], true);
 			vert = graph.vertices_array();
 			items = new Object[vert.length];
 			for(int i = 0; i<vert.length; i++)
@@ -73,20 +70,11 @@ public class Components_Management extends JPanel{
 		}
 		
 		JComboBox jcb = new JComboBox(items);
-
 		JComboBox jcb2 = new JComboBox(items);
 		JComboBox jcb3 = new JComboBox(Dependency);
 		JComboBox jcb4 = new JComboBox(items);
 
 		jcb2.setPreferredSize(new Dimension( 50,50));
-		
-		
-		
-
-
-
-
-		
 		
 		JTextField inputWeight = new HintTextField("Required Quantity");
 		JTextField inputitem = new HintTextField("Component Name");
@@ -114,7 +102,7 @@ public class Components_Management extends JPanel{
 	            		try
 	            		{
 	            			int dep = Integer.parseInt(inputWeight.getText());
-			            	graph.AppendEdge("MIT.txt",jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
+			            	graph.AppendEdge(files[1],jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
 			            	itemDisplay.revalidate();
 			            	itemDisplay.repaint();	
 	            		}
@@ -137,11 +125,11 @@ public class Components_Management extends JPanel{
             	}
             	else
             	{
-                	graph.AppendVertex("MIT.txt",inputitem.getText());
+                	graph.AppendVertex(files[1],inputitem.getText());
                 	itemDisplay.invalidate();
                 	itemDisplay.revalidate();
                 	itemDisplay.repaint();
-                	AddReuired_Price(inputitem.getText(),"Reuired_Prices.txt");
+                	AddReuired_Price(inputitem.getText(),files[2]);
                 	showMessageDialog(null, "Component added successfully!", "Component Addition", 2);
             	}
 
@@ -156,7 +144,7 @@ public class Components_Management extends JPanel{
             	int dialogButton = JOptionPane.YES_NO_OPTION;
             	int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete: "+jcb3.getSelectedItem() + "?", "Deletion confirmatoion", dialogButton);
             	if(dialogResult == 0) {
-                	graph.DeleteEdge("MIT.txt",jcb3.getSelectedIndex());
+                	graph.DeleteEdge(files[1],jcb3.getSelectedIndex());
                 	itemDisplay.revalidate();
                 	itemDisplay.repaint();
                 		
@@ -174,7 +162,7 @@ public class Components_Management extends JPanel{
             	int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete: "+jcb4.getSelectedItem() + "? \n\n Note that all dependenc formed with this component will be deleted!", "Deletion confirmatoion", dialogButton);
             	if(dialogResult == 0) {
                 	
-                	graph.DeleteVertex("MIT.txt", jcb4.getSelectedIndex());
+                	graph.DeleteVertex(files[1], jcb4.getSelectedIndex());
                 	itemDisplay.revalidate();
                 	itemDisplay.repaint();
                 		
@@ -248,7 +236,6 @@ public class Components_Management extends JPanel{
 	    String[] components = null;
 		try {
 			file = new BufferedReader(new FileReader(priceFileName));
-		    String line;
 
 		    String size = file.readLine();
 		    components = new String[Integer.parseInt(size)];
@@ -274,8 +261,6 @@ public class Components_Management extends JPanel{
 		try 
 		{
 			bgImage = ImageIO.read(new File("df.jpg"));
-		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
-		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
 		catch (IOException e)
 		{e.printStackTrace();}
@@ -283,9 +268,13 @@ public class Components_Management extends JPanel{
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 	}	
 	class tableName extends JLabel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		Image bgImage2 = null;
-		private int iWidth;
-		private int iHeight;
+
 		private String label;
 
 		public tableName(String label)
@@ -297,8 +286,6 @@ public class Components_Management extends JPanel{
 			try 
 			{
 				bgImage2 = ImageIO.read(new File("df.jpg"));
-			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
-			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -313,6 +300,10 @@ public class Components_Management extends JPanel{
 		}	
 	}
 	class button extends JButton{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private String label;
 		public button(String label)
 		{
@@ -323,8 +314,6 @@ public class Components_Management extends JPanel{
 			try 
 			{
 				bgImage = ImageIO.read(new File("but.png"));
-			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
-			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -339,6 +328,10 @@ public class Components_Management extends JPanel{
 	
 	
 	class label extends JLabel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private String label;
 		public label(String label)
 		{
@@ -349,8 +342,6 @@ public class Components_Management extends JPanel{
 			try 
 			{
 				bgImage = ImageIO.read(new File("df.jpg"));
-			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
-			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -364,7 +355,11 @@ public class Components_Management extends JPanel{
 	}
 	class HintTextField extends JTextField implements FocusListener {
 
-		  private final String hint;
+		  /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private final String hint;
 		  private boolean showingHint;
 
 		  public HintTextField(final String hint) {

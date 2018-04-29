@@ -19,9 +19,10 @@ public class Prices_Histogram_Panel extends JPanel{
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
-	public Prices_Histogram_Panel()
+	private String[] files;
+	public Prices_Histogram_Panel(String[] files)
 	{
-		
+		this.files = files;
 	}
 	protected void paintComponent(Graphics g)
 	{
@@ -37,8 +38,8 @@ public class Prices_Histogram_Panel extends JPanel{
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 
 		
-		double[] prices_ = Read_Prices("Prices.txt");
-		String[] components = Return_Priced_Components("Prices.txt");
+		double[] prices_ = Read_Prices(files[0]);
+		String[] components = Return_Priced_Components(files[0]);
 		g.setColor(Color.CYAN);
 		g.drawString("Prices of all components",10 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);

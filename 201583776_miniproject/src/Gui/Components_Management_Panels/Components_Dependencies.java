@@ -20,15 +20,18 @@ import graph.Graph;
 import graph.Vertex;
 
 public class Components_Dependencies extends JPanel{
-	Image bgImage = null;
-	private int iWidth2;
-	private int iHeight2;
-	public Components_Dependencies()
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Image bgImage = null;
+
+	public Components_Dependencies(String[] files)
 	{
 		Graph<String, String> graph;
 
 		try {
-			graph = Graph.inParser("MIT.txt", true);
+			graph = Graph.inParser(files[1], true);
 			
 		    Edge<String,String>[] edg = graph.edges_array();
 		    this.add(new tableName("Dependencies"));
@@ -47,9 +50,13 @@ public class Components_Dependencies extends JPanel{
 
 	}
 	class tableName extends JLabel{
-		Image bgImage2 = null;
-		private int iWidth;
-		private int iHeight;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private Image bgImage2 = null;
+		
 		private String label;
 
 		public tableName(String label)
@@ -61,8 +68,6 @@ public class Components_Dependencies extends JPanel{
 			try 
 			{
 				bgImage2 = ImageIO.read(new File("df.jpg"));
-			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
-			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -71,15 +76,17 @@ public class Components_Dependencies extends JPanel{
 		    Font font = new Font("Serif", Font.BOLD, 18);
 		    g.setFont(font);
 		    g.setColor(Color.BLUE);
-		    String dep = "Dependencies";
-			g.drawString("Dependencies",280, 15);
+		    String dep = label;
+			g.drawString(label,280, 15);
 			g.drawLine(280, 15, 280+dep.length()*10-15, 15);
 		}	
 	}
 	class head_Label extends JLabel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		Image bgImage2 = null;
-		private int iWidth;
-		private int iHeight;
 		private String label;
 		private String label2;
 		private String label3;
@@ -94,8 +101,6 @@ public class Components_Dependencies extends JPanel{
 			try 
 			{
 				bgImage2 = ImageIO.read(new File("df.jpg"));
-			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
-			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -110,9 +115,11 @@ public class Components_Dependencies extends JPanel{
 		}	
 	}
 	class label2 extends JLabel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		Image bgImage2 = null;
-		private int iWidth;
-		private int iHeight;
 		private String label;
 		private String label2;
 		private String label3;
@@ -127,8 +134,6 @@ public class Components_Dependencies extends JPanel{
 			try 
 			{
 				bgImage2 = ImageIO.read(new File("df.jpg"));
-			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
-			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -147,8 +152,6 @@ public class Components_Dependencies extends JPanel{
 		try 
 		{
 			bgImage = ImageIO.read(new File("df.jpg"));
-		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
-		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
 		catch (IOException e)
 		{e.printStackTrace();}

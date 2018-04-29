@@ -35,8 +35,11 @@ public class Jframe extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Jframe()
+	public Jframe(String[] filesNames)
 	{
+		
+		String[] files = filesNames;
+		
 		TabbedPane pane = new TabbedPane();
 
 		JMenuBar menubar = new JMenuBar();
@@ -60,7 +63,7 @@ public class Jframe extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
   
-        		Jframe frame = new Jframe();
+        		Jframe frame = new Jframe(files);
 
         		frame.pack();
         		frame.setTitle("Project Management System");
@@ -86,7 +89,7 @@ public class Jframe extends JFrame {
 		/**
 		 * Components management tab
 		 */
-		JPanel display_Graph_Panel = new Display_Graph();
+		JPanel display_Graph_Panel = new Display_Graph(filesNames[1]);
 		display_Graph_Panel.setOpaque(false);
 		display_Graph_Panel.setBounds(50, 50, 100, 100);
 		display_Graph_Panel.setPreferredSize(new Dimension( 1200,1200));
@@ -94,13 +97,13 @@ public class Jframe extends JFrame {
 		JScrollPane display_Graph_Panel_scroll = new JScrollPane(display_Graph_Panel);
 		display_Graph_Panel_scroll.setPreferredSize(new Dimension( 800,800));
 		
-		JPanel dependency_Panel = new Components_Dependencies();
+		JPanel dependency_Panel = new Components_Dependencies(files);
 		dependency_Panel.setPreferredSize(new Dimension( 500,550));
 		JScrollPane dependency_Panel_scroll = new JScrollPane(dependency_Panel);
 		dependency_Panel.setAutoscrolls(true);
 		dependency_Panel_scroll.setPreferredSize(new Dimension(800,800));
 		
-		JPanel Management_Panel = new Components_Management(pane);
+		JPanel Management_Panel = new Components_Management(pane,files);
 		Management_Panel.setLayout(new GridLayout(15,1));
 		Management_Panel.setPreferredSize(new Dimension( 500,100));
 		JScrollPane Management_Panel_Scroll = new JScrollPane(Management_Panel);
@@ -123,7 +126,7 @@ public class Jframe extends JFrame {
 		/**
 		 * Tasks Management tab
 		 */
-		JPanel display_Graph_Panel_2 = new Display_Graph();
+		JPanel display_Graph_Panel_2 = new Display_Graph(filesNames[3]);
 		display_Graph_Panel_2.setOpaque(false);
 		display_Graph_Panel_2.setBounds(50, 50, 100, 100);
 		display_Graph_Panel_2.setPreferredSize(new Dimension( 1200,550));
@@ -131,13 +134,13 @@ public class Jframe extends JFrame {
 		JScrollPane display_Graph_Panel_scroll_2 = new JScrollPane(display_Graph_Panel_2);
 		display_Graph_Panel_scroll_2.setPreferredSize(new Dimension( 800,300));
 		
-		JPanel dependency_Panel_2 = new Tasks_Dependencies();
+		JPanel dependency_Panel_2 = new Tasks_Dependencies(files);
 		dependency_Panel_2.setPreferredSize(new Dimension( 500,550));
 		JScrollPane dependency_Panel_scroll_2 = new JScrollPane(dependency_Panel_2);
 		dependency_Panel_scroll_2.setAutoscrolls(true);
 		dependency_Panel_scroll_2.setPreferredSize(new Dimension( 800,800));
 		
-		JPanel Management_Panel_2 = new Tasks_Management(pane);
+		JPanel Management_Panel_2 = new Tasks_Management(pane,files);
 		Management_Panel_2.setLayout(new GridLayout(16,1));
 		Management_Panel_2.setPreferredSize(new Dimension( 500,100));
 		JScrollPane Management_Panel_Scroll_2 = new JScrollPane(Management_Panel_2);
@@ -161,7 +164,7 @@ public class Jframe extends JFrame {
 		 */
 		Optimization_Graph_Panel optP = new Optimization_Graph_Panel();
 		
-		Prices_Histogram_Panel price_Histo = new Prices_Histogram_Panel();
+		Prices_Histogram_Panel price_Histo = new Prices_Histogram_Panel(files);
 		JScrollPane price_Histoscroll = new JScrollPane(price_Histo);
 		price_Histoscroll.setPreferredSize(new Dimension( 1200,1200));
 	
@@ -169,13 +172,13 @@ public class Jframe extends JFrame {
 
 		
 
-		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane);
+		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane,files);
 		price_Man.setLayout(new GridLayout(10,1));
 
 
 		
 		
-		Optimization_Histo_Pan someGraph = new Optimization_Histo_Pan();
+		Optimization_Histo_Pan someGraph = new Optimization_Histo_Pan(files);
 		JScrollPane someScrtoll = new JScrollPane(someGraph);
 		someScrtoll.setPreferredSize(new Dimension( 1200,1200));
 		

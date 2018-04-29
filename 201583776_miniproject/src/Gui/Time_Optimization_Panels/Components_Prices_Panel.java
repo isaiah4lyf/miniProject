@@ -38,12 +38,12 @@ public class Components_Prices_Panel extends JPanel{
 	private int iHeight2;
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
-	public Components_Prices_Panel(TabbedPane prices_Histo)
+	public Components_Prices_Panel(TabbedPane prices_Histo,String[] files)
 	{
 		Object[] items = null;
-		String[] priced_Comp = Return_Priced_Components("Reuired_Prices.txt");
+		String[] priced_Comp = Return_Priced_Components(files[2]);
 		try {
-			graph = Graph.inParser("MIT.txt", true);
+			graph = Graph.inParser(files[1], true);
 			vert = graph.vertices_array();
 			items = new Object[priced_Comp.length];
 			for(int i = 0; i<priced_Comp.length;i++)
@@ -87,7 +87,7 @@ public class Components_Prices_Panel extends JPanel{
             	}
             	else
             	{
-            		add_Price(jcb.getSelectedItem().toString(),inpiutPrice.getText(),"Prices.txt","Reuired_Prices.txt");		
+            		add_Price(jcb.getSelectedItem().toString(),inpiutPrice.getText(),files[0],files[2]);		
             		prices_Histo.revalidate();
             		prices_Histo.repaint();  
 
