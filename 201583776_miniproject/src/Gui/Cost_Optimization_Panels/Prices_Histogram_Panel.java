@@ -1,4 +1,4 @@
-package Gui.Time_Optimization_Panels;
+package Gui.Cost_Optimization_Panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -47,7 +47,6 @@ public class Prices_Histogram_Panel extends JPanel{
 		int interval = (this.getWidth() - 40)/(components.length);
 		
 		int initialPos = 10;
-
 	    double maxPrice = prices_[0];
 
 	    for(int i=0;i<prices_.length;i++){

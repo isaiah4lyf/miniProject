@@ -1,4 +1,4 @@
-package Gui.Time_Optimization_Panels;
+package Gui.Cost_Optimization_Panels;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,14 +12,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import File_IO.Files_Management;
+
 public class Optimization_Histo_Pan extends JPanel{
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
 	private String[] files;
+	
+	private Files_Management files_Man;
+	
 	public Optimization_Histo_Pan(String[] files)
 	{
 		this.files = files;
+		this.files_Man = new Files_Management();
 	}
 	protected void paintComponent(Graphics g)
 	{
@@ -36,8 +42,8 @@ public class Optimization_Histo_Pan extends JPanel{
 
 		
 		
-		double[] prices_ = Read_Prices(files[0]);
-		String[] components = Return_Priced_Components(files[0]);
+		double[] prices_ = files_Man.Read_Prices(files[0]);
+		String[] components = files_Man.Return_Priced_Components(files[0]);
 		g.setColor(Color.CYAN);
 		g.drawString("Prices of all components",10 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
@@ -69,69 +75,5 @@ public class Optimization_Histo_Pan extends JPanel{
 		g.drawString("R "+priceString, initialPos -20, this.getHeight() - 45 - barHeight);
 
 	}
-	
-	public double[] Read_Prices(String priceFileName)
-	{
-	    BufferedReader file = null;
-	    double[] prices_ = null;
-		try {
-			file = new BufferedReader(new FileReader(priceFileName));
-		    String line;
 
-		    String[] size = (file.readLine()).split("=");
-		    prices_ = new double[Integer.parseInt(size[1])];
-		    
-		    for(int i = 0; i < prices_.length; i++)
-		    {
-		    	prices_[i] = Double.parseDouble((file.readLine()).split("=")[1]);
-		    
-		    }
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	        
-	    try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    
-	    return prices_;
-	}
-	
-	public String[] Return_Priced_Components(String priceFileName)
-	{
-	    BufferedReader file = null;
-	    String[] components = null;
-		try {
-			file = new BufferedReader(new FileReader(priceFileName));
-		    String line;
-
-		    String[] size = (file.readLine()).split("=");
-		    components = new String[Integer.parseInt(size[1])];
-		    
-		    for(int i = 0; i < components.length; i++)
-		    {
-		    	components[i] = (file.readLine()).split("=")[0];
-		    
-		    }
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	        
-	    try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    
-	    return components;
-	}
-	
 }

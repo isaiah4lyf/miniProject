@@ -1,4 +1,4 @@
-package Gui.Time_Optimization_Panels;
+package Gui.Cost_Optimization_Panels;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 

@@ -1,4 +1,4 @@
-package Gui.Time_Optimization_Panels;
+package Gui.Cost_Optimization_Panels;
 
 import java.awt.Color;
 import java.awt.Graphics;

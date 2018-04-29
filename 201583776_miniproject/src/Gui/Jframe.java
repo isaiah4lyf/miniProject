@@ -26,12 +26,12 @@ import javax.swing.JScrollPane;
 
 import Gui.Components_Management_Panels.Components_Dependencies;
 import Gui.Components_Management_Panels.Components_Management;
+import Gui.Cost_Optimization_Panels.Components_Prices_Panel;
+import Gui.Cost_Optimization_Panels.Optimization_Graph_Panel;
+import Gui.Cost_Optimization_Panels.Optimization_Histo_Pan;
+import Gui.Cost_Optimization_Panels.Prices_Histogram_Panel;
 import Gui.Tasks_Management_Panels.Tasks_Dependencies;
 import Gui.Tasks_Management_Panels.Tasks_Management;
-import Gui.Time_Optimization_Panels.Components_Prices_Panel;
-import Gui.Time_Optimization_Panels.Optimization_Graph_Panel;
-import Gui.Time_Optimization_Panels.Optimization_Histo_Pan;
-import Gui.Time_Optimization_Panels.Prices_Histogram_Panel;
 import graph.*;
 
 public class Jframe extends JFrame {
@@ -347,6 +347,9 @@ public class Jframe extends JFrame {
 			    files[2] = "Files/" + Project_Name + "/Required_Components_Prices.txt";
 			    files[3] = "Files/" + Project_Name + "/Tasks.txt";
 			    files[4] = "Files/" + Project_Name + "/Tasks_Components.txt";
+			    PrintWriter write6 = new PrintWriter(new File("Files/Last_Project.txt"));
+			    write6.println(Project_Name);
+			    write6.close();
 			    
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
