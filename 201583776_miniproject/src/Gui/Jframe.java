@@ -1,12 +1,17 @@
 package Gui;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -37,7 +42,7 @@ public class Jframe extends JFrame {
 
 	public Jframe(String[] filesNames)
 	{
-		
+		Jframe fram = this;
 		String[] files = filesNames;
 		
 		TabbedPane pane = new TabbedPane();
@@ -49,7 +54,92 @@ public class Jframe extends JFrame {
 		JButton menu3 = new JButton("Refresh");
 
 		JMenuItem size = new JMenuItem("New Project");
-		JMenuItem size2 = new JMenuItem("Open Project From:");
+		size.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+        		String project_Name = JOptionPane.showInputDialog("Please input project name:");
+        		System.out.println(project_Name);
+            	if(project_Name != null)
+            	{
+            		if(project_Name.length() != 0)
+            		{
+                		String[] project = Create_New_Project(project_Name); 
+                		if(project != null)
+                		{
+                    		Jframe frame = new Jframe(project);
+
+                    		frame.pack();
+                    		frame.setTitle("Project Management System");
+                    		frame.setSize(1380,780);
+                    		frame.setLocation(-5,0);
+                    		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    		frame.pack();
+                    		Image icon = null;
+                    		try 
+                    		{
+                    			icon = ImageIO.read(new File("pj.png"));}
+                    		catch (IOException ex)
+                    		{ex.printStackTrace();}
+                    		frame.setIconImage(icon);
+                    		frame.setVisible(true);
+                    		frame.setIconImage(icon);
+                        	fram.setVisible(false);
+                    		fram.dispose();
+                		}
+                		else
+                		{
+                    		showMessageDialog(null, "Project with the name '"+project_Name+"' already exist in the file system!", "Project Exist!", 0);
+                    		size.doClick();
+                		}
+            		}
+            		else
+            		{
+            			showMessageDialog(null, "Project name input cannnot be empty!", "Input Required!", 0);
+            			size.doClick();
+            		}
+
+            	}
+            	
+            }
+        });
+		
+		JMenuItem size2 = new JMenuItem("Open Project From File System:");
+		size2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+  
+        		String[] Project = Load_All_Projects();
+        		int response = JOptionPane.showOptionDialog(null, "Select Project to load:", "Load Project",
+            	        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+            	        null, Project, Project[0]);
+            	if(response != -1)
+            	{
+            		String[] project = Load_Specific_Project(Project[response]); 
+            		Jframe frame = new Jframe(project);
+
+            		frame.pack();
+            		frame.setTitle("Project Management System");
+            		frame.setSize(1380,780);
+            		frame.setLocation(-5,0);
+            		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            		frame.pack();
+            		Image icon = null;
+            		try 
+            		{
+            			icon = ImageIO.read(new File("pj.png"));}
+            		catch (IOException ex)
+            		{ex.printStackTrace();}
+            		frame.setIconImage(icon);
+            		frame.setVisible(true);
+            		frame.setIconImage(icon);
+                	fram.setVisible(false);
+            		fram.dispose();
+
+            	}
+            	
+            }
+        });
+		
 		menu.add(size);
 		menu.add(size2);
 		menubar.add(menu);
@@ -58,7 +148,7 @@ public class Jframe extends JFrame {
 		menubar.add(menu3);
 		
 		
-		Jframe fram = this;
+
 		menu3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -217,5 +307,142 @@ public class Jframe extends JFrame {
 		this.add(pane);
 		this.setLayout(new GridLayout(1,1));
 		this.setJMenuBar(menubar);
+	}
+	
+	public String[] Load_All_Projects()
+	{
+		 BufferedReader file = null;
+		 String[] files = null;
+			try {
+				file = new BufferedReader(new FileReader("Files/Projects.txt"));
+			    int Num_Projects =  Integer.parseInt(file.readLine());
+			    files = new String[Num_Projects];
+			    for(int i = 0; i< Num_Projects; i++)
+			    {
+			    	files[i] = file.readLine();
+			    }
+			     
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+		        
+		    try {
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			    
+		return files;
+	}
+	public  String[] Load_Specific_Project(String Project_Name)
+	{
+
+		 String[] files = null;
+			try {
+			    files = new String[5];
+			    files[0] = "Files/" + Project_Name + "/Components_Prices.txt";
+			    files[1] = "Files/" + Project_Name + "/Components.txt";
+			    files[2] = "Files/" + Project_Name + "/Required_Components_Prices.txt";
+			    files[3] = "Files/" + Project_Name + "/Tasks.txt";
+			    files[4] = "Files/" + Project_Name + "/Tasks_Components.txt";
+			    
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+
+		return files;
+	}
+	
+	public String[] Create_New_Project(String project_Name)
+	{
+
+		 String[] files = null;
+		 BufferedReader file = null;
+
+			try {
+				file = new BufferedReader(new FileReader("Files/Projects.txt"));
+			    int size =  Integer.parseInt(file.readLine());
+			    String[] projects = new String[size];
+			    boolean projectExist = false;
+
+			    for(int i = 0; i<size; i++)
+			    {
+			    	projects[i] = file.readLine();
+			    }
+			    
+			    for(int i = 0; i<projects.length; i++)
+			    {
+			    	if(projects[i].equals(project_Name))
+			    	{
+			    		projectExist = true;
+			    	}
+
+			    }
+			    if(projectExist == true)
+			    {
+			    	projects = null;
+			    }
+			    else
+			    {
+				    PrintWriter write0 = new PrintWriter(new File("Files/Projects.txt"));
+				    write0.println(size + 1);
+				    for(int i = 0; i<size; i++)
+				    {
+				    	write0.println(projects[i]);
+				    }
+				    write0.println(project_Name);
+				    write0.close();
+				    
+					new File("Files/"+project_Name).mkdirs();
+				    files = new String[5];
+				    files[0] = "Files/" + project_Name + "/Components_Prices.txt";
+				    new File("Files/" + project_Name + "/Components_Prices.txt").createNewFile();
+				    PrintWriter write1 = new PrintWriter(new File(files[0]));
+				    write1.println("size=0");
+				    write1.close();
+				    
+				    files[1] = "Files/" + project_Name + "/Components.txt";
+				    new File("Files/" + project_Name + "/Components.txt").createNewFile();
+				    PrintWriter write2 = new PrintWriter(new File(files[1]));
+				    write2.println("size=0");
+				    write2.println(";");
+				    write2.println(";");
+				    write2.close();
+				    
+				    files[2] = "Files/" + project_Name + "/Required_Components_Prices.txt";
+				    new File("Files/" + project_Name + "/Required_Components_Prices.txt").createNewFile();
+				    PrintWriter write3 = new PrintWriter(new File(files[2]));
+				    write3.println("0");
+				    write3.close();
+				    
+				    files[3] = "Files/" + project_Name + "/Tasks.txt";
+				    new File("Files/" + project_Name + "/Tasks.txt").createNewFile();
+				    PrintWriter write4 = new PrintWriter(new File(files[3]));
+				    write4.println("size=0");
+				    write4.println(";");
+				    write4.println(";");
+				    write4.close();
+				    
+				    files[4] = "Files/" + project_Name + "/Tasks_Components.txt";
+				    new File("Files/" + project_Name + "/Tasks_Components.txt").createNewFile();
+				    PrintWriter write5 = new PrintWriter(new File(files[4]));
+				    write5.println("size=0");
+				    write5.close();
+				    
+				    PrintWriter write6 = new PrintWriter(new File("Files/Last_Project.txt"));
+				    write6.println(project_Name);
+				    write6.close();
+			    }
+
+			    
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		        
+		return files;
 	}
 }
