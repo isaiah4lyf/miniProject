@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import File_IO.Files_Management;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -25,13 +26,15 @@ public class Components_Dependencies extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Image bgImage = null;
+	private Files_Management files_man;
 
 	public Components_Dependencies(String[] files)
 	{
+		files_man = new Files_Management();
 		Graph<String, String> graph;
 
 		try {
-			graph = Graph.inParser(files[1], true);
+			graph = files_man.graph_Reader(files[1], true);
 			
 		    Edge<String,String>[] edg = graph.edges_array();
 		    this.add(new tableName("Dependencies"));

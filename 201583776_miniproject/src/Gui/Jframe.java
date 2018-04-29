@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import File_IO.Files_Management;
 import Gui.Components_Management_Panels.Components_Dependencies;
 import Gui.Components_Management_Panels.Components_Management;
 import Gui.Cost_Optimization_Panels.Components_Prices_Panel;
@@ -32,6 +33,9 @@ import Gui.Cost_Optimization_Panels.Optimization_Histo_Pan;
 import Gui.Cost_Optimization_Panels.Prices_Histogram_Panel;
 import Gui.Tasks_Management_Panels.Tasks_Dependencies;
 import Gui.Tasks_Management_Panels.Tasks_Management;
+import Gui.Time_Optimization_Panels.Specific_Task_Histogram_Panel;
+import Gui.Time_Optimization_Panels.Tasks_Histogram_Panel;
+import Gui.Time_Optimization_Panels.Tasks_Selection_Panel;
 import graph.*;
 
 public class Jframe extends JFrame {
@@ -39,9 +43,10 @@ public class Jframe extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public Jframe(String[] filesNames)
+	private Files_Management files_man;
+	public Jframe(String[] filesNames,int selected_Task_For_Cost)
 	{
+		files_man =  new Files_Management();
 		Jframe fram = this;
 		String[] files = filesNames;
 		
@@ -63,10 +68,10 @@ public class Jframe extends JFrame {
             	{
             		if(project_Name.length() != 0)
             		{
-                		String[] project = Create_New_Project(project_Name); 
+                		String[] project = files_man.Create_New_Project(project_Name); 
                 		if(project != null)
                 		{
-                    		Jframe frame = new Jframe(project);
+                    		Jframe frame = new Jframe(project,selected_Task_For_Cost);
 
                     		frame.pack();
                     		frame.setTitle("Project Management System");
@@ -108,14 +113,14 @@ public class Jframe extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
   
-        		String[] Project = Load_All_Projects();
+        		String[] Project = files_man.Load_All_Projects();
         		int response = JOptionPane.showOptionDialog(null, "Select Project to load:", "Load Project",
             	        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
             	        null, Project, Project[0]);
             	if(response != -1)
             	{
-            		String[] project = Load_Specific_Project(Project[response]); 
-            		Jframe frame = new Jframe(project);
+            		String[] project = files_man.Load_Specific_Project(Project[response]); 
+            		Jframe frame = new Jframe(project,selected_Task_For_Cost);
 
             		frame.pack();
             		frame.setTitle("Project Management System");
@@ -153,7 +158,7 @@ public class Jframe extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
   
-        		Jframe frame = new Jframe(files);
+        		Jframe frame = new Jframe(files,selected_Task_For_Cost);
 
         		frame.pack();
         		frame.setTitle("Project Management System");
@@ -250,7 +255,7 @@ public class Jframe extends JFrame {
 		
 		
 		/**
-		 * Cost Optimization tab
+		 * Cost Management tab
 		 */
 		Optimization_Graph_Panel optP = new Optimization_Graph_Panel();
 		
@@ -262,13 +267,13 @@ public class Jframe extends JFrame {
 
 		
 
-		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane,files);
+		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane,files,selected_Task_For_Cost,fram);
 		price_Man.setLayout(new GridLayout(10,1));
 
 
 		
 		
-		Optimization_Histo_Pan someGraph = new Optimization_Histo_Pan(files);
+		Optimization_Histo_Pan someGraph = new Optimization_Histo_Pan(pane,files,fram,selected_Task_For_Cost);
 		JScrollPane someScrtoll = new JScrollPane(someGraph);
 		someScrtoll.setPreferredSize(new Dimension( 1200,1200));
 		
@@ -283,15 +288,41 @@ public class Jframe extends JFrame {
 		cost_Main_Panel.setLayout(new GridLayout(2,1));
 		cost_Main_Panel.add(price_Histoscroll);
 		cost_Main_Panel.add(DownPanel);
-		pane.addTab("Cost Optimization", null, cost_Main_Panel, "");
+		pane.addTab("Cost Management", null, cost_Main_Panel, "");
 		
 		
 		
 		/**
-		 * Time Optimization tab
+		 * Time Management tab
 		 */
-		JPanel panel5 = new JPanel();
-		pane.addTab("Time Optimization", null, panel5, "");
+		Tasks_Selection_Panel tasks_Sel = new Tasks_Selection_Panel();
+		tasks_Sel.setLayout(new GridLayout(10,1));
+		
+		Tasks_Histogram_Panel task_Histo = new Tasks_Histogram_Panel();
+		JScrollPane task_Histo_scroll = new JScrollPane(task_Histo);
+		task_Histo_scroll.setPreferredSize(new Dimension( 1200,1200));
+
+
+		
+		
+		Specific_Task_Histogram_Panel spec_Task_Pan = new Specific_Task_Histogram_Panel();
+		JScrollPane spec_Task_Pan_scroll = new JScrollPane(spec_Task_Pan);
+		spec_Task_Pan_scroll.setPreferredSize(new Dimension( 1200,1200));
+		
+		
+		JPanel DownPanel2 = new JPanel();
+		DownPanel2.setLayout(new GridLayout(1,2));
+		DownPanel2.add(spec_Task_Pan);
+		DownPanel2.add(tasks_Sel);
+
+		
+		JPanel time_Main_Panel = new JPanel();
+		time_Main_Panel.setLayout(new GridLayout(2,1));
+		time_Main_Panel.add(task_Histo_scroll);
+		time_Main_Panel.add(DownPanel2);
+		pane.addTab("Time Management", null, time_Main_Panel, "");
+		
+
 		
 		
 		/**
@@ -309,143 +340,5 @@ public class Jframe extends JFrame {
 		this.setJMenuBar(menubar);
 	}
 	
-	public String[] Load_All_Projects()
-	{
-		 BufferedReader file = null;
-		 String[] files = null;
-			try {
-				file = new BufferedReader(new FileReader("Files/Projects.txt"));
-			    int Num_Projects =  Integer.parseInt(file.readLine());
-			    files = new String[Num_Projects];
-			    for(int i = 0; i< Num_Projects; i++)
-			    {
-			    	files[i] = file.readLine();
-			    }
-			     
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			}
-		        
-		    try {
-				file.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			    
-		return files;
-	}
-	public  String[] Load_Specific_Project(String Project_Name)
-	{
 
-		 String[] files = null;
-			try {
-			    files = new String[5];
-			    files[0] = "Files/" + Project_Name + "/Components_Prices.txt";
-			    files[1] = "Files/" + Project_Name + "/Components.txt";
-			    files[2] = "Files/" + Project_Name + "/Required_Components_Prices.txt";
-			    files[3] = "Files/" + Project_Name + "/Tasks.txt";
-			    files[4] = "Files/" + Project_Name + "/Tasks_Components.txt";
-			    PrintWriter write6 = new PrintWriter(new File("Files/Last_Project.txt"));
-			    write6.println(Project_Name);
-			    write6.close();
-			    
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			}
-
-		return files;
-	}
-	
-	public String[] Create_New_Project(String project_Name)
-	{
-
-		 String[] files = null;
-		 BufferedReader file = null;
-
-			try {
-				file = new BufferedReader(new FileReader("Files/Projects.txt"));
-			    int size =  Integer.parseInt(file.readLine());
-			    String[] projects = new String[size];
-			    boolean projectExist = false;
-
-			    for(int i = 0; i<size; i++)
-			    {
-			    	projects[i] = file.readLine();
-			    }
-			    
-			    for(int i = 0; i<projects.length; i++)
-			    {
-			    	if(projects[i].equals(project_Name))
-			    	{
-			    		projectExist = true;
-			    	}
-
-			    }
-			    if(projectExist == true)
-			    {
-			    	projects = null;
-			    }
-			    else
-			    {
-				    PrintWriter write0 = new PrintWriter(new File("Files/Projects.txt"));
-				    write0.println(size + 1);
-				    for(int i = 0; i<size; i++)
-				    {
-				    	write0.println(projects[i]);
-				    }
-				    write0.println(project_Name);
-				    write0.close();
-				    
-					new File("Files/"+project_Name).mkdirs();
-				    files = new String[5];
-				    files[0] = "Files/" + project_Name + "/Components_Prices.txt";
-				    new File("Files/" + project_Name + "/Components_Prices.txt").createNewFile();
-				    PrintWriter write1 = new PrintWriter(new File(files[0]));
-				    write1.println("size=0");
-				    write1.close();
-				    
-				    files[1] = "Files/" + project_Name + "/Components.txt";
-				    new File("Files/" + project_Name + "/Components.txt").createNewFile();
-				    PrintWriter write2 = new PrintWriter(new File(files[1]));
-				    write2.println("size=0");
-				    write2.println(";");
-				    write2.println(";");
-				    write2.close();
-				    
-				    files[2] = "Files/" + project_Name + "/Required_Components_Prices.txt";
-				    new File("Files/" + project_Name + "/Required_Components_Prices.txt").createNewFile();
-				    PrintWriter write3 = new PrintWriter(new File(files[2]));
-				    write3.println("0");
-				    write3.close();
-				    
-				    files[3] = "Files/" + project_Name + "/Tasks.txt";
-				    new File("Files/" + project_Name + "/Tasks.txt").createNewFile();
-				    PrintWriter write4 = new PrintWriter(new File(files[3]));
-				    write4.println("size=0");
-				    write4.println(";");
-				    write4.println(";");
-				    write4.close();
-				    
-				    files[4] = "Files/" + project_Name + "/Tasks_Components.txt";
-				    new File("Files/" + project_Name + "/Tasks_Components.txt").createNewFile();
-				    PrintWriter write5 = new PrintWriter(new File(files[4]));
-				    write5.println("size=0");
-				    write5.close();
-				    
-				    PrintWriter write6 = new PrintWriter(new File("Files/Last_Project.txt"));
-				    write6.println(project_Name);
-				    write6.close();
-			    }
-
-			    
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		        
-		return files;
-	}
 }

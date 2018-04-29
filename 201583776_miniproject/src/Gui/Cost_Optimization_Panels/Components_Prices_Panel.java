@@ -22,10 +22,13 @@ import java.io.PrintWriter;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import File_IO.Files_Management;
+import Gui.Jframe;
 import Gui.TabbedPane;
 import graph.Edge;
 import graph.Graph;
@@ -38,23 +41,38 @@ public class Components_Prices_Panel extends JPanel{
 	private int iHeight2;
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
-	public Components_Prices_Panel(TabbedPane prices_Histo,String[] files)
+	private Graph<String,String> graph2 = null;
+	private Vertex<String,String>[] vert2 = null;
+	
+	private Files_Management files_man;
+	
+	private String Selected_Task;
+	public String getSelected_Task() {
+		return Selected_Task;
+	}
+	public Components_Prices_Panel(TabbedPane prices_Histo,String[] files,int selected_Task,JFrame fram)
 	{
+		files_man = new Files_Management();
 		Object[] items = null;
-		String[] priced_Comp = Return_Priced_Components(files[2]);
+		Object[] items2 = null;
+		String[] priced_Comp = files_man.Return_Priced_Components_Panel(files[2]);
 		try {
-			graph = Graph.inParser(files[1], true);
+			graph = files_man.graph_Reader(files[1], true);
 			vert = graph.vertices_array();
 			items = new Object[priced_Comp.length];
-			for(int i = 0; i<priced_Comp.length;i++)
-			{
-				System.out.println(priced_Comp[i]);
-			}
-			System.out.println(priced_Comp.length);
-			
+
 			for(int i = 0; i<priced_Comp.length; i++)
 			{
 				items[i] = priced_Comp[i];
+			}
+			
+			graph2 = files_man.graph_Reader(files[3], true);
+			vert2 = graph2.vertices_array();
+			items2 = new Object[vert2.length];
+
+			for(int i = 0; i<vert2.length; i++)
+			{
+				items2[i] = vert2[i].getData();
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -62,16 +80,15 @@ public class Components_Prices_Panel extends JPanel{
 			e.printStackTrace();
 		}
 		
-		JLabel label1 = new label("Add new Price");
+		JLabel label1 = new label("New Component Price Addition");
 		
 		JPanel combPanel = new JPanel();
 		combPanel.setLayout(new GridLayout(3,1));
-		for(int i = 0; i< items.length; i++)
-		{
-			System.out.println(items[i] + " Hello");
-		}
 		JComboBox jcb = new JComboBox(items);
+	    Font font = new Font("Serif", Font.ITALIC, 18);
+	    jcb.setFont(font);
 		JTextField inpiutPrice = new HintTextField("Input Price");
+		inpiutPrice.setFont(font);
 		JButton addPrice = new JButton("Add Price");
 		addPrice.addActionListener(new ActionListener() {
 
@@ -87,7 +104,7 @@ public class Components_Prices_Panel extends JPanel{
             	}
             	else
             	{
-            		add_Price(jcb.getSelectedItem().toString(),inpiutPrice.getText(),files[0],files[2]);		
+            		files_man.add_Price(jcb.getSelectedItem().toString(),inpiutPrice.getText(),files[0],files[2]);		
             		prices_Histo.revalidate();
             		prices_Histo.repaint();  
 
@@ -99,18 +116,39 @@ public class Components_Prices_Panel extends JPanel{
         });
 		
 		//Checkout task costs
-		JComboBox jcb2 = new JComboBox(items);
-		JLabel label2 = new label("Check task cost");
-		JButton check_cost = new JButton("Check Cost");
+		JComboBox jcb2 = new JComboBox(items2);
+	    jcb2.setFont(font);
+		jcb2.setSelectedIndex(selected_Task);
+		JLabel label2 = new label("Check Specific Task Cost");
+		JButton check_cost = new JButton("Change Task");
 		check_cost.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	showMessageDialog(null, "Implement method", "Input Required!", 0);
+
+            	Selected_Task = jcb2.getSelectedItem().toString();
+        		Jframe frame = new Jframe(files,jcb2.getSelectedIndex());
+        		frame.pack();
+        		frame.setTitle("Project Management System");
+        		frame.setSize(1380,780);
+        		frame.setLocation(-5,0);
+        		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        		frame.pack();
+        		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		frame.setIconImage(icon);
+        		frame.setVisible(true);
+        		frame.setIconImage(icon);
+            	fram.setVisible(false);
+        		fram.dispose();
 
             }
         });
-		add(new label("Optimization"));
+		add(new tableName("Cost Management"));
 		add(new label(""));
 		add(label1);
 		add(jcb);
@@ -121,102 +159,43 @@ public class Components_Prices_Panel extends JPanel{
 		add(label2);
 		add(jcb2);
 		add(check_cost);
+		this.Selected_Task = jcb2.getSelectedItem().toString();
+	}
+	
+
+	
+	class tableName extends JLabel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private Image bgImage2 = null;
 		
-	}
-	
-	public void add_Price(String ComponentsName, String price, String priceFileName,String requiredPricesFole)
-	{
-	    BufferedReader file = null;
-		try {
-			file = new BufferedReader(new FileReader(priceFileName));
-		    String line;
+		private String label;
 
-		    String[] size = (file.readLine()).split("=");
-		    String[] prices = new String[Integer.parseInt(size[1])];
-		    
-		    for(int i = 0; i < prices.length; i++)
-		    {
-		    	prices[i] = file.readLine();
-		    }
-
-		    PrintWriter write = new PrintWriter(new File(priceFileName));
-		    int new_size = prices.length + 1;
-		    write.println("size="+new_size);
-		    for(int i = 0; i<prices.length; i++)
-		    {
-		    	write.println(prices[i]);
-		    }
-		    write.println(ComponentsName + " = " + price);
-		    write.close();
-		    DeleteReuired_Price(ComponentsName,requiredPricesFole);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		public tableName(String label)
+		{
+			this.label = label;
 		}
-	        
-	    try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		protected void paintComponent(Graphics g)
+		{
+			try 
+			{
+				bgImage2 = ImageIO.read(new File("df.jpg"));
+			}
+			catch (IOException e)
+			{e.printStackTrace();}
+			
+			g.drawImage(bgImage2,0,0,(ImageObserver) this);
+		    Font font = new Font("Serif", Font.BOLD, 18);
+		    g.setFont(font);
+		    g.setColor(Color.BLUE);
+		    String dep = label;
+			g.drawString(label,250, 15);
+			g.drawLine(250, 15, 250+dep.length()*10-8, 15);
+		}	
 	}
-	
-	public void DeleteReuired_Price(String component,String requiredPricesFole)
-	{
-	   
-		try {
-
-		    String[] prices = Return_Priced_Components(requiredPricesFole);
-		    PrintWriter write = new PrintWriter(new File(requiredPricesFole));
-		    int new_size = prices.length - 1;
-		    
-		    write.println(new_size);
-		    int count = 0; 
-		    for(int i = 0; i<prices.length; i++)
-		    {
-		    	if(!component.equals(prices[i]))
-		    	{
-		    		write.println(prices[count]);
-		    		count++;
-		    	}
-		    }
-		    write.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	        
-	}
-	
-	public String[] Return_Priced_Components(String priceFileName)
-	{
-	    BufferedReader file = null;
-	    String[] components = null;
-		try {
-			file = new BufferedReader(new FileReader(priceFileName));
-		    String line;
-
-		    String size = file.readLine();
-		    components = new String[Integer.parseInt(size)];
-		    for(int i = 0; i < components.length; i++)
-		    {
-		    	components[i] = file.readLine();
-		    }
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}   
-	    try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    return components;
-	}
-	
 	class label extends JLabel{
 		private String label;
 		public label(String label)

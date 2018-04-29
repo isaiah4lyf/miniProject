@@ -41,30 +41,35 @@ public class Prices_Histogram_Panel extends JPanel{
 		double[] prices_ = Read_Prices(files[0]);
 		String[] components = Return_Priced_Components(files[0]);
 		g.setColor(Color.CYAN);
-		g.drawString("Prices of all components",10 ,10);
+		g.drawString("Prices of all components",0 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
 		int individualWidth = (int)(((this.getWidth() - 40)/24) * 0.90);
-		int interval = (this.getWidth() - 40)/(components.length);
 		
-		int initialPos = 10;
-	    double maxPrice = prices_[0];
-
-	    for(int i=0;i<prices_.length;i++){
-	        if(prices_[i]>maxPrice){
-	        	maxPrice=prices_[i];
-	        }
-
-	    }
-		for(int i = 0; i< prices_.length; i++ )
+		if(components.length != 0)
 		{
-			int barHeight = (int)(((double)prices_[i] / (double)maxPrice) *(this.getHeight() - 65));
+			int interval = (this.getWidth() - 40)/(components.length);
 			
-			g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
-			g.drawString(components[i], initialPos, this.getHeight() - 30);
-			String priceString = String.valueOf(prices_[i]);
-			g.drawString("R "+priceString, initialPos , this.getHeight() - 45 - barHeight);
-			initialPos += interval;
+			int initialPos = 10;
+		    double maxPrice = prices_[0];
+
+		    for(int i=0;i<prices_.length;i++){
+		        if(prices_[i]>maxPrice){
+		        	maxPrice=prices_[i];
+		        }
+
+		    }
+			for(int i = 0; i< prices_.length; i++ )
+			{
+				int barHeight = (int)(((double)prices_[i] / (double)maxPrice) *(this.getHeight() - 65));
+				
+				g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
+				g.drawString(components[i], initialPos, this.getHeight() - 30);
+				String priceString = String.valueOf(prices_[i]);
+				g.drawString("R "+priceString, initialPos , this.getHeight() - 45 - barHeight);
+				initialPos += interval;
+			}
 		}
+
 
 	}
 	

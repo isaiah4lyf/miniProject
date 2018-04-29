@@ -18,6 +18,8 @@ import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
 
+import File_IO.Files_Management;
+
 
 
 public class Display_Graph extends JPanel{
@@ -28,9 +30,11 @@ public class Display_Graph extends JPanel{
 	private static final long serialVersionUID = 1L;
 	Image bgImage = null;
 	private String fileName;
+	private Files_Management files_man;
 	public Display_Graph(String fileName)
 	{
 		this.fileName = fileName;
+		this.files_man = new Files_Management();
 	}
     private final int ARR_SIZE = 6;
     void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
@@ -65,7 +69,7 @@ public class Display_Graph extends JPanel{
 		Graph<String, String> graph;
 		String[][] storeCoordinates = null;
 		try {
-			graph = Graph.inParser(fileName, true);
+			graph = files_man.graph_Reader(fileName, true);
 			Vertex<String,String>[] vert = graph.vertices_array();
 			storeCoordinates = new String[vert.length][3];
 			int y = 80;

@@ -1,4 +1,4 @@
-size=14
+size=16
 0 = Task A
 1 = Task B
 2 = Task C
@@ -13,6 +13,8 @@ size=14
 11 = Task L
 12 = Task M
 13 = Task N
+14 = Srt
+15 = Server
 ;
 (1,5,775.0)
 (6,2,7.0)

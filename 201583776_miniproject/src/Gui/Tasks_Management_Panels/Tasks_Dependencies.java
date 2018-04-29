@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
+import File_IO.Files_Management;
 import graph.Edge;
 import graph.Graph;
 
@@ -22,12 +22,14 @@ public class Tasks_Dependencies extends JPanel{
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
+	private Files_Management files_man;
 	public Tasks_Dependencies(String[] files)
 	{
+		files_man = new Files_Management();
 		Graph<String, String> graph;
-
+		
 		try {
-			graph = Graph.inParser(files[3], true);
+			graph = files_man.graph_Reader(files[3], true);
 			
 		    Edge<String,String>[] edg = graph.edges_array();
 		    this.add(new tableName("Dependencies"));

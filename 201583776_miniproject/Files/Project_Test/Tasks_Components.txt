@@ -1,0 +1,4 @@
+3
+Task 1 = 2,Comp 1,Comp 2
+Task 2 = 4,Comp 1,Comp 2,Comp 3,Comp 4
+Task 3 = 2,Comp 1,Comp 7

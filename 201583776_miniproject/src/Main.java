@@ -31,10 +31,11 @@ public class Main{
 	public static void main(String[] args) {
 		
 		
+		
 		String[] filesNames = new Files_Management().Load_Last_Project();
 		String ProjectName = "Project_Name";
 		
-		Jframe frame = new Jframe(filesNames);
+		Jframe frame = new Jframe(filesNames,0);
 		frame.pack();
 		frame.setTitle("Project Management System - "+ ProjectName);
 		frame.setSize(1380,780);
@@ -52,6 +53,8 @@ public class Main{
 		
 		frame.setIconImage(icon);
 
+		
+		
 	}
 
 }

@@ -26,7 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-
+import File_IO.Files_Management;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -41,19 +41,16 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 	private Graph<String,String> graph2 = null;
 	private Vertex<String,String>[] vert = null;
 	private Vertex<String,String>[] vert2 = null;
+	private Files_Management files_man;
 	public Manage_Tasks_Components_Frame(int SelectedTaskIndex,String[] files)
 	{
+		files_man = new Files_Management();
 		setLayout(new GridLayout(2,1));
-		
-		
-		
 		Object[] tasks = null;
 		Object[] components = null;
-
-
 		try {
-			graph = Graph.inParser(files[3], true);
-			graph2 = Graph.inParser(files[1], true);
+			graph = files_man.graph_Reader(files[3], true);
+			graph2 = files_man.graph_Reader(files[1], true);
 			vert = graph.vertices_array();
 			tasks = new Object[vert.length];
 			for(int i = 0; i<vert.length; i++)
@@ -109,7 +106,7 @@ public class Manage_Tasks_Components_Frame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-            	addTaskComponents(files[4],jcb.getSelectedItem().toString(),jcb2.getSelectedItem().toString());
+            	files_man.addTaskComponents(files[4],jcb.getSelectedItem().toString(),jcb2.getSelectedItem().toString());
             	
             	Manage_Tasks_Components_Frame frame = new Manage_Tasks_Components_Frame(jcb.getSelectedIndex(),files);
         		frame.setTitle("Manage Components For a Specific Task");
@@ -192,96 +189,6 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		
 	}
 
-	public void addTaskComponents(String fileName, String TaskName,String TaskNameToAdd)
-	{
-		 BufferedReader file = null;
-			try {
-				file = new BufferedReader(new FileReader(fileName));
-			    String size =  file.readLine();;
-		
-			    String[] fileLines = new String[Integer.parseInt(size) + 1];
-			    boolean TaskExist = false;
-			    
-
-			    for(int i = 0; i < Integer.parseInt(size); i++)
-			    {
-			    	String line = file.readLine();
-			    	String[] lineTokens = line.split(" = ");
-			    	if(TaskName.equals(lineTokens[0]))
-			    	{
-			    		String[] TaskComponents = lineTokens[1].split(",");
-			    		int componentsNum = Integer.parseInt(TaskComponents[0]);
-			    		
-			    		String newComponents = "";
-			    		boolean compExist = false;
-			    		
-			    		
-			    		for(int j = 0; j< componentsNum; j++)
-			    		{
-			    			if(TaskNameToAdd.equals(TaskComponents[j+1]))
-			    			{
-			    				compExist = true;
-			    				newComponents += TaskComponents[j+1] + ",";
-			    			}
-			    			else
-			    			{
-			    				newComponents += TaskComponents[j+1] + ",";
-			    			}
-			    		}
-			    		if(compExist == false)
-			    		{
-			    			newComponents  += TaskNameToAdd + ",";
-			    			componentsNum++;
-			    		}
-			    		
-			    		TaskExist = true;
-			    		String FinalComponents = componentsNum + "," + newComponents.substring(0, newComponents.length()-1);
-			    		fileLines[i] = TaskName + " = " + FinalComponents;
-			    	}
-			    	else
-			    	{
-			    		fileLines[i] = line;
-
-			    	}
-			    	
-			    }
-			    if(TaskExist == false)
-			    {
-			    	int newSize = Integer.parseInt(size);
-			    	fileLines[newSize] = TaskName + " = " + 1 + "," + TaskNameToAdd;
-			    }
-			    PrintWriter write = new PrintWriter(new File(fileName));
-			    if(TaskExist == false)
-			    {
-				    write.println(Integer.parseInt(size) + 1);
-				    for(int i = 0; i<Integer.parseInt(size) + 1; i++)
-				    {
-				    	write.println(fileLines[i]);
-				    }
-			    }
-			    else
-			    {
-				    write.println(Integer.parseInt(size));
-				    for(int i = 0; i<Integer.parseInt(size); i++)
-				    {
-				    	write.println(fileLines[i]);
-				    }
-			    }
-
-			    write.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		        
-		    try {
-				file.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	}
-	
 	class ComponentsPanel extends JPanel
 	{
 		/**
@@ -292,7 +199,7 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		public ComponentsPanel(String TaskName, String FileName)
 		{
 
-			String[] Componets = ReturnComponentsForTask(FileName,TaskName);
+			String[] Componets = files_man.ReturnComponentsForTask(FileName,TaskName);
 		    this.add(new tableName("Components Required by '" + TaskName +"'"));
 		    if(Componets != null)
 		    {
@@ -311,42 +218,10 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 			
 
 		}
-		public String[] ReturnComponentsForTask(String fileName,String TaskName)
-		{
-			 BufferedReader file = null;
-			 String[] Components = null;
-				try {
-					file = new BufferedReader(new FileReader(fileName));
-				    String size =  file.readLine();
 
-				    for(int i = 0; i < Integer.parseInt(size); i++)
-				    {
-				    	String line = file.readLine();
-				    	String[] lineTokens = line.split(" = ");
-				    	if(TaskName.equals(lineTokens[0]))
-				    	{
-				    		String[] TaskComponents = lineTokens[1].split(",");
-				    		int componentsNum = Integer.parseInt(TaskComponents[0]);
-			    		
-				    		Components = TaskComponents;
-	
-				    	}
-
-				    }
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			        
-			    try {
-					file.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				    
-			return Components;
-		}
+		
+		
+		
 		class tableName extends JLabel{
 			/**
 			 * 

@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import File_IO.Files_Management;
 import Gui.Jframe;
 import Gui.TabbedPane;
 import graph.Edge;
@@ -43,13 +44,15 @@ public class Tasks_Management extends JPanel{
 	private Graph<String,String> graph = null;
 	private Vertex<String,String>[] vert = null;
 	private Edge<String,String>[] edg = null;
+	private Files_Management files_man;
 	public Tasks_Management(TabbedPane itemDisplay,String[] files)
 	{
 
+		files_man = new Files_Management();
 		Object[] items = null;
 		Object[] Dependency = null;
 		try {
-			graph = Graph.inParser(files[3], true);
+			graph = files_man.graph_Reader(files[3], true);
 			vert = graph.vertices_array();
 			items = new Object[vert.length];
 			for(int i = 0; i<vert.length; i++)
@@ -105,7 +108,7 @@ public class Tasks_Management extends JPanel{
 	            		try
 	            		{
 	            			int dep = Integer.parseInt(inputWeight.getText());
-			            	graph.AppendEdge(files[3],jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
+	            			files_man.AppendEdge(files[3],jcb.getSelectedIndex(),jcb2.getSelectedIndex(),inputWeight.getText());
 			            	itemDisplay.revalidate();
 			            	itemDisplay.repaint();	
 	            		}
@@ -128,7 +131,7 @@ public class Tasks_Management extends JPanel{
             	}
             	else
             	{
-                	graph.AppendVertex(files[3],inputitem.getText());
+            		files_man.AppendVertex(files[3],inputitem.getText());
                 	itemDisplay.invalidate();
                 	itemDisplay.revalidate();
                 	itemDisplay.repaint();
@@ -146,7 +149,7 @@ public class Tasks_Management extends JPanel{
             	int dialogButton = JOptionPane.YES_NO_OPTION;
             	int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete: "+jcb3.getSelectedItem() + "?", "Deletion confirmatoion", dialogButton);
             	if(dialogResult == 0) {
-                	graph.DeleteEdge(files[3],jcb3.getSelectedIndex());
+            		files_man.DeleteEdge(files[3],jcb3.getSelectedIndex());
                 	itemDisplay.revalidate();
                 	itemDisplay.repaint();
                 		
@@ -164,7 +167,7 @@ public class Tasks_Management extends JPanel{
             	int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete: "+jcb4.getSelectedItem() + "? \n\n Note that all dependenc formed with this component will be deleted!", "Deletion confirmatoion", dialogButton);
             	if(dialogResult == 0) {
                 	
-                	graph.DeleteVertex(files[3], jcb4.getSelectedIndex());
+            		files_man.DeleteVertex(files[3], jcb4.getSelectedIndex());
                 	itemDisplay.revalidate();
                 	itemDisplay.repaint();
                 		
