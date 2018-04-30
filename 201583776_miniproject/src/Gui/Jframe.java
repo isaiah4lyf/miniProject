@@ -30,7 +30,11 @@ import Gui.Components_Management_Panels.Components_Management;
 import Gui.Cost_Optimization_Panels.Components_Prices_Panel;
 import Gui.Cost_Optimization_Panels.Optimization_Histo_Pan;
 import Gui.Cost_Optimization_Panels.Prices_Histogram_Panel;
+import Gui.Overall_Project_Optimization_Panels.Calculations_Panel;
+import Gui.Overall_Project_Optimization_Panels.Components_Histogram_Panel;
 import Gui.Overall_Project_Optimization_Panels.Optimization_Graph_Panel;
+import Gui.Overall_Project_Optimization_Panels.Project_Optimization_Panel;
+import Gui.Overall_Project_Optimization_Panels.Tasks_Crit_Histogram_Panel;
 import Gui.Tasks_Management_Panels.Tasks_Dependencies;
 import Gui.Tasks_Management_Panels.Tasks_Management;
 import Gui.Time_Optimization_Panels.Specific_Task_Histogram_Panel;
@@ -332,7 +336,22 @@ public class Jframe extends JFrame {
 		 * View components with less cost but with with many dependees
 		 */
 		JPanel panel6 = new JPanel();
+		panel6.setLayout(new GridLayout(3,1));
+		Components_Histogram_Panel comp_Pan = new Components_Histogram_Panel();
+		Tasks_Crit_Histogram_Panel tasks_Pan = new Tasks_Crit_Histogram_Panel();
+		
+		JPanel panel7 = new JPanel();
+		panel7.setLayout(new GridLayout(1,2));
+		Project_Optimization_Panel project_Pa = new Project_Optimization_Panel(files,pane);
+		Calculations_Panel calc_Pan = new Calculations_Panel();
+		panel7.add(calc_Pan);
+		panel7.add(project_Pa);
+		
+		panel6.add(comp_Pan);
+		panel6.add(tasks_Pan);
+		panel6.add(panel7);
 		pane.addTab("Overall Project Optimization", null, panel6, "");
+		
 		
 
 		this.add(pane);
