@@ -35,7 +35,7 @@ public class Main{
 		String[] filesNames = new Files_Management().Load_Last_Project();
 		String ProjectName = "Project_Name";
 		
-		Jframe frame = new Jframe(filesNames,0);
+		Jframe frame = new Jframe(filesNames,0,0,0);
 		frame.pack();
 		frame.setTitle("Project Management System - "+ ProjectName);
 		frame.setSize(1380,780);

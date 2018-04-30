@@ -1,4 +1,4 @@
-size=7
+size=8
 Comp 1 = 80
 Comp 2 = 100
 Comp 3 = 500
@@ -6,3 +6,4 @@ Comp 4 = 10
 Comp 5 = 100
 Comp 6 = 600
 Comp 7 = 300
+Comp 8 = 1000

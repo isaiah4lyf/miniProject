@@ -127,7 +127,7 @@ public class Components_Prices_Panel extends JPanel{
             public void actionPerformed(ActionEvent e) {
 
             	Selected_Task = jcb2.getSelectedItem().toString();
-        		Jframe frame = new Jframe(files,jcb2.getSelectedIndex());
+        		Jframe frame = new Jframe(files,jcb2.getSelectedIndex(),0,0);
         		frame.pack();
         		frame.setTitle("Project Management System");
         		frame.setSize(1380,780);

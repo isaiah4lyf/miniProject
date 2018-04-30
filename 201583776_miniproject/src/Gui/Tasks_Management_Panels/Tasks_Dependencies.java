@@ -33,7 +33,7 @@ public class Tasks_Dependencies extends JPanel{
 			
 		    Edge<String,String>[] edg = graph.edges_array();
 		    this.add(new tableName("Dependencies"));
-		    this.add(new head_Label("Task","Required Task","Duration"));
+		    this.add(new head_Label("Required Task","Task","Duration"));
 			for(int i = 0; i<edg.length; i++)
 			{
 				this.add(new label2(i+1+". "+edg[i].getV1().getData(),edg[i].getV2().getData(),String.valueOf((int)edg[i].getWeight())));
@@ -106,7 +106,7 @@ public class Tasks_Dependencies extends JPanel{
 		    g.setFont(font);
 		    g.setColor(Color.BLUE);
 			g.drawString(label, 5, 15);
-			g.drawString(label2, 180, 15);
+			g.drawString(label2, 200, 15);
 			g.drawString(label3, 460, 15);
 		}	
 	}

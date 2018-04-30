@@ -28,9 +28,9 @@ import File_IO.Files_Management;
 import Gui.Components_Management_Panels.Components_Dependencies;
 import Gui.Components_Management_Panels.Components_Management;
 import Gui.Cost_Optimization_Panels.Components_Prices_Panel;
-import Gui.Cost_Optimization_Panels.Optimization_Graph_Panel;
 import Gui.Cost_Optimization_Panels.Optimization_Histo_Pan;
 import Gui.Cost_Optimization_Panels.Prices_Histogram_Panel;
+import Gui.Overall_Project_Optimization_Panels.Optimization_Graph_Panel;
 import Gui.Tasks_Management_Panels.Tasks_Dependencies;
 import Gui.Tasks_Management_Panels.Tasks_Management;
 import Gui.Time_Optimization_Panels.Specific_Task_Histogram_Panel;
@@ -44,7 +44,7 @@ public class Jframe extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Files_Management files_man;
-	public Jframe(String[] filesNames,int selected_Task_For_Cost)
+	public Jframe(String[] filesNames,int selected_Task_For_Cost,int Select_T_1,int Select_T_2)
 	{
 		files_man =  new Files_Management();
 		Jframe fram = this;
@@ -71,7 +71,7 @@ public class Jframe extends JFrame {
                 		String[] project = files_man.Create_New_Project(project_Name); 
                 		if(project != null)
                 		{
-                    		Jframe frame = new Jframe(project,selected_Task_For_Cost);
+                    		Jframe frame = new Jframe(project,selected_Task_For_Cost,0,0);
 
                     		frame.pack();
                     		frame.setTitle("Project Management System");
@@ -120,7 +120,7 @@ public class Jframe extends JFrame {
             	if(response != -1)
             	{
             		String[] project = files_man.Load_Specific_Project(Project[response]); 
-            		Jframe frame = new Jframe(project,selected_Task_For_Cost);
+            		Jframe frame = new Jframe(project,selected_Task_For_Cost,0,0);
 
             		frame.pack();
             		frame.setTitle("Project Management System");
@@ -158,7 +158,7 @@ public class Jframe extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
   
-        		Jframe frame = new Jframe(files,selected_Task_For_Cost);
+        		Jframe frame = new Jframe(files,selected_Task_For_Cost,0,0);
 
         		frame.pack();
         		frame.setTitle("Project Management System");
@@ -295,17 +295,17 @@ public class Jframe extends JFrame {
 		/**
 		 * Time Management tab
 		 */
-		Tasks_Selection_Panel tasks_Sel = new Tasks_Selection_Panel();
+		Tasks_Selection_Panel tasks_Sel = new Tasks_Selection_Panel(filesNames,Select_T_1,Select_T_2,fram);
 		tasks_Sel.setLayout(new GridLayout(10,1));
 		
-		Tasks_Histogram_Panel task_Histo = new Tasks_Histogram_Panel();
+		Tasks_Histogram_Panel task_Histo = new Tasks_Histogram_Panel(files);
 		JScrollPane task_Histo_scroll = new JScrollPane(task_Histo);
 		task_Histo_scroll.setPreferredSize(new Dimension( 1200,1200));
 
 
 		
 		
-		Specific_Task_Histogram_Panel spec_Task_Pan = new Specific_Task_Histogram_Panel();
+		Specific_Task_Histogram_Panel spec_Task_Pan = new Specific_Task_Histogram_Panel(files,Select_T_1,Select_T_2);
 		JScrollPane spec_Task_Pan_scroll = new JScrollPane(spec_Task_Pan);
 		spec_Task_Pan_scroll.setPreferredSize(new Dimension( 1200,1200));
 		
