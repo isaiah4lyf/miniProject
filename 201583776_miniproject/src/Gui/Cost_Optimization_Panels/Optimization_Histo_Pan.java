@@ -48,19 +48,20 @@ public class Optimization_Histo_Pan extends JPanel{
 		
 		double[] prices_ = files_Man.Return_Prices_For_Specific_Task(files[0],files[4],Selected_Task);
 		String[] components = files_Man.ReturnComponentsForTask(files[4],Selected_Task);
-		String[] newComponents = new String[components.length - 1];
-		for(int i = 0; i < components.length-1; i++)
-		{
-			newComponents[i] = components[i+1];
-		}
+
 		
 		g.setColor(Color.CYAN);
 		g.drawString("All components and Their Prices required by: '"+Selected_Task+"' with the total cost",0 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
 		int individualWidth = (int)(((this.getWidth() - 40)/24) * 0.90);
 		
-		if(components.length != 0)
+		if(components != null)
 		{
+			String[] newComponents = new String[components.length - 1];
+			for(int i = 0; i < components.length-1; i++)
+			{
+				newComponents[i] = components[i+1];
+			}
 			int interval = (this.getWidth() - 40)/(components.length);
 			
 			int initialPos = 10;

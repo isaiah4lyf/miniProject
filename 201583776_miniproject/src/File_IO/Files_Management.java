@@ -843,15 +843,17 @@ public class Files_Management {
 		try {
 
 		    String[] components = ReturnComponentsForTask(Tasks_Components_FilName,taskName);
-		    prices = new double[components.length];
 		    
-		    for(int i = 0; i < components.length-1; i++)
+		    if(components != null)
 		    {
-		    	prices[i] = Double.parseDouble(Return_Price_For_Specific_Comp(priceFileName,components[i+1]));
-		    	//prices[i] = Double.parseDouble("20");
-
-		    	//System.out.println(Return_Price_For_Specific_Comp(priceFileName,components[i]));
+			    prices = new double[components.length];
+			    
+			    for(int i = 0; i < components.length-1; i++)
+			    {
+			    	prices[i] = Double.parseDouble(Return_Price_For_Specific_Comp(priceFileName,components[i+1]));
+			    }
 		    }
+
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

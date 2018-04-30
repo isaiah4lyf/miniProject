@@ -30,19 +30,33 @@ public class Calculations_Panel extends JPanel{
 		{e.printStackTrace();}
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
-		String cal = read_Calculations();
-		g.drawString(cal, 10, 10);
-
+		String[] cal = read_Calculations();
+		if(cal != null)
+		{
+			g.drawString(cal[0], 10, 10);
+			g.drawString(cal[1], 40, 40);
+			g.drawString(cal[2], 80, 80);
+			g.drawString(cal[3], 100, 100);
+		}
 	}
 
-	public String read_Calculations()
+	public String[] read_Calculations()
 	{
 		BufferedReader file = null;
-		String cal = null;
+		String[] cal = null;
 		try 
 		{
 			file = new BufferedReader(new FileReader("Files/Project_Test/Project_Optimization.txt"));
-			cal =  file.readLine();
+			file.readLine();
+			file.readLine();
+			String[] lineTokens =  (file.readLine()).split(",");
+			String[] cost_n_Value = lineTokens[0].split(" = ");
+			String[] duration_n_Value = lineTokens[1].split(" = ");
+			cal = new String[4];
+			cal[0] = cost_n_Value[0];
+			cal[1] = cost_n_Value[1];
+			cal[2] = duration_n_Value[0];
+			cal[3] = duration_n_Value[1];
 		}
 		catch(Exception ex)
 		{
