@@ -192,7 +192,7 @@ public class Tasks_Management extends JPanel{
         		Image icon = null;
         		try 
         		{
-        			icon = ImageIO.read(new File("pj.png"));}
+        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
         		catch (IOException ex)
         		{ex.printStackTrace();}
         		
@@ -240,7 +240,7 @@ public class Tasks_Management extends JPanel{
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
@@ -267,7 +267,7 @@ public class Tasks_Management extends JPanel{
 		{
 			try 
 			{
-				bgImage2 = ImageIO.read(new File("df.jpg"));
+				bgImage2 = ImageIO.read(new File("Files/Images/df.jpg"));
 			    iWidth = bgImage2.getWidth((ImageObserver) this)/2;
 			    iHeight = bgImage2.getHeight((ImageObserver) this)/2;
 			}
@@ -284,31 +284,6 @@ public class Tasks_Management extends JPanel{
 			
 		}	
 	}
-	class button extends JButton{
-		private String label;
-		public button(String label)
-		{
-			this.label = label;
-		}
-		protected void paintComponent(Graphics g)
-		{
-			try 
-			{
-				bgImage = ImageIO.read(new File("but.png"));
-			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
-			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
-			}
-			catch (IOException e)
-			{e.printStackTrace();}
-			
-			g.drawImage(bgImage,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
-		    g.setFont(font);
-		    g.setColor(Color.BLACK);
-			g.drawString(label, 50, 20);
-		}	
-	}
-	
 	
 	class label extends JLabel{
 		private String label;
@@ -320,7 +295,7 @@ public class Tasks_Management extends JPanel{
 		{
 			try 
 			{
-				bgImage = ImageIO.read(new File("df.jpg"));
+				bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 			}

@@ -85,7 +85,7 @@ public class Jframe extends JFrame {
                     		Image icon = null;
                     		try 
                     		{
-                    			icon = ImageIO.read(new File("pj.png"));}
+                    			icon = ImageIO.read(new File("Files/Images/pj.png"));}
                     		catch (IOException ex)
                     		{ex.printStackTrace();}
                     		frame.setIconImage(icon);
@@ -134,7 +134,7 @@ public class Jframe extends JFrame {
             		Image icon = null;
             		try 
             		{
-            			icon = ImageIO.read(new File("pj.png"));}
+            			icon = ImageIO.read(new File("Files/Images/pj.png"));}
             		catch (IOException ex)
             		{ex.printStackTrace();}
             		frame.setIconImage(icon);
@@ -172,7 +172,7 @@ public class Jframe extends JFrame {
         		Image icon = null;
         		try 
         		{
-        			icon = ImageIO.read(new File("pj.png"));}
+        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
         		catch (IOException ex)
         		{ex.printStackTrace();}
         		frame.setIconImage(icon);

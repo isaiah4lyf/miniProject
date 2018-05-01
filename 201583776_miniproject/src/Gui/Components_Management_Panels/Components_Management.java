@@ -261,7 +261,7 @@ public class Components_Management extends JPanel{
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 		}
 		catch (IOException e)
 		{e.printStackTrace();}
@@ -286,7 +286,7 @@ public class Components_Management extends JPanel{
 		{
 			try 
 			{
-				bgImage2 = ImageIO.read(new File("df.jpg"));
+				bgImage2 = ImageIO.read(new File("Files/Images/df.jpg"));
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -300,33 +300,6 @@ public class Components_Management extends JPanel{
 			g.drawLine(180, 15, 180+dep.length()*10-30, 15);
 		}	
 	}
-	class button extends JButton{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private String label;
-		public button(String label)
-		{
-			this.label = label;
-		}
-		protected void paintComponent(Graphics g)
-		{
-			try 
-			{
-				bgImage = ImageIO.read(new File("but.png"));
-			}
-			catch (IOException e)
-			{e.printStackTrace();}
-			
-			g.drawImage(bgImage,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
-		    g.setFont(font);
-		    g.setColor(Color.BLACK);
-			g.drawString(label, 50, 20);
-		}	
-	}
-	
 	
 	class label extends JLabel{
 		/**
@@ -342,7 +315,7 @@ public class Components_Management extends JPanel{
 		{
 			try 
 			{
-				bgImage = ImageIO.read(new File("df.jpg"));
+				bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 			}
 			catch (IOException e)
 			{e.printStackTrace();}

@@ -14,8 +14,14 @@ import java.util.regex.Pattern;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
+import graph.doublyLinkedList.DLLNode;
+import graph.doublyLinkedList.DoublyLinkedList;
 import graph.doublyLinkedList.NodeIterator;
 
+/**
+ * @author Isaiah Ramafalo, 201583776 Mini Project
+ *
+ */
 public class Files_Management {
 	public Files_Management()
 	{
@@ -23,10 +29,14 @@ public class Files_Management {
 	}
 
 	
+	
 	/**
 	 * Main I/O Methods
 	 */
 	
+	/**
+	 * @return
+	 */
 	public String[] Load_Last_Project()
 	{
 		 BufferedReader file = null;
@@ -63,6 +73,11 @@ public class Files_Management {
 	
 	/**
 	 * Graph ADT I/O  Methods
+	 */
+	
+	/**
+	 * @param fileName
+	 * @param Vertex
 	 */
 	public void AppendVertex(String fileName,String Vertex)
 	{
@@ -118,6 +133,13 @@ public class Files_Management {
 		}
 	}
 
+	
+	/**
+	 * @param fileName
+	 * @param firstVertex
+	 * @param SecondVertex
+	 * @param weight
+	 */
 	public void AppendEdge(String fileName,int firstVertex,int SecondVertex,String weight)
 	{
 		
@@ -169,6 +191,10 @@ public class Files_Management {
 		}
 	}
 	
+	/**
+	 * @param fileName
+	 * @param EdgeIndex
+	 */
 	public void DeleteEdge(String fileName,int EdgeIndex)
 	{
 		
@@ -228,6 +254,10 @@ public class Files_Management {
 	}
 	
 	
+	/**
+	 * @param fileName
+	 * @param VertextIndex
+	 */
 	public void DeleteVertex(String fileName,int VertextIndex)
 	{
 		
@@ -315,6 +345,11 @@ public class Files_Management {
 		}
 	}
 	
+	/**
+	 * @param vertices
+	 * @param Vertex
+	 * @return
+	 */
 	public int vertexIndex(String[] vertices,String Vertex)
 	{
 		int index = -1;
@@ -328,7 +363,7 @@ public class Files_Management {
 		return index;
 	}
 	/**
-	 * Read graph from input
+	 * Read graph from input File
 	 * @param fileName
 	 * @param directed
 	 * @return Graph created
@@ -389,6 +424,10 @@ public class Files_Management {
 	
 	/**
 	 * Gui I/O Methods
+	 */
+	
+	/**
+	 * @return
 	 */
 	public String[] Load_All_Projects()
 	{
@@ -901,9 +940,364 @@ public class Files_Management {
 		}
 	    return price;
 	}
+	
+	
+	
+	
 	/**
 	 * Overall Project Optimization I/O Methods
 	 */
+	public String[] read_Calculations(String fileName)
+	{
+		BufferedReader file = null;
+		String[] cal = null;
+		try 
+		{
+			file = new BufferedReader(new FileReader(fileName));
+			file.readLine();
+			file.readLine();
+			String[] lineTokens =  (file.readLine()).split(",");
+			String[] cost_n_Value = lineTokens[0].split(" = ");
+			String[] duration_n_Value = lineTokens[1].split(" = ");
+			cal = new String[4];
+			cal[0] = cost_n_Value[0];
+			cal[1] = cost_n_Value[1];
+			cal[2] = duration_n_Value[0];
+			cal[3] = duration_n_Value[1];
+		}
+		catch(Exception ex)
+		{
+			
+		}
+		try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cal;	
+	}
 	
+	
+	public String[] read_Crit_Path_Components(String fileName)
+	{
+		BufferedReader file = null;
+		String[] cal = null;
+		try 
+		{
+			file = new BufferedReader(new FileReader(fileName));
+			String line  = file.readLine();
+			if(line != null)
+			{
+				
+				String[] lineTokens =  line.split(",");
+				cal = new String[lineTokens.length];
+				for(int i = 0; i < lineTokens.length; i++)
+				{
+					
+					cal[i] = lineTokens[i];
+				}
+			}
+
+
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cal;	
+	}
+	
+	
+	public double[] read_Crit_Path_Components_Prices(String[] components,String fileName)
+	{
+		BufferedReader file = null;
+		double[] prices = null;
+		try 
+		{
+			file = new BufferedReader(new FileReader(fileName));
+			String line  = file.readLine();
+			int size = Integer.parseInt(line.split("=")[1]);
+			String[] lines = new String[size];
+			if(components != null)
+			{
+				
+				prices = new double[components.length];
+				for(int i = 0; i < size; i++)
+				{
+					lines[i] = file.readLine();
+				}
+				
+				for(int i = 0; i < components.length; i++)
+				{
+					for(int j = 0; j<lines.length; j++)
+					{
+						String component = lines[j].split(" = ")[0];
+						if(components[i].equals(component))
+						{
+							prices[i] = Double.parseDouble(lines[j].split(" = ")[1]);
+						}
+					}
+				}
+			}
+
+
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return prices;	
+	}
+	
+	public void add_Optimized_Info(String input,int startTaskIndex,int endTaskIndex,String FileName1,String FileName2,String FileName3,Graph<String, String> graph,Vertex<String,String>[] vert)
+	{
+	   
+		try 
+		{
+			DoublyLinkedList<String> components_In_Crit = new DoublyLinkedList<String>();
+			
+			double current_Cost = 0;
+			double maxCost = Double.parseDouble(input);
+			
+			int current_Tasks_Count = 0; 
+			int maxCount = 0;
+			int optimized_Index = 0;
+			double optimized_Max_Cost = 0;
+			String tasks = "";
+			Edge<String,String>[] finalEdge = null;
+			for(int i = 0; i < vert.length - 1; i++)
+			{
+			    Edge<String,String>[] currentPah = graph.dijkstra(vert[startTaskIndex],vert[i]);
+			    DoublyLinkedList<String> all_Components = return_Components_In_Crit_Path(currentPah,FileName1);
+
+			    if(all_Components != null)
+			    {
+				    if(all_Components.size() != 0)
+				    {
+			    		NodeIterator<String> iterator = all_Components.iterator();
+			    		String current = all_Components.first().getData();
+			    		boolean found = false;
+			    		while(iterator.hasNext())
+			    		{
+			    			String next = iterator.next();
+			    		    if (current == next && !found) {
+			    		        found = true;
+			    		        DLLNode<String> node = all_Components.search(next);
+			    		        all_Components.remove(node);
+			    		    } else if (current != next) {
+			    		        current = next;
+			    		        found = false;
+			    		    }
+			    		}	
+				    }
+			    }
+			    current_Tasks_Count = currentPah.length;
+			    current_Cost = crit_Path_Cost(all_Components,FileName2);
+	    		if(current_Cost > optimized_Max_Cost && current_Cost < maxCost && current_Tasks_Count >= maxCount)
+	    		{
+	    			
+	    			optimized_Max_Cost = current_Cost;
+	    			maxCount = current_Tasks_Count;
+	    			optimized_Index = i;
+	    			components_In_Crit = all_Components;
+	    			finalEdge = currentPah;
+	    		}
+			    
+			}
+
+			NodeIterator<String> com_Iter = components_In_Crit.iterator();
+			String comp_In_Crit = ""; 
+			while(com_Iter.hasNext())
+			{
+				comp_In_Crit += com_Iter.next() + ",";
+			}
+			String tasks_In_Crit = "";
+			int totalDuration = 0;
+			for(int i = 0; i < finalEdge.length; i++)
+			{
+				tasks_In_Crit += finalEdge[i].getV1().getData() + " = " +  (int)finalEdge[i].getWeight() + ",";
+				totalDuration += (int)finalEdge[i].getWeight();
+			}
+			tasks_In_Crit += finalEdge[finalEdge.length - 1].getV2().getData() + " = 0";
+			PrintWriter write3;
+			write3 = new PrintWriter(new File(FileName3));
+		    write3.println(comp_In_Crit);
+		    write3.println(tasks_In_Crit);
+		    write3.println("Total Cost = " + optimized_Max_Cost +","+"Total Duration = "+totalDuration);
+		    write3.close();
+		    
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public double crit_Path_Cost(DoublyLinkedList<String> all_Components,String fileName)
+	{
+		if(all_Components != null)
+		{
+			BufferedReader file = null;
+			double cost = 0;
+			try 
+			{
+				file = new BufferedReader(new FileReader(fileName));
+			    int size = Integer.parseInt((file.readLine()).split("=")[1]);
+			    String[] lines = new String[size];
+			    for(int i = 0; i < size; i ++)
+			    {
+			    	lines[i] = file.readLine();
+			    }
+				NodeIterator<String> iterator = all_Components.iterator();
+				while(iterator.hasNext())
+				{
+					String comp = iterator.next();
+					
+					for(int i = 0; i<lines.length; i++)
+					{
+						if(comp.equals(lines[i].split(" = ")[0]))
+						{
+							cost += Double.parseDouble(lines[i].split(" = ")[1]);
+						}
+					}
+				}
+				
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}   
+		    try {
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    return cost;
+		}
+		return 0;
+	}
+	
+	public DoublyLinkedList<String> return_Components_In_Crit_Path(Edge<String,String>[] crit_Path,String FileName)
+	{
+		DoublyLinkedList<String> all_Components = new DoublyLinkedList<String>();
+		if(crit_Path.length != 0)
+		{
+			for(int i = 0; i < crit_Path.length; i++)
+			{
+				String[] components_for_v1 = ReturnComponentsForTask(FileName,crit_Path[i].getV1().getData());
+				String[] components_for_v2 = ReturnComponentsForTask(FileName,crit_Path[i].getV2().getData());
+				if(components_for_v1 != null)
+				{
+					for(int j = 0; j < components_for_v1.length - 1; j++)
+					{
+						
+						if(all_Components.search(components_for_v1[j+1]) == null)
+						{
+							all_Components.add(components_for_v1[j+1]);
+						}
+					
+					}	
+				}
+
+				if(components_for_v2 != null)
+				{
+					for(int j = 0; j < components_for_v2.length - 1; j++)
+					{
+						if(all_Components.search(components_for_v2[j+1]) == null)
+						{
+							all_Components.add(components_for_v2[j+1]);
+						}
+					}
+				}
+			}
+			
+			return all_Components;
+		}
+
+		return null;
+	
+	}
+	
+	public String[] read_Crit_Path_Tasks(String FileName)
+	{
+		BufferedReader file = null;
+		String[] cal = null;
+		try 
+		{
+			file = new BufferedReader(new FileReader(FileName));
+			if(file.readLine() != null)
+			{
+				
+				String[] lineTokens =  (file.readLine()).split(",");
+				cal = new String[lineTokens.length];
+				for(int i = 0; i < lineTokens.length; i++)
+				{
+					String[] task = lineTokens[i].split(" = ");
+					cal[i] = task[0];
+				}
+			}
+
+
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cal;	
+	}
+	
+	public int[] read_Crit_Path_Duration(String FileName)
+	{
+		BufferedReader file = null;
+		int[] cal = null;
+		try 
+		{
+			file = new BufferedReader(new FileReader(FileName));
+			if(file.readLine() != null)
+			{
+				String[] lineTokens =  (file.readLine()).split(",");
+				cal = new int[lineTokens.length];
+				for(int i = 0; i < lineTokens.length; i++)
+				{
+					String[] task = lineTokens[i].split(" = ");
+					cal[i] = Integer.parseInt(task[1]);
+				}
+
+			}
+	
+
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		try {
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cal;	
+	}
 	
 }

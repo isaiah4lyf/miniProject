@@ -13,22 +13,26 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import File_IO.Files_Management;
+
 public class Calculations_Panel extends JPanel{
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
 	private String[] files;
+	private Files_Management files_man;
 	
 	public Calculations_Panel(String[] files)
 	{
 		this.files = files;
+		files_man = new Files_Management();
 	}
 	
 	protected void paintComponent(Graphics g)
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
@@ -38,7 +42,7 @@ public class Calculations_Panel extends JPanel{
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 	    Font font = new Font("Serif", Font.BOLD, 18);
 	    g.setFont(font);
-		String[] cal = read_Calculations(files[5]);
+		String[] cal = files_man.read_Calculations(files[5]);
 		if(cal != null)
 		{
 			g.setColor(Color.BLUE);
@@ -52,34 +56,5 @@ public class Calculations_Panel extends JPanel{
 		}
 	}
 
-	public String[] read_Calculations(String fileName)
-	{
-		BufferedReader file = null;
-		String[] cal = null;
-		try 
-		{
-			file = new BufferedReader(new FileReader(fileName));
-			file.readLine();
-			file.readLine();
-			String[] lineTokens =  (file.readLine()).split(",");
-			String[] cost_n_Value = lineTokens[0].split(" = ");
-			String[] duration_n_Value = lineTokens[1].split(" = ");
-			cal = new String[4];
-			cal[0] = cost_n_Value[0];
-			cal[1] = cost_n_Value[1];
-			cal[2] = duration_n_Value[0];
-			cal[3] = duration_n_Value[1];
-		}
-		catch(Exception ex)
-		{
-			
-		}
-		try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return cal;	
-	}
+
 }

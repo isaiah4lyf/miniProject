@@ -18,6 +18,11 @@ import javax.swing.JOptionPane;
 
 import File_IO.Files_Management;
 
+/**
+ * @author Isaiah Ramafalo, 201583776 Mini Project
+ *
+ */
+
 public class Main{
 
 
@@ -27,10 +32,11 @@ public class Main{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-
+	
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		
-		
 		
 		String[] filesNames = new Files_Management().Load_Last_Project();
 		String ProjectName = "Project_Name";
@@ -47,7 +53,7 @@ public class Main{
 
 		try 
 		{
-			icon = ImageIO.read(new File("pj.png"));}
+			icon = ImageIO.read(new File("Files/Images/pj.png"));}
 		catch (IOException e)
 		{e.printStackTrace();}
 		

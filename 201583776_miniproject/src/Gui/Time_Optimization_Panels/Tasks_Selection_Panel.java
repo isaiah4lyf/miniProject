@@ -90,7 +90,7 @@ public class Tasks_Selection_Panel extends JPanel{
 
         		try 
         		{
-        			icon = ImageIO.read(new File("pj.png"));}
+        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
         		catch (IOException ex)
         		{ex.printStackTrace();}
         		
@@ -135,7 +135,7 @@ public class Tasks_Selection_Panel extends JPanel{
 		{
 			try 
 			{
-				bgImage2 = ImageIO.read(new File("df.jpg"));
+				bgImage2 = ImageIO.read(new File("Files/Images/df.jpg"));
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -161,7 +161,7 @@ public class Tasks_Selection_Panel extends JPanel{
 		{
 			try 
 			{
-				bgImage = ImageIO.read(new File("df.jpg"));
+				bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 
 			}
 			catch (IOException e)

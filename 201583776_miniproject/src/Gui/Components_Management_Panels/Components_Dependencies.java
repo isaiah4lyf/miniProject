@@ -70,7 +70,7 @@ public class Components_Dependencies extends JPanel{
 		{
 			try 
 			{
-				bgImage2 = ImageIO.read(new File("df.jpg"));
+				bgImage2 = ImageIO.read(new File("Files/Images/df.jpg"));
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -103,7 +103,7 @@ public class Components_Dependencies extends JPanel{
 		{
 			try 
 			{
-				bgImage2 = ImageIO.read(new File("df.jpg"));
+				bgImage2 = ImageIO.read(new File("Files/Images/df.jpg"));
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -136,7 +136,7 @@ public class Components_Dependencies extends JPanel{
 		{
 			try 
 			{
-				bgImage2 = ImageIO.read(new File("df.jpg"));
+				bgImage2 = ImageIO.read(new File("Files/Images/df.jpg"));
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -154,7 +154,7 @@ public class Components_Dependencies extends JPanel{
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 		}
 		catch (IOException e)
 		{e.printStackTrace();}

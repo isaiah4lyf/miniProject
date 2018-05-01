@@ -12,11 +12,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import File_IO.Files_Management;
+
 public class Components_Histogram_Panel extends JPanel{
 	Image bgImage = null;
 	private int iWidth2;
 	private int iHeight2;
 	private String[] files;
+	private Files_Management files_man;
 	
 	/**
 	 * Components in critical path
@@ -25,13 +28,14 @@ public class Components_Histogram_Panel extends JPanel{
 	public Components_Histogram_Panel(String[] files)
 	{
 		this.files = files;
+		files_man = new Files_Management();
 	}
 	
 	protected void paintComponent(Graphics g)
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
@@ -39,8 +43,8 @@ public class Components_Histogram_Panel extends JPanel{
 		{e.printStackTrace();}
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
-		String[] components = read_Crit_Path_Components(files[5]);
-		double[] prices = read_Crit_Path_Components_Prices(components,files[0]);
+		String[] components = files_man.read_Crit_Path_Components(files[5]);
+		double[] prices = files_man.read_Crit_Path_Components_Prices(components,files[0]);
 		
 		g.setColor(Color.CYAN);
 		g.drawString("Components Required By Tasks in Optimized Critical Path",this.getWidth()/2 - 180,10);
@@ -75,90 +79,5 @@ public class Components_Histogram_Panel extends JPanel{
 				initialPos += interval;
 			}
 		}
-	}
-
-	
-	
-	public String[] read_Crit_Path_Components(String fileName)
-	{
-		BufferedReader file = null;
-		String[] cal = null;
-		try 
-		{
-			file = new BufferedReader(new FileReader(fileName));
-			String line  = file.readLine();
-			if(line != null)
-			{
-				
-				String[] lineTokens =  line.split(",");
-				cal = new String[lineTokens.length];
-				for(int i = 0; i < lineTokens.length; i++)
-				{
-					
-					cal[i] = lineTokens[i];
-				}
-			}
-
-
-		}
-		catch(IOException ex)
-		{
-			ex.printStackTrace();
-		}
-		try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return cal;	
-	}
-	
-	
-	public double[] read_Crit_Path_Components_Prices(String[] components,String fileName)
-	{
-		BufferedReader file = null;
-		double[] prices = null;
-		try 
-		{
-			file = new BufferedReader(new FileReader(fileName));
-			String line  = file.readLine();
-			int size = Integer.parseInt(line.split("=")[1]);
-			String[] lines = new String[size];
-			if(components != null)
-			{
-				
-				prices = new double[components.length];
-				for(int i = 0; i < size; i++)
-				{
-					lines[i] = file.readLine();
-				}
-				
-				for(int i = 0; i < components.length; i++)
-				{
-					for(int j = 0; j<lines.length; j++)
-					{
-						String component = lines[j].split(" = ")[0];
-						if(components[i].equals(component))
-						{
-							prices[i] = Double.parseDouble(lines[j].split(" = ")[1]);
-						}
-					}
-				}
-			}
-
-
-		}
-		catch(IOException ex)
-		{
-			ex.printStackTrace();
-		}
-		try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return prices;	
 	}
 }

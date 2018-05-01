@@ -60,7 +60,7 @@ public class Display_Graph extends JPanel{
 	    g2.setFont(font);
 		try 
 		{
-			bgImage = ImageIO.read(new File("hero11.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/hero11.jpg"));
 		}
 		catch (IOException e)
 		{e.printStackTrace();}

@@ -28,7 +28,7 @@ public class Prices_Histogram_Panel extends JPanel{
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}

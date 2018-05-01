@@ -7,7 +7,7 @@ import graph.doublyLinkedList.NodeIterator;
 
 public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 	
-	// Vertex attributes
+
 	private E data;
 	private DoublyLinkedList<Edge<E,T>> inEdges,outEdges;
 	private DLLNode<Vertex<E,T>> position;
@@ -15,24 +15,16 @@ public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 	private int color;
 	private final int id;
 	
-	// Dijkstra options
 	private Vertex<E,T> dijkstra_parent;
 	private double dijkstra_value;
 	private Edge<E,T> dijkstra_edge;
 	
-	// Status
 	public static final int UNVISITED = 0;
 	public static final int VISITING = 1;
 	public static final int VISITED = 2;
 	
-	// Colors
 	protected static final int UNCOLORED = 0;
-	
-	/**
-	 * Constructor
-	 * @param data
-	 * @param id
-	 */
+
 	protected Vertex(E data, int id) {
 		this.data = data;
 		this.status = UNVISITED;
@@ -42,18 +34,10 @@ public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 		outEdges = new DoublyLinkedList<Edge<E,T>>();
 	}
 	
-	/**
-	 * Constructor
-	 * @param data
-	 */
 	protected Vertex(E data) {
 		this(data,0);
 	}
-	
-	/**
-	 * Get neighbors of a node
-	 * @return array of the neighbor vertices
-	 */
+
 	public Vertex<E,T>[] getNeighbors(){
 		Vertex<E,T>[] neighbors = new Vertex[outEdges.size()];
 		NodeIterator<Edge<E,T>> iter = outEdges.iterator();
@@ -65,10 +49,7 @@ public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 		}
 		return neighbors;
 	}
-	/**
-	 * Get neighbors of a node
-	 * @return array of the neighbor vertices
-	 */
+
 	public Vertex<E,T>[] getNeighbors_in(){
 		Vertex<E,T>[] neighbors = new Vertex[inEdges.size()];
 		NodeIterator<Edge<E,T>> iter = inEdges.iterator();
@@ -80,52 +61,30 @@ public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 		}
 		return neighbors;
 	}
-	/**
-	 * Get outEdges/incident edges
-	 * @return iterator on the out edges
-	 */
+
 	public NodeIterator<Edge<E,T>> getOutEdges(){
 		return outEdges.iterator();
 	}
 	
-	/**
-	 * Get inEdges edges
-	 * @return iterator on the in edges
-	 */
+
 	public NodeIterator<Edge<E,T>> getInEdges(){
 		return inEdges.iterator();
 	}
-	
-	/**
-	 * Store all out edges
-	 * @param e
-	 * @return node where the edge has been stored
-	 */
+
 	protected DLLNode<Edge<E,T>> addOutEdge(Edge<E,T> e){
 		return outEdges.add(e);
 	}
 	
-	/**
-	 * Store all in edges
-	 * @param e
-	 * @return node where the edge has been stored
-	 */
+
 	protected DLLNode<Edge<E,T>> addInEdge(Edge<E,T> e){
 		return inEdges.add(e);
 	}
 	
-	/**
-	 * Remove an in edge
-	 * @param node
-	 */
+
 	protected void removeInEdge(DLLNode <Edge<E,T>> node){
 		inEdges.remove(node);
 	}
-	
-	/**
-	 * Remove an out edge
-	 * @param node
-	 */
+
 	protected void removeOutEdge(DLLNode <Edge<E,T>> node){
 		outEdges.remove(node);
 	}

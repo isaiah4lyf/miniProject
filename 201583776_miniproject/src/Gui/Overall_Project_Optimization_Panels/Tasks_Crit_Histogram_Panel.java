@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import File_IO.Files_Management;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -26,12 +27,14 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 	private int iWidth2;
 	private int iHeight2;
 	private String[] files;
+	private Files_Management files_man;
 	/**
 	 * Components Histogram
 	 */
 	public Tasks_Crit_Histogram_Panel(String[] files)
 	{
 		this.files = files;
+		files_man = new Files_Management();
 	}
 	
     private final int ARR_SIZE = 6;
@@ -59,7 +62,7 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 	    g2.setFont(font);
 		try 
 		{
-			bgImage = ImageIO.read(new File("hero11.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/hero11.jpg"));
 		}
 		catch (IOException e)
 		{e.printStackTrace();}
@@ -71,7 +74,7 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 		try {
 	
 
-			dur = read_Crit_Path_Duration(files[5]);
+			dur = files_man.read_Crit_Path_Duration(files[5]);
 			int y = 80;
 			int x = 50;
 			int count = 1;
@@ -79,7 +82,7 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 			g2.setColor(Color.BLACK);
 			g2.drawString("Optimized Critical Path",this.getWidth()/2 - 100,20);
 			g2.drawLine(this.getWidth()/2 - 100, 20, this.getWidth()/2 + 70, 20);
-			String[] vert = read_Crit_Path_Tasks(files[5]);
+			String[] vert = files_man.read_Crit_Path_Tasks(files[5]);
 			if(vert != null)
 			{
 				
@@ -117,73 +120,4 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 			e.printStackTrace();
 		}
 	}	
-	
-	
-	public String[] read_Crit_Path_Tasks(String FileName)
-	{
-		BufferedReader file = null;
-		String[] cal = null;
-		try 
-		{
-			file = new BufferedReader(new FileReader(FileName));
-			if(file.readLine() != null)
-			{
-				
-				String[] lineTokens =  (file.readLine()).split(",");
-				cal = new String[lineTokens.length];
-				for(int i = 0; i < lineTokens.length; i++)
-				{
-					String[] task = lineTokens[i].split(" = ");
-					cal[i] = task[0];
-				}
-			}
-
-
-		}
-		catch(IOException ex)
-		{
-			ex.printStackTrace();
-		}
-		try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return cal;	
-	}
-	
-	public int[] read_Crit_Path_Duration(String FileName)
-	{
-		BufferedReader file = null;
-		int[] cal = null;
-		try 
-		{
-			file = new BufferedReader(new FileReader(FileName));
-			if(file.readLine() != null)
-			{
-				String[] lineTokens =  (file.readLine()).split(",");
-				cal = new int[lineTokens.length];
-				for(int i = 0; i < lineTokens.length; i++)
-				{
-					String[] task = lineTokens[i].split(" = ");
-					cal[i] = Integer.parseInt(task[1]);
-				}
-
-			}
-	
-
-		}
-		catch(IOException ex)
-		{
-			ex.printStackTrace();
-		}
-		try {
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return cal;	
-	}
 }

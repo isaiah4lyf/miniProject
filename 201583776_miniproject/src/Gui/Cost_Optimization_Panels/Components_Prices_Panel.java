@@ -141,7 +141,7 @@ public class Components_Prices_Panel extends JPanel{
         		Image icon = null;
         		try 
         		{
-        			icon = ImageIO.read(new File("pj.png"));}
+        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
         		catch (IOException ex)
         		{ex.printStackTrace();}
         		frame.setIconImage(icon);
@@ -190,7 +190,7 @@ public class Components_Prices_Panel extends JPanel{
 		{
 			try 
 			{
-				bgImage2 = ImageIO.read(new File("df.jpg"));
+				bgImage2 = ImageIO.read(new File("Files/Images/df.jpg"));
 			}
 			catch (IOException e)
 			{e.printStackTrace();}
@@ -214,7 +214,7 @@ public class Components_Prices_Panel extends JPanel{
 		{
 			try 
 			{
-				bgImage = ImageIO.read(new File("df.jpg"));
+				bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 			    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 			    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 			}
