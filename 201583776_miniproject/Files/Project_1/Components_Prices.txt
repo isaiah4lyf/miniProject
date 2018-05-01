@@ -1,4 +1,0 @@
-size=3
-Task A = 90
-Task B = 68
-Server = 20

@@ -47,6 +47,7 @@ public class Project_Optimization_Panel extends JPanel{
 	private Graph<String, String> graph;
 	public Project_Optimization_Panel(String[] files,TabbedPane pane)
 	{
+		this.files = files;
 		files_man = new Files_Management();
 		
 		Object[] tasks = null;
@@ -77,7 +78,7 @@ public class Project_Optimization_Panel extends JPanel{
 
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	add_Optimized_Info(available_Funds.getText(),jcb.getSelectedIndex(),jcb2.getSelectedIndex());
+	            	add_Optimized_Info(available_Funds.getText(),jcb.getSelectedIndex(),jcb2.getSelectedIndex(),files[4],files[0],files[5]);
 	            	pane.revalidate();
 	            	pane.repaint();	
 	            	
@@ -87,7 +88,7 @@ public class Project_Optimization_Panel extends JPanel{
 		this.add(new label(""));
 		this.add(new tableName("Project Optimization"));
 		this.add(new label(""));
-		this.add(new label("Select a Project Start and Enter the available funds"));
+		this.add(new label("Select a Project Start Task and Enter the available funds"));
 		this.add(jcb);
 		this.add(available_Funds);
 		this.add(butt);
@@ -95,7 +96,7 @@ public class Project_Optimization_Panel extends JPanel{
 		
 	}
 	
-	public void add_Optimized_Info(String input,int startTaskIndex,int endTaskIndex)
+	public void add_Optimized_Info(String input,int startTaskIndex,int endTaskIndex,String FileName1,String FileName2,String FileName3)
 	{
 	   
 		try 
@@ -114,42 +115,31 @@ public class Project_Optimization_Panel extends JPanel{
 			for(int i = 0; i < vert.length - 1; i++)
 			{
 			    Edge<String,String>[] currentPah = graph.dijkstra(vert[startTaskIndex],vert[i]);
-			    DoublyLinkedList<String> all_Components = return_Components_In_Crit_Path(currentPah);
+			    DoublyLinkedList<String> all_Components = return_Components_In_Crit_Path(currentPah,FileName1);
 
 			    if(all_Components != null)
 			    {
-		    		NodeIterator<String> iterator = all_Components.iterator();
-		    		String current = all_Components.first().getData();
-		    		boolean found = false;
-		    		while(iterator.hasNext())
-		    		{
-		    			String next = iterator.next();
-		    		    if (current == next && !found) {
-		    		        found = true;
-		    		        DLLNode<String> node = all_Components.search(next);
-		    		        all_Components.remove(node);
-		    		    } else if (current != next) {
-		    		        current = next;
-		    		        found = false;
-		    		    }
-		    		}	
+				    if(all_Components.size() != 0)
+				    {
+			    		NodeIterator<String> iterator = all_Components.iterator();
+			    		String current = all_Components.first().getData();
+			    		boolean found = false;
+			    		while(iterator.hasNext())
+			    		{
+			    			String next = iterator.next();
+			    		    if (current == next && !found) {
+			    		        found = true;
+			    		        DLLNode<String> node = all_Components.search(next);
+			    		        all_Components.remove(node);
+			    		    } else if (current != next) {
+			    		        current = next;
+			    		        found = false;
+			    		    }
+			    		}	
+				    }
 			    }
 			    current_Tasks_Count = currentPah.length;
-			    current_Cost = crit_Path_Cost(all_Components);
-			    
-			    for(int j = 0; j< currentPah.length; j++)
-			    {
-			    	
-			    	if(currentPah[j].getV1() == vert[startTaskIndex])
-			    	{
-			    		System.out.println("");
-			    		System.out.println("Cost = " +crit_Path_Cost(all_Components));
-			    		System.out.print(all_Components.toString());
-
-			    	}
-			    	System.out.println(currentPah[j]);
-			    }
-			    
+			    current_Cost = crit_Path_Cost(all_Components,FileName2);
 	    		if(current_Cost > optimized_Max_Cost && current_Cost < maxCost && current_Tasks_Count >= maxCount)
 	    		{
 	    			
@@ -161,14 +151,7 @@ public class Project_Optimization_Panel extends JPanel{
 	    		}
 			    
 			}
-			
-			System.out.println(maxCount);
-			System.out.println(optimized_Max_Cost);
-			System.out.println(optimized_Index);
-			System.out.println(components_In_Crit.toString());
-			System.out.println(tasks);
-			
-			
+
 			NodeIterator<String> com_Iter = components_In_Crit.iterator();
 			String comp_In_Crit = ""; 
 			while(com_Iter.hasNext())
@@ -184,7 +167,7 @@ public class Project_Optimization_Panel extends JPanel{
 			}
 			tasks_In_Crit += finalEdge[finalEdge.length - 1].getV2().getData() + " = 0";
 			PrintWriter write3;
-			write3 = new PrintWriter(new File("Files/Project_Test/Project_Optimization.txt"));
+			write3 = new PrintWriter(new File(FileName3));
 		    write3.println(comp_In_Crit);
 		    write3.println(tasks_In_Crit);
 		    write3.println("Total Cost = " + optimized_Max_Cost +","+"Total Duration = "+totalDuration);
@@ -197,7 +180,7 @@ public class Project_Optimization_Panel extends JPanel{
 
 	}
 	
-	public double crit_Path_Cost(DoublyLinkedList<String> all_Components)
+	public double crit_Path_Cost(DoublyLinkedList<String> all_Components,String fileName)
 	{
 		if(all_Components != null)
 		{
@@ -205,7 +188,7 @@ public class Project_Optimization_Panel extends JPanel{
 			double cost = 0;
 			try 
 			{
-				file = new BufferedReader(new FileReader("Files/Project_Test/Components_Prices.txt"));
+				file = new BufferedReader(new FileReader(fileName));
 			    int size = Integer.parseInt((file.readLine()).split("=")[1]);
 			    String[] lines = new String[size];
 			    for(int i = 0; i < size; i ++)
@@ -242,15 +225,15 @@ public class Project_Optimization_Panel extends JPanel{
 		return 0;
 	}
 	
-	public DoublyLinkedList<String> return_Components_In_Crit_Path(Edge<String,String>[] crit_Path)
+	public DoublyLinkedList<String> return_Components_In_Crit_Path(Edge<String,String>[] crit_Path,String FileName)
 	{
 		DoublyLinkedList<String> all_Components = new DoublyLinkedList<String>();
 		if(crit_Path.length != 0)
 		{
 			for(int i = 0; i < crit_Path.length; i++)
 			{
-				String[] components_for_v1 = files_man.ReturnComponentsForTask("Files/Project_Test/Tasks_Components.txt",crit_Path[i].getV1().getData());
-				String[] components_for_v2 = files_man.ReturnComponentsForTask("Files/Project_Test/Tasks_Components.txt",crit_Path[i].getV2().getData());
+				String[] components_for_v1 = files_man.ReturnComponentsForTask(FileName,crit_Path[i].getV1().getData());
+				String[] components_for_v2 = files_man.ReturnComponentsForTask(FileName,crit_Path[i].getV2().getData());
 				if(components_for_v1 != null)
 				{
 					for(int j = 0; j < components_for_v1.length - 1; j++)
@@ -259,7 +242,6 @@ public class Project_Optimization_Panel extends JPanel{
 						if(all_Components.search(components_for_v1[j+1]) == null)
 						{
 							all_Components.add(components_for_v1[j+1]);
-							//System.out.println(components_for_v1[j+1]);
 						}
 					
 					}	

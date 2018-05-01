@@ -71,7 +71,11 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		}
 		
 		JComboBox jcb = new JComboBox(tasks);
-		jcb.setSelectedIndex(SelectedTaskIndex);
+		if(tasks.length != 0)
+		{
+			jcb.setSelectedIndex(SelectedTaskIndex);
+		}
+
 		JComboBox jcb2 = new JComboBox(components);
 		JComboBox jcb3 = new JComboBox(components);
 		
@@ -145,14 +149,17 @@ public class Manage_Tasks_Components_Frame extends JFrame{
 		mainPanel.add(jcb3);
 		mainPanel.add(deleteComponent);
 		
-		
-		ComponentsPanel compPanel = new ComponentsPanel(jcb.getSelectedItem().toString(),files[4]);
-		compPanel.setPreferredSize(new Dimension( 500,550));
-		JScrollPane compScroll = new JScrollPane(compPanel);
-		compScroll.setAutoscrolls(true);
-		compScroll.setPreferredSize(new Dimension( 800,300));
-		add(compScroll);
-		add(mainPanel);
+		if(tasks.length != 0)
+		{
+			ComponentsPanel compPanel = new ComponentsPanel(jcb.getSelectedItem().toString(),files[4]);
+			compPanel.setPreferredSize(new Dimension( 500,550));
+			JScrollPane compScroll = new JScrollPane(compPanel);
+			compScroll.setAutoscrolls(true);
+			compScroll.setPreferredSize(new Dimension( 800,300));
+			add(compScroll);
+			add(mainPanel);	
+		}
+
 		
 	}
 	

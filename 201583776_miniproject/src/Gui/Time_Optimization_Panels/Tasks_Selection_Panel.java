@@ -60,8 +60,12 @@ public class Tasks_Selection_Panel extends JPanel{
 		
 		JComboBox jcb = new JComboBox(items);
 		JComboBox jcb2 = new JComboBox(items);
-		jcb.setSelectedIndex(Select_T_1);
-		jcb2.setSelectedIndex(Select_T_2);
+		if(items.length != 0)
+		{
+			jcb.setSelectedIndex(Select_T_1);
+			jcb2.setSelectedIndex(Select_T_2);
+		}
+
 	    Font font = new Font("Serif", Font.ITALIC, 18);
 	    jcb.setFont(font);
 	    jcb2.setFont(font);

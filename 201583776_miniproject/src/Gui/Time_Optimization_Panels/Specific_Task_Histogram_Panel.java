@@ -38,7 +38,11 @@ public class Specific_Task_Histogram_Panel extends JPanel{
 		try {
 			graph = files_man.graph_Reader(files[3], true);
 			vert = graph.vertices_array();
-			edg = graph.dijkstra(vert[Select_T_1],vert[Select_T_2]);
+			if(vert.length != 0)
+			{
+				edg = graph.dijkstra(vert[Select_T_1],vert[Select_T_2]);
+			}
+			
 			
 			
 		} catch (FileNotFoundException e) {
@@ -62,45 +66,48 @@ public class Specific_Task_Histogram_Panel extends JPanel{
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 
 		g.setColor(Color.CYAN);
-		g.drawString("Criticat path between '"+vert[Select_T_1].getData()+"' and '"+vert[Select_T_2].getData()+"'",0 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
-		int individualWidth = (int)(((this.getWidth() - 40)/24) * 0.90);
-		
-		if(edg.length != 0)
+		if(vert.length != 0)
 		{
-			int interval = (this.getWidth() - 40)/(edg.length);
+			g.drawString("Criticat path between '"+vert[Select_T_1].getData()+"' and '"+vert[Select_T_2].getData()+"'",0 ,10);
+			int individualWidth = (int)(((this.getWidth() - 40)/24) * 0.90);
 			
-			int initialPos = 10;
-			double totalCost = 0;
-		  
-
-		    for(int i=0;i<edg.length;i++){
-		       
-		    	totalCost += edg[i].getWeight();
-		        
-
-		    }
-			  double maxPrice = totalCost;
-			for(int i = 0; i< edg.length; i++ )
+			if(edg.length != 0)
 			{
-				int barHeight = (int)(((double)edg[i].getWeight() / (double)maxPrice) *(this.getHeight() - 65));
+				int interval = (this.getWidth() - 40)/(edg.length);
 				
-				g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
-				g.drawString(edg[i].getV1().getData(), initialPos -10, this.getHeight() - 30);
-				String priceString = String.valueOf((int)edg[i].getWeight());
-				g.drawString(priceString+" days", initialPos - 10 , this.getHeight() - 45 - barHeight);
-				initialPos += interval;
-			}
-			
-			int barHeight = (int)(((double)totalCost / (double)totalCost) *(this.getHeight() - 65));
-			g.setColor(Color.RED);
-			g.fill3DRect(initialPos - 40, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
-			g.drawString(edg[edg.length - 1].getV2().getData(), initialPos - 45, this.getHeight() - 30);
-			String priceString = String.valueOf((int)totalCost);
-			g.drawString(priceString+" days", initialPos -50, this.getHeight() - 45 - barHeight);
+				int initialPos = 10;
+				double totalCost = 0;
+			  
 
+			    for(int i=0;i<edg.length;i++){
+			       
+			    	totalCost += edg[i].getWeight();
+			        
+
+			    }
+				  double maxPrice = totalCost;
+				for(int i = 0; i< edg.length; i++ )
+				{
+					int barHeight = (int)(((double)edg[i].getWeight() / (double)maxPrice) *(this.getHeight() - 65));
+					
+					g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
+					g.drawString(edg[i].getV1().getData(), initialPos -10, this.getHeight() - 30);
+					String priceString = String.valueOf((int)edg[i].getWeight());
+					g.drawString(priceString+" days", initialPos - 10 , this.getHeight() - 45 - barHeight);
+					initialPos += interval;
+				}
+				
+				int barHeight = (int)(((double)totalCost / (double)totalCost) *(this.getHeight() - 65));
+				g.setColor(Color.RED);
+				g.fill3DRect(initialPos - 40, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
+				g.drawString(edg[edg.length - 1].getV2().getData(), initialPos - 45, this.getHeight() - 30);
+				String priceString = String.valueOf((int)totalCost);
+				g.drawString(priceString+" days", initialPos -50, this.getHeight() - 45 - barHeight);
+
+			}
+	
 		}
 
 	}
-
 }

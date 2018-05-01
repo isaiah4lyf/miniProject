@@ -1,5 +1,7 @@
 package Gui.Overall_Project_Optimization_Panels;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
@@ -17,6 +19,10 @@ public class Calculations_Panel extends JPanel{
 	private int iHeight2;
 	private String[] files;
 	
+	public Calculations_Panel(String[] files)
+	{
+		this.files = files;
+	}
 	
 	protected void paintComponent(Graphics g)
 	{
@@ -30,23 +36,29 @@ public class Calculations_Panel extends JPanel{
 		{e.printStackTrace();}
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
-		String[] cal = read_Calculations();
+	    Font font = new Font("Serif", Font.BOLD, 18);
+	    g.setFont(font);
+		String[] cal = read_Calculations(files[5]);
 		if(cal != null)
 		{
-			g.drawString(cal[0], 10, 10);
-			g.drawString(cal[1], 40, 40);
-			g.drawString(cal[2], 80, 80);
-			g.drawString(cal[3], 100, 100);
+			g.setColor(Color.BLUE);
+			g.drawString("Optimized Critical Path Total Cost and Duration", this.getWidth()/2 -200, 30);
+			g.drawLine(this.getWidth()/2 -200, 30, this.getWidth()/2 + 185, 30);
+			g.drawString(cal[0] + ":", this.getWidth()/2 -100, 80);
+			g.drawString(cal[2] + ":", this.getWidth()/2 -100, 130);
+			g.setColor(Color.RED);
+			g.drawString("R "+cal[1], this.getWidth()/2 + 50, 80);
+			g.drawString(cal[3] + " days", this.getWidth()/2 + 50, 130);
 		}
 	}
 
-	public String[] read_Calculations()
+	public String[] read_Calculations(String fileName)
 	{
 		BufferedReader file = null;
 		String[] cal = null;
 		try 
 		{
-			file = new BufferedReader(new FileReader("Files/Project_Test/Project_Optimization.txt"));
+			file = new BufferedReader(new FileReader(fileName));
 			file.readLine();
 			file.readLine();
 			String[] lineTokens =  (file.readLine()).split(",");

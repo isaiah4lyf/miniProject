@@ -118,7 +118,11 @@ public class Components_Prices_Panel extends JPanel{
 		//Checkout task costs
 		JComboBox jcb2 = new JComboBox(items2);
 	    jcb2.setFont(font);
-		jcb2.setSelectedIndex(selected_Task);
+	    if(items2.length != 0)
+	    {
+	    	jcb2.setSelectedIndex(selected_Task);
+	    }
+		
 		JLabel label2 = new label("Check Specific Task Cost");
 		JButton check_cost = new JButton("Change Task");
 		check_cost.addActionListener(new ActionListener() {
@@ -159,7 +163,11 @@ public class Components_Prices_Panel extends JPanel{
 		add(label2);
 		add(jcb2);
 		add(check_cost);
-		this.Selected_Task = jcb2.getSelectedItem().toString();
+		if(items2.length != 0)
+		{
+			this.Selected_Task = jcb2.getSelectedItem().toString();
+		}
+		
 	}
 	
 

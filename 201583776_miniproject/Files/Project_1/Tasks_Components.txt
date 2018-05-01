@@ -1,8 +1,0 @@
-7
-Something = 3,SOME,SOME2,SOME3
-Something2 = 2,SOME3,SOME4
-Task A = 3,Task A,Task F,Task B
-Task B = 1,Task H
-Task F = 3,Task B,Task C,Task A
-Task H = 3,Task A,Task B,Server
-Task J = 1,Task A

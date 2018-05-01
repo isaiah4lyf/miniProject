@@ -34,12 +34,13 @@ public class Files_Management {
 			try {
 				file = new BufferedReader(new FileReader("Files/Last_Project.txt"));
 			    String project_Name =  file.readLine();
-			    files = new String[5];
+			    files = new String[6];
 			    files[0] = "Files/" + project_Name + "/Components_Prices.txt";
 			    files[1] = "Files/" + project_Name + "/Components.txt";
 			    files[2] = "Files/" + project_Name + "/Required_Components_Prices.txt";
 			    files[3] = "Files/" + project_Name + "/Tasks.txt";
 			    files[4] = "Files/" + project_Name + "/Tasks_Components.txt";
+			    files[5] = "Files/" + project_Name + "/Project_Optimization.txt";
 			    
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -421,12 +422,14 @@ public class Files_Management {
 
 		 String[] files = null;
 			try {
-			    files = new String[5];
+			    files = new String[6];
 			    files[0] = "Files/" + Project_Name + "/Components_Prices.txt";
 			    files[1] = "Files/" + Project_Name + "/Components.txt";
 			    files[2] = "Files/" + Project_Name + "/Required_Components_Prices.txt";
 			    files[3] = "Files/" + Project_Name + "/Tasks.txt";
 			    files[4] = "Files/" + Project_Name + "/Tasks_Components.txt";
+			    files[5] = "Files/" + Project_Name + "/Project_Optimization.txt";
+			    
 			    PrintWriter write6 = new PrintWriter(new File("Files/Last_Project.txt"));
 			    write6.println(Project_Name);
 			    write6.close();
@@ -480,7 +483,7 @@ public class Files_Management {
 				    write0.close();
 				    
 					new File("Files/"+project_Name).mkdirs();
-				    files = new String[5];
+				    files = new String[6];
 				    files[0] = "Files/" + project_Name + "/Components_Prices.txt";
 				    new File("Files/" + project_Name + "/Components_Prices.txt").createNewFile();
 				    PrintWriter write1 = new PrintWriter(new File(files[0]));
@@ -514,6 +517,9 @@ public class Files_Management {
 				    PrintWriter write5 = new PrintWriter(new File(files[4]));
 				    write5.println("0");
 				    write5.close();
+				    
+				    files[5] = "Files/" + project_Name + "/Project_Optimization.txt";
+				    new File("Files/" + project_Name + "/Project_Optimization.txt").createNewFile();
 				    
 				    PrintWriter write6 = new PrintWriter(new File("Files/Last_Project.txt"));
 				    write6.println(project_Name);

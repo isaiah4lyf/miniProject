@@ -32,7 +32,6 @@ import Gui.Cost_Optimization_Panels.Optimization_Histo_Pan;
 import Gui.Cost_Optimization_Panels.Prices_Histogram_Panel;
 import Gui.Overall_Project_Optimization_Panels.Calculations_Panel;
 import Gui.Overall_Project_Optimization_Panels.Components_Histogram_Panel;
-import Gui.Overall_Project_Optimization_Panels.Optimization_Graph_Panel;
 import Gui.Overall_Project_Optimization_Panels.Project_Optimization_Panel;
 import Gui.Overall_Project_Optimization_Panels.Tasks_Crit_Histogram_Panel;
 import Gui.Tasks_Management_Panels.Tasks_Dependencies;
@@ -261,7 +260,7 @@ public class Jframe extends JFrame {
 		/**
 		 * Cost Management tab
 		 */
-		Optimization_Graph_Panel optP = new Optimization_Graph_Panel();
+
 		
 		Prices_Histogram_Panel price_Histo = new Prices_Histogram_Panel(files);
 		JScrollPane price_Histoscroll = new JScrollPane(price_Histo);
@@ -337,18 +336,19 @@ public class Jframe extends JFrame {
 		 */
 		JPanel panel6 = new JPanel();
 		panel6.setLayout(new GridLayout(3,1));
-		Components_Histogram_Panel comp_Pan = new Components_Histogram_Panel();
-		Tasks_Crit_Histogram_Panel tasks_Pan = new Tasks_Crit_Histogram_Panel();
+		Components_Histogram_Panel comp_Pan = new Components_Histogram_Panel(files);
+		Tasks_Crit_Histogram_Panel tasks_Pan = new Tasks_Crit_Histogram_Panel(files);
 		
 		JPanel panel7 = new JPanel();
 		panel7.setLayout(new GridLayout(1,2));
 		Project_Optimization_Panel project_Pa = new Project_Optimization_Panel(files,pane);
-		Calculations_Panel calc_Pan = new Calculations_Panel();
+		Calculations_Panel calc_Pan = new Calculations_Panel(files);
 		panel7.add(calc_Pan);
 		panel7.add(project_Pa);
 		
-		panel6.add(comp_Pan);
+		
 		panel6.add(tasks_Pan);
+		panel6.add(comp_Pan);
 		panel6.add(panel7);
 		pane.addTab("Overall Project Optimization", null, panel6, "");
 		
