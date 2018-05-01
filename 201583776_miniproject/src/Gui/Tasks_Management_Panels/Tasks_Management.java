@@ -189,14 +189,6 @@ public class Tasks_Management extends JPanel{
         		frame.setResizable(false);
         		frame.setLocation(550,200);
         		frame.setVisible(true);
-        		Image icon = null;
-        		try 
-        		{
-        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
-        		catch (IOException ex)
-        		{ex.printStackTrace();}
-        		
-        		frame.setIconImage(icon);
             }
         });
 		add(manageComponents);

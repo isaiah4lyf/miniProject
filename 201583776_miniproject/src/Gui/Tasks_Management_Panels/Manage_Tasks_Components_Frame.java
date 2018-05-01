@@ -89,15 +89,7 @@ public class Manage_Tasks_Components_Frame extends JFrame{
         		frame.setSize(350,450);
         		frame.setResizable(false);
         		frame.setLocation(550,200);
-
-        		Image icon = null;
-        		try 
-        		{
-        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
-        		catch (IOException ex)
-        		{ex.printStackTrace();}
         		frame.setVisible(true);
-        		frame.setIconImage(icon);
             	fram.setVisible(false);
         		fram.dispose();
         		

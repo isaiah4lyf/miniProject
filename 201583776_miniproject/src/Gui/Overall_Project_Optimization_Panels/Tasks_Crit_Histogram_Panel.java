@@ -62,7 +62,7 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 	    g2.setFont(font);
 		try 
 		{
-			bgImage = ImageIO.read(new File("Files/Images/hero11.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
 		}
 		catch (IOException e)
 		{e.printStackTrace();}

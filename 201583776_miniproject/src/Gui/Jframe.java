@@ -82,15 +82,9 @@ public class Jframe extends JFrame {
                     		frame.setLocation(-5,0);
                     		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     		frame.pack();
-                    		Image icon = null;
-                    		try 
-                    		{
-                    			icon = ImageIO.read(new File("Files/Images/pj.png"));}
-                    		catch (IOException ex)
-                    		{ex.printStackTrace();}
-                    		frame.setIconImage(icon);
+                    		
                     		frame.setVisible(true);
-                    		frame.setIconImage(icon);
+                    		
                         	fram.setVisible(false);
                     		fram.dispose();
                 		}
@@ -131,15 +125,7 @@ public class Jframe extends JFrame {
             		frame.setLocation(-5,0);
             		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             		frame.pack();
-            		Image icon = null;
-            		try 
-            		{
-            			icon = ImageIO.read(new File("Files/Images/pj.png"));}
-            		catch (IOException ex)
-            		{ex.printStackTrace();}
-            		frame.setIconImage(icon);
             		frame.setVisible(true);
-            		frame.setIconImage(icon);
                 	fram.setVisible(false);
             		fram.dispose();
 
@@ -169,15 +155,7 @@ public class Jframe extends JFrame {
         		frame.setLocation(-5,0);
         		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         		frame.pack();
-        		Image icon = null;
-        		try 
-        		{
-        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
-        		catch (IOException ex)
-        		{ex.printStackTrace();}
-        		frame.setIconImage(icon);
         		frame.setVisible(true);
-        		frame.setIconImage(icon);
             	fram.setVisible(false);
         		fram.dispose();
 

@@ -88,13 +88,9 @@ public class Tasks_Selection_Panel extends JPanel{
         		frame.setVisible(true);
         		Image icon = null;
 
-        		try 
-        		{
-        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
-        		catch (IOException ex)
-        		{ex.printStackTrace();}
         		
-        		frame.setIconImage(icon);
+        		
+        		
             	fram.setVisible(false);
         		fram.dispose();
 

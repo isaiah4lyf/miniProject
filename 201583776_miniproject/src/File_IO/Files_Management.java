@@ -1,5 +1,7 @@
 package File_IO;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -1126,22 +1128,31 @@ public class Files_Management {
 			}
 			String tasks_In_Crit = "";
 			int totalDuration = 0;
-			for(int i = 0; i < finalEdge.length; i++)
+			if(finalEdge != null)
 			{
-				tasks_In_Crit += finalEdge[i].getV1().getData() + " = " +  (int)finalEdge[i].getWeight() + ",";
-				totalDuration += (int)finalEdge[i].getWeight();
+				for(int i = 0; i < finalEdge.length; i++)
+				{
+					tasks_In_Crit += finalEdge[i].getV1().getData() + " = " +  (int)finalEdge[i].getWeight() + ",";
+					totalDuration += (int)finalEdge[i].getWeight();
+				}
+				tasks_In_Crit += finalEdge[finalEdge.length - 1].getV2().getData() + " = 0";
+				PrintWriter write3;
+				write3 = new PrintWriter(new File(FileName3));
+			    write3.println(comp_In_Crit);
+			    write3.println(tasks_In_Crit);
+			    write3.println("Total Cost = " + optimized_Max_Cost +","+"Total Duration = "+totalDuration);
+			    write3.close();
 			}
-			tasks_In_Crit += finalEdge[finalEdge.length - 1].getV2().getData() + " = 0";
-			PrintWriter write3;
-			write3 = new PrintWriter(new File(FileName3));
-		    write3.println(comp_In_Crit);
-		    write3.println(tasks_In_Crit);
-		    write3.println("Total Cost = " + optimized_Max_Cost +","+"Total Duration = "+totalDuration);
-		    write3.close();
+			else
+			{
+				showMessageDialog(null, "No Critical Path That cost less than 'R "+input+"' was found! \n\n\n NB: Try Changing the start task or increasing the project funds", "Critical Path Not found!", 1);
+			}
+
 		    
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			showMessageDialog(null, "Critical Path Computation Error! \n\n\n NB: Try Changing the start task or Increasing the project funds", "Critical Path Not found!", 1);
+
 		}
 
 	}

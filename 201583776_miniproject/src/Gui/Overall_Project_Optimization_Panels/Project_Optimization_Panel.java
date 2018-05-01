@@ -78,9 +78,29 @@ public class Project_Optimization_Panel extends JPanel{
 
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	files_man.add_Optimized_Info(available_Funds.getText(),jcb.getSelectedIndex(),jcb2.getSelectedIndex(),files[4],files[0],files[5],graph,vert);
-	            	pane.revalidate();
-	            	pane.repaint();	
+	            	String input = available_Funds.getText();
+	            	if(available_Funds.getText() != "")
+	            	{
+	            		try
+	            		{
+	            			double funds = Double.parseDouble(input);
+			            	files_man.add_Optimized_Info(available_Funds.getText(),jcb.getSelectedIndex(),jcb2.getSelectedIndex(),files[4],files[0],files[5],graph,vert);
+			            	pane.revalidate();
+			            	pane.repaint();	
+	            			
+	            		}
+	            		catch(Exception ex)
+	            		{
+	            			showMessageDialog(null, "Available funds should be a number!", "Invalid input format!", 0);
+
+	            		}	            		
+	            	}
+	            	else
+	            	{
+	            		showMessageDialog(null, "Please enter the available project funds!", "Input Required!", 0);
+
+	            	}
+
 	            	
 	            }
 	     });

@@ -49,15 +49,6 @@ public class Main{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-		Image icon = null;
-
-		try 
-		{
-			icon = ImageIO.read(new File("Files/Images/pj.png"));}
-		catch (IOException e)
-		{e.printStackTrace();}
-		
-		frame.setIconImage(icon);
 
 		
 		
