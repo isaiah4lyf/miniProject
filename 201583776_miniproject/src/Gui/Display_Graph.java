@@ -37,7 +37,8 @@ public class Display_Graph extends JPanel{
 		this.files_man = new Files_Management();
 	}
     private final int ARR_SIZE = 6;
-    void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
+    
+    void draw_Arrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
@@ -54,7 +55,7 @@ public class Display_Graph extends JPanel{
 	{
 	    Graphics2D g2 = (Graphics2D) g;
 	    Graphics2D g3 = (Graphics2D) g;
-	    Font font1 = new Font("Serif", Font.BOLD, 40);
+	    Font font1 = new Font("Serif", Font.BOLD, 18);
 	    g3.setFont(font1);
 	    Font font = new Font("Serif", Font.ROMAN_BASELINE, 18);
 	    g2.setFont(font);
@@ -67,45 +68,48 @@ public class Display_Graph extends JPanel{
 
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 		Graph<String, String> graph;
-		String[][] storeCoordinates = null;
+		String[][] vertices_coordinates = null;
 		try {
 			graph = files_man.graph_Reader(fileName, true);
-			Vertex<String,String>[] vert = graph.vertices_array();
-			storeCoordinates = new String[vert.length][3];
+			Vertex<String,String>[] vert = graph.return_Vertices_Array();
+			vertices_coordinates = new String[vert.length][3];
 			int y = 80;
 			int x = 50;
 			int count = 1;
 			int rows = 1;
 			g2.setColor(Color.BLACK);
-			for(Vertex<String,String> v : graph.vertices_array())
+			for(Vertex<String,String> v : graph.return_Vertices_Array())
 			{
-				if(count % 6 == 0) 
+				if(count % 4 == 0) 
 				{
 					y += 150;
 					x = rows * 50;
 					rows++;
 				}
-				storeCoordinates[count - 1][0] =  v.getData();
-				storeCoordinates[count - 1][1] =  String.valueOf(x);
-				storeCoordinates[count - 1][2] =  String.valueOf(y);
-				g2.drawString(v.getData(), x, y);
-			    g2.drawOval(x - 10, y - 25, 80, 40);
+				vertices_coordinates[count - 1][0] =  v.getData();
+				vertices_coordinates[count - 1][1] =  String.valueOf(x);
+				vertices_coordinates[count - 1][2] =  String.valueOf(y);
+				g2.drawString(v.getData(), x, y+10);
+			    g2.drawOval(x - 10, y - 25, 140, 60);
 				
 				g.drawLine(x, y, x, y);
-				x += 200;
+				x += 350;
 				count++;
 			}
 			g3.setColor(Color.red);
-			for(Edge<String,String> e : graph.edges_array()){
-				for(int i = 0; i<storeCoordinates.length; i++)
+			for(Edge<String,String> e : graph.return_Edges_Array()){
+				for(int i = 0; i<vertices_coordinates.length; i++)
 				{
-					if(e.getV1().getData() == storeCoordinates[i][0])
+					if(e.getV1().getData() == vertices_coordinates[i][0])
 					{
-						for(int j = 0; j<storeCoordinates.length; j++)
+						for(int j = 0; j<vertices_coordinates.length; j++)
 						{
-							if(e.getV2().getData() == storeCoordinates[j][0])
+							if(e.getV2().getData() == vertices_coordinates[j][0])
 							{
-								drawArrow(g3,Integer.parseInt(storeCoordinates[i][1]) + 70, Integer.parseInt(storeCoordinates[i][2]),Integer.parseInt(storeCoordinates[j][1]) - 10, Integer.parseInt(storeCoordinates[j][2]));
+								
+								draw_Arrow(g3,Integer.parseInt(vertices_coordinates[i][1]) + 130, Integer.parseInt(vertices_coordinates[i][2])+5,Integer.parseInt(vertices_coordinates[j][1]) - 10, Integer.parseInt(vertices_coordinates[j][2]));
+								g2.drawString(String.valueOf((int)e.getWeight()),Integer.parseInt(vertices_coordinates[j][1]) - 40, Integer.parseInt(vertices_coordinates[j][2]));
+
 							}
 						}
 						

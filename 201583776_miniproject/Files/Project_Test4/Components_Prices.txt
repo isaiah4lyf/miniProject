@@ -1,9 +1,0 @@
-size=8
-Comp 1 = 1000
-Comp 2 = 2000
-Comp 3 = 522
-Comp 4 = 150
-Comp 5 = 200
-Comp 6 = 600
-Comp 7 = 1000
-Comp 8 = 1000

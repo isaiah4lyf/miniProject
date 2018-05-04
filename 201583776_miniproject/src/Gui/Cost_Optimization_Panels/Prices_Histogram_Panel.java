@@ -40,7 +40,7 @@ public class Prices_Histogram_Panel extends JPanel{
 		
 		double[] prices_ = Read_Prices(files[0]);
 		String[] components = Return_Priced_Components(files[0]);
-		g.setColor(Color.CYAN);
+		g.setColor(Color.BLUE);
 		g.drawString("Prices of all components",0 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
 		int individualWidth = (int)(((this.getWidth() - 40)/24) * 0.90);
@@ -61,8 +61,9 @@ public class Prices_Histogram_Panel extends JPanel{
 			for(int i = 0; i< prices_.length; i++ )
 			{
 				int barHeight = (int)(((double)prices_[i] / (double)maxPrice) *(this.getHeight() - 65));
-				
+				g.setColor(Color.BLUE);
 				g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
+				g.setColor(Color.BLACK);
 				g.drawString(components[i], initialPos, this.getHeight() - 30);
 				String priceString = String.valueOf(prices_[i]);
 				g.drawString("R "+priceString, initialPos , this.getHeight() - 45 - barHeight);

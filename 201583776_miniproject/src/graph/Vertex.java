@@ -88,131 +88,73 @@ public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 	protected void removeOutEdge(DLLNode <Edge<E,T>> node){
 		outEdges.remove(node);
 	}
-	
-	/**
-	 * Get data stored in the vertex
-	 * @return data
-	 */
+
 	public E getData() {
 		return data;
 	}
-	
-	/**
-	 * Get the node that stores this vertex
-	 * @return node
-	 */
+
 	protected DLLNode<Vertex<E,T>> getPosition() {
 		return position;
 	}
-	
-	/**
-	 * Set the node that stores this vertex
-	 * @param position
-	 */
+
 	protected void setPosition(DLLNode<Vertex<E,T>> position) {
 		this.position = position;
 	}
 
-	/**
-	 * Set the data of this vertex
-	 * @param data
-	 */
+
 	public void setData(E data) {
 		this.data = data;
 	}
 	
-	/**
-	 * Get vertex status
-	 * @return status
-	 */
 	public int getStatus() {
 		return status;
 	}
 
-	/**
-	 * Set vertex status
-	 * @param status
-	 */
 	protected void setStatus(int status) {
 		this.status = status;
 	}
 
-	/**
-	 * Get vertex color
-	 * @return color
-	 */
+
 	public int getColor() {
 		return color;
 	}
 
-	/**
-	 * Set vertex color
-	 * @param color
-	 */
 	protected void setColor(int color) {
 		this.color = color;
 	}
 	
-	/**
-	 * Get vertex parent after calling Dijkstra method
-	 * @return parent of vertex
-	 */
 	public Vertex<E,T> getDijkstra_parent() {
 		return dijkstra_parent;
 	}
 
-	/**
-	 * Set the parent of a vertex when calling the Dijkstra method
-	 * @param dijkstra_parent
-	 */
 	protected void setDijkstra_parent(Vertex<E,T> dijkstra_parent) {
 		this.dijkstra_parent = dijkstra_parent;
 	}
 
-	/**
-	 * Get the accumulated edge weight when arriving to this vertex
-	 * @return accumulated value of a vertex
-	 */
 	public double getDijkstra_value() {
 		return dijkstra_value;
 	}
 
-	/**
-	 * Set the Dijkstra value of a vertex
-	 * @param dijkstra_value
-	 */
+
 	protected void setDijkstra_value(double dijkstra_value) {
 		this.dijkstra_value = dijkstra_value;
 	}
 	
-	/**
-	 * Get the edge that connects this vertex to its parent
-	 * @return edge
-	 */
+
 	public Edge<E,T> getDijkstra_edge() {
 		return dijkstra_edge;
 	}
 
-	/**
-	 * Set the edge that connects this vertex to its parent
-	 * @param dijkstra_edge
-	 */
 	protected void setDijkstra_edge(Edge<E,T> dijkstra_edge) {
 		this.dijkstra_edge = dijkstra_edge;
 	}
 	
-	/**
-	 * Get the vertex unique id
-	 * @return id
-	 */
+
 	public int getID(){
 		return id;
 	}
 	
-	/**
-	 * Compare vertices by Dijkstra value
-	 * @param v
-	 */
+
 	public int compareTo(Vertex<E,T> v) {
 		if(v.getDijkstra_value() == getDijkstra_value())
 			return 0;
@@ -222,9 +164,7 @@ public class Vertex <E,T> implements Comparable<Vertex<E,T>>{
 			return -1;
 	}	
 	
-	/**
-	 * Gives data as String
-	 */
+
 	public String toString(){
 		return String.format("<%s>", data.toString());
 	}

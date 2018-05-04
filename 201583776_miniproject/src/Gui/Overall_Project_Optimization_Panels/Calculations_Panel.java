@@ -40,14 +40,16 @@ public class Calculations_Panel extends JPanel{
 		{e.printStackTrace();}
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
-	    Font font = new Font("Serif", Font.BOLD, 18);
+	    Font font = new Font("Serif", Font.PLAIN, 18);
 	    g.setFont(font);
 		String[] cal = files_man.read_Calculations(files[5]);
+		g.setColor(Color.BLACK);
+		g.drawString("Optimized Critical Path Total Cost and Duration", this.getWidth()/2 -150, 30);
+		g.drawLine(this.getWidth()/2 -150, 30, this.getWidth()/2 + 200, 30);
 		if(cal != null)
 		{
-			g.setColor(Color.BLUE);
-			g.drawString("Optimized Critical Path Total Cost and Duration", this.getWidth()/2 -200, 30);
-			g.drawLine(this.getWidth()/2 -200, 30, this.getWidth()/2 + 185, 30);
+			
+			
 			g.drawString(cal[0] + ":", this.getWidth()/2 -100, 80);
 			g.drawString(cal[2] + ":", this.getWidth()/2 -100, 130);
 			g.setColor(Color.RED);

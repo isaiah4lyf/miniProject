@@ -29,8 +29,6 @@ public class Files_Management {
 	{
 		
 	}
-
-	
 	
 	/**
 	 * Main I/O Methods
@@ -90,8 +88,8 @@ public class Files_Management {
 		    String line;
 
 		    Graph<String, String> graph = graph = graph_Reader(fileName, true);
-		    Vertex<String,String>[] vert = graph.vertices_array();
-		    Edge<String,String>[] edg = graph.edges_array();
+		    Vertex<String,String>[] vert = graph.return_Vertices_Array();
+		    Edge<String,String>[] edg = graph.return_Edges_Array();
 		    String[] vertices = new String[vert.length];
 		    String[] edges = new String[edg.length];
 		    String firstLine = file.readLine();
@@ -151,8 +149,8 @@ public class Files_Management {
 		    String line;
 
 		    Graph<String, String> graph = graph = graph_Reader(fileName, true);
-		    Vertex<String,String>[] vert = graph.vertices_array();
-		    Edge<String,String>[] edg = graph.edges_array();
+		    Vertex<String,String>[] vert = graph.return_Vertices_Array();
+		    Edge<String,String>[] edg = graph.return_Edges_Array();
 		    String[] vertices = new String[vert.length];
 		    String[] edges = new String[edg.length];
 		    String firstLine = file.readLine();
@@ -206,8 +204,8 @@ public class Files_Management {
 		    String line;
 
 		    Graph<String, String> graph = graph = graph_Reader(fileName, true);
-		    Vertex<String,String>[] vert = graph.vertices_array();
-		    Edge<String,String>[] edg = graph.edges_array();
+		    Vertex<String,String>[] vert = graph.return_Vertices_Array();
+		    Edge<String,String>[] edg = graph.return_Edges_Array();
 		    String[] vertices = new String[vert.length];
 		    String[] edges = new String[edg.length - 1];
 		    String firstLine = file.readLine();
@@ -269,8 +267,8 @@ public class Files_Management {
 		    String line;
 
 		    Graph<String, String> graph = graph_Reader(fileName, true);
-		    Vertex<String,String>[] vert = graph.vertices_array();
-		    Edge<String,String>[] edg = graph.edges_array();
+		    Vertex<String,String>[] vert = graph.return_Vertices_Array();
+		    Edge<String,String>[] edg = graph.return_Edges_Array();
 		    String[] vertices = new String[vert.length - 1];
 
 		    String firstLine = file.readLine();
@@ -291,7 +289,7 @@ public class Files_Management {
 		    file.readLine();
 	
 		    Graph<String, String> cloned = graph.clone();
-		    Vertex<String,String>[] ve = cloned.vertices_array();
+		    Vertex<String,String>[] ve = cloned.return_Vertices_Array();
 		    Vertex<String,String> vertToRemove = null;
 		    for(int i = 0; i< ve.length; i++)
 		    {
@@ -307,15 +305,15 @@ public class Files_Management {
 
 		    while(outEdg.hasNext())
 		    {
-		    	cloned.removeEdge(outEdg.next());
+		    	cloned.remove_Edge(outEdg.next());
 		    }
 		    
 		    while(inEdge.hasNext())
 		    {
-		    	cloned.removeEdge(inEdge.next());
+		    	cloned.remove_Edge(inEdge.next());
 		    }
 		    
-		    Edge<String,String>[] newEdges = cloned.edges_array();
+		    Edge<String,String>[] newEdges = cloned.return_Edges_Array();
 		    
 		    PrintWriter write = new PrintWriter(new File(fileName));
 		    write.println("size="+vertices.length);
@@ -390,7 +388,7 @@ public class Files_Management {
 			matcher = pattern.matcher(readLine);
 			matcher.find();
 			if(matcher.group(1) == null || matcher.group(1).isEmpty()){
-				vertices[Integer.parseInt(matcher.group(2))] = graph.addVertex(matcher.group(3));
+				vertices[Integer.parseInt(matcher.group(2))] = graph.add_Vertex_To_Graph(matcher.group(3));
 			}else if(matcher.group(1).trim().equals("//") || matcher.group(1).trim().equals("#")){
 				continue;
 			}else{
@@ -410,7 +408,7 @@ public class Files_Management {
 					weight = Double.parseDouble(matcher.group(5));
 				String label = matcher.group(7);
 				
-				graph.addEdge(vertices[v1Index], vertices[v2Index], label, weight);
+				graph.add_Edge(vertices[v1Index], vertices[v2Index], label, weight);
 			}else if(matcher.group(1).trim().equals("//") || matcher.group(1).trim().equals("#")){
 				continue;
 			}else{
@@ -1082,7 +1080,7 @@ public class Files_Management {
 			Edge<String,String>[] finalEdge = null;
 			for(int i = 0; i < vert.length - 1; i++)
 			{
-			    Edge<String,String>[] currentPah = graph.dijkstra(vert[startTaskIndex],vert[i]);
+			    Edge<String,String>[] currentPah = graph.dijkstra_Shortest_Path(vert[startTaskIndex],vert[i]);
 			    DoublyLinkedList<String> all_Components = return_Components_In_Crit_Path(currentPah,FileName1);
 
 			    if(all_Components != null)

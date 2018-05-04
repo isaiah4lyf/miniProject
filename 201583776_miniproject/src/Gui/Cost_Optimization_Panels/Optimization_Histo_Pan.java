@@ -35,7 +35,7 @@ public class Optimization_Histo_Pan extends JPanel{
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/Hist.jpg"));
 		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
@@ -50,7 +50,7 @@ public class Optimization_Histo_Pan extends JPanel{
 		String[] components = files_Man.ReturnComponentsForTask(files[4],Selected_Task);
 
 		
-		g.setColor(Color.CYAN);
+		g.setColor(Color.BLUE);
 		g.drawString("All components and Their Prices required by: '"+Selected_Task+"' with the total cost",0 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
 		int individualWidth = (int)(((this.getWidth() - 40)/24) * 0.90);

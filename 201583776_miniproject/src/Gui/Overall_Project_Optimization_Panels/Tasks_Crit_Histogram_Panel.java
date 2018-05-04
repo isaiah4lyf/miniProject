@@ -56,7 +56,7 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 	{
 	    Graphics2D g2 = (Graphics2D) g;
 	    Graphics2D g3 = (Graphics2D) g;
-	    Font font1 = new Font("Serif", Font.BOLD, 40);
+	    Font font1 = new Font("Serif", Font.PLAIN, 40);
 	    g3.setFont(font1);
 	    Font font = new Font("Serif", Font.ROMAN_BASELINE, 18);
 	    g2.setFont(font);
@@ -79,7 +79,9 @@ public class Tasks_Crit_Histogram_Panel extends JPanel{
 			int x = 50;
 			int count = 1;
 			int rows = 1;
+			Font font3 = new Font("Serif", Font.PLAIN, 18);
 			g2.setColor(Color.BLACK);
+			g2.setFont(font3);
 			g2.drawString("Optimized Critical Path",this.getWidth()/2 - 100,20);
 			g2.drawLine(this.getWidth()/2 - 100, 20, this.getWidth()/2 + 70, 20);
 			String[] vert = files_man.read_Crit_Path_Tasks(files[5]);

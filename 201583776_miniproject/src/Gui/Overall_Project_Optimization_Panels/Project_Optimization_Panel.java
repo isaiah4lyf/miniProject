@@ -54,7 +54,7 @@ public class Project_Optimization_Panel extends JPanel{
 		try 
 		{
 			graph = files_man.graph_Reader(files[3], true);
-			vert = graph.vertices_array();
+			vert = graph.return_Vertices_Array();
 			tasks = new Object[vert.length];
 			for(int i = 0; i <vert.length; i++)
 			{
@@ -142,12 +142,12 @@ public class Project_Optimization_Panel extends JPanel{
 			{e.printStackTrace();}
 			
 			g.drawImage(bgImage2,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
+		    Font font = new Font("Serif", Font.PLAIN, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 		    String dep = label;
 			g.drawString(label,200, 15);
-			g.drawLine(200, 15, 200+dep.length()*10-35, 15);
+			g.drawLine(200, 15, 200+dep.length()*10-50, 15);
 		}	
 	}
 	class label extends JLabel{
@@ -172,7 +172,7 @@ public class Project_Optimization_Panel extends JPanel{
 			g.drawImage(bgImage,0,0,(ImageObserver) this);
 		    Font font = new Font("Serif", Font.ITALIC, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 			g.drawString(label, 0, 20);
 		}	
 	}

@@ -36,7 +36,7 @@ public class Components_Dependencies extends JPanel{
 		try {
 			graph = files_man.graph_Reader(files[1], true);
 			
-		    Edge<String,String>[] edg = graph.edges_array();
+		    Edge<String,String>[] edg = graph.return_Edges_Array();
 		    this.add(new tableName("Dependencies"));
 		    this.add(new head_Label("Required Component","Component","Required Component Quantity"));
 			for(int i = 0; i<edg.length; i++)
@@ -76,12 +76,12 @@ public class Components_Dependencies extends JPanel{
 			{e.printStackTrace();}
 			
 			g.drawImage(bgImage2,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
+		    Font font = new Font("TimesRoman", Font.PLAIN, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.black);
 		    String dep = label;
 			g.drawString(label,280, 15);
-			g.drawLine(280, 15, 280+dep.length()*10-15, 15);
+			g.drawLine(280, 15, 280+dep.length()*10-20, 15);
 		}	
 	}
 	class head_Label extends JLabel{
@@ -109,9 +109,9 @@ public class Components_Dependencies extends JPanel{
 			{e.printStackTrace();}
 			
 			g.drawImage(bgImage2,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
+		    Font font = new Font("TimesRoman", Font.PLAIN, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.black);
 			g.drawString(label, 5, 15);
 			g.drawString(label2, 200, 15);
 			g.drawString(label3, 380, 15);
@@ -144,7 +144,7 @@ public class Components_Dependencies extends JPanel{
 			g.drawImage(bgImage2,0,0,(ImageObserver) this);
 		    Font font = new Font("Serif", Font.ITALIC, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.black);
 			g.drawString(label, 5, 25);
 			g.drawString(label2, 200, 25);
 			g.drawString(label3, 480, 25);

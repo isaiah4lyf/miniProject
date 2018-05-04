@@ -1,0 +1,3 @@
+Component 6,Component 4,Component 1,Component 2,Component 5,
+Task 4 = 50,Task 5 = 0
+Total Cost = 5500.0,Total Duration = 50

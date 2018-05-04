@@ -37,10 +37,10 @@ public class Specific_Task_Histogram_Panel extends JPanel{
 
 		try {
 			graph = files_man.graph_Reader(files[3], true);
-			vert = graph.vertices_array();
+			vert = graph.return_Vertices_Array();
 			if(vert.length != 0)
 			{
-				edg = graph.dijkstra(vert[Select_T_1],vert[Select_T_2]);
+				edg = graph.dijkstra_Shortest_Path(vert[Select_T_1],vert[Select_T_2]);
 			}
 			
 			
@@ -56,7 +56,7 @@ public class Specific_Task_Histogram_Panel extends JPanel{
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/Hist.jpg"));
 		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
@@ -65,7 +65,7 @@ public class Specific_Task_Histogram_Panel extends JPanel{
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 
-		g.setColor(Color.CYAN);
+		g.setColor(Color.BLUE);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
 		if(vert.length != 0)
 		{

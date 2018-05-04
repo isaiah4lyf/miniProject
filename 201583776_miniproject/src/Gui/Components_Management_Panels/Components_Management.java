@@ -51,14 +51,14 @@ public class Components_Management extends JPanel{
 		Object[] Dependency = null;
 		try {
 			graph = files_man.graph_Reader(files[1], true);
-			vert = graph.vertices_array();
+			vert = graph.return_Vertices_Array();
 			items = new Object[vert.length];
 			for(int i = 0; i<vert.length; i++)
 			{
 				items[i] = vert[i].getData();
 			}
 			
-			edg = graph.edges_array();
+			edg = graph.return_Edges_Array();
 			Dependency = new Object[edg.length];
 			for(int i = 0; i<edg.length; i++)
 			{
@@ -292,12 +292,12 @@ public class Components_Management extends JPanel{
 			{e.printStackTrace();}
 			
 			g.drawImage(bgImage2,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
+		    Font font = new Font("TimesRoman", Font.PLAIN, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 		    String dep = label;
 			g.drawString(label,180, 15);
-			g.drawLine(180, 15, 180+dep.length()*10-30, 15);
+			g.drawLine(180, 15, 180+dep.length()*10-50, 15);
 		}	
 	}
 	
@@ -323,7 +323,7 @@ public class Components_Management extends JPanel{
 			g.drawImage(bgImage,0,0,(ImageObserver) this);
 		    Font font = new Font("Serif", Font.ITALIC, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 			g.drawString(label, 0, 20);
 		}	
 	}

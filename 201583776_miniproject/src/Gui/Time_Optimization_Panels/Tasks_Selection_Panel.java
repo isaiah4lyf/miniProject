@@ -42,7 +42,7 @@ public class Tasks_Selection_Panel extends JPanel{
 
 		try {
 			graph = files_man.graph_Reader(files[3], true);
-			vert = graph.vertices_array();
+			vert = graph.return_Vertices_Array();
 			items = new Object[vert.length];
 
 			for(int i = 0; i<items.length; i++)
@@ -76,7 +76,7 @@ public class Tasks_Selection_Panel extends JPanel{
             public void actionPerformed(ActionEvent e) {
    
         		String[] filesNames = new Files_Management().Load_Last_Project();
-        		String ProjectName = "Project_Name";
+        		String ProjectName = filesNames[0].split("/")[1];
         		
         		Jframe frame = new Jframe(filesNames,0,jcb.getSelectedIndex(),jcb2.getSelectedIndex());
         		frame.pack();
@@ -87,6 +87,15 @@ public class Tasks_Selection_Panel extends JPanel{
         		frame.pack();
         		frame.setVisible(true);
         		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		
+        		frame.setIconImage(icon);
+            	fram.setVisible(false);
+        		fram.dispose();
 
         		
         		
@@ -137,12 +146,12 @@ public class Tasks_Selection_Panel extends JPanel{
 			{e.printStackTrace();}
 			
 			g.drawImage(bgImage2,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
+		    Font font = new Font("Serif", Font.PLAIN, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 		    String dep = label;
 			g.drawString(label,190, 20);
-			g.drawLine(190, 20, 190+dep.length()*10-40, 20);
+			g.drawLine(190, 20, 190+dep.length()*10-45, 20);
 		}	
 	}
 	class label extends JLabel{
@@ -166,7 +175,7 @@ public class Tasks_Selection_Panel extends JPanel{
 			g.drawImage(bgImage,0,0,(ImageObserver) this);
 		    Font font = new Font("Serif", Font.ITALIC, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 			g.drawString(label, 0, 20);
 		}	
 	}

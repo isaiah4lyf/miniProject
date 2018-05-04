@@ -24,9 +24,6 @@ import File_IO.Files_Management;
  */
 
 public class Main{
-
-
-
 	/**
 	 * 
 	 */
@@ -39,7 +36,7 @@ public class Main{
 	public static void main(String[] args) {
 		
 		String[] filesNames = new Files_Management().Load_Last_Project();
-		String ProjectName = "Project_Name";
+		String ProjectName = filesNames[0].split("/")[1];
 		
 		Jframe frame = new Jframe(filesNames,0,0,0);
 		frame.pack();
@@ -49,9 +46,15 @@ public class Main{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-
+		Image icon = null;
+		try 
+		{
+			icon = ImageIO.read(new File("Files/Images/pj.png"));}
+		catch (IOException e)
+		{e.printStackTrace();}
 		
-		
+		frame.setIconImage(icon);
+	
 	}
 
 }

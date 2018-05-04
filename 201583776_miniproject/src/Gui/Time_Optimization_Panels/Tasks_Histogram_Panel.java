@@ -31,7 +31,7 @@ public class Tasks_Histogram_Panel extends JPanel{
 
 		try {
 			graph = files_man.graph_Reader(files[3], true);
-			edg_search = graph.edges_array();
+			edg_search = graph.return_Edges_Array();
 			
 		
 			for (int j=0; j<edg_search.length;j++)
@@ -42,17 +42,17 @@ public class Tasks_Histogram_Panel extends JPanel{
 					    {
 					    	if(edg_search[j].getWeight() > edg_search[k].getWeight() )
 					    	{
-					    		graph.removeEdge(edg_search[k]);
+					    		graph.remove_Edge(edg_search[k]);
 					    	}
 					    	else
 					    	{
-					    		graph.removeEdge(edg_search[j]);
+					    		graph.remove_Edge(edg_search[j]);
 					    	}
 					    	
 					    }      
 				  }
 			}
-			edg = graph.edges_array();
+			edg = graph.return_Edges_Array();
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -73,7 +73,7 @@ public class Tasks_Histogram_Panel extends JPanel{
 		
 		g.drawImage(bgImage,0,0,(ImageObserver) this);
 		
-		g.setColor(Color.CYAN);
+		g.setColor(Color.BLACK);
 		g.drawString("All Tasks and their duration",0 ,10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);
 		int individualWidth = (int)(((this.getWidth() - 40)/24) * 0.90);
@@ -94,8 +94,9 @@ public class Tasks_Histogram_Panel extends JPanel{
 			for(int i = 0; i< edg.length; i++ )
 			{
 				int barHeight = (int)(((double)edg[i].getWeight() / (double)maxPrice) *(this.getHeight() - 65));
-				
+				g.setColor(Color.BLUE);
 				g.fill3DRect(initialPos, this.getHeight() - 45 - barHeight, individualWidth, barHeight,true);
+				g.setColor(Color.BLACK);
 				g.drawString(edg[i].getV1().getData(), initialPos, this.getHeight() - 30);
 				String priceString = String.valueOf((int)edg[i].getWeight());
 				g.drawString(priceString+" days", initialPos , this.getHeight() - 45 - barHeight);

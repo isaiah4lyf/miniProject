@@ -1,3 +1,3 @@
-Comp 2,Comp 8,Comp 5,Comp 1,Comp 3,Comp 4,
-Task 1 = 80,Task 2 = 0
-Total Cost = 1790.0,Total Duration = 80
+Comp 2,Comp 8,Comp 5,Comp 1,Comp 3,Comp 4,Comp 4,Comp 7,Comp 7,
+Task 1 = 80,Task 2 = 100,Task 3 = 70,Task 4 = 0
+Total Cost = 2400.0,Total Duration = 250

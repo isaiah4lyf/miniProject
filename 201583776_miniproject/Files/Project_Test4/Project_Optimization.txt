@@ -1,3 +1,0 @@
-Comp 2,Comp 3,Comp 8,Comp 6,Comp 6,Comp 1,Comp 1,
-Task 1 = 60,Task 2 = 100,Task 8 = 30,Task 4 = 0
-Total Cost = 6722.0,Total Duration = 190

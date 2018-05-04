@@ -58,7 +58,7 @@ public class Components_Prices_Panel extends JPanel{
 		String[] priced_Comp = files_man.Return_Priced_Components_Panel(files[2]);
 		try {
 			graph = files_man.graph_Reader(files[1], true);
-			vert = graph.vertices_array();
+			vert = graph.return_Vertices_Array();
 			items = new Object[priced_Comp.length];
 
 			for(int i = 0; i<priced_Comp.length; i++)
@@ -67,7 +67,7 @@ public class Components_Prices_Panel extends JPanel{
 			}
 			
 			graph2 = files_man.graph_Reader(files[3], true);
-			vert2 = graph2.vertices_array();
+			vert2 = graph2.return_Vertices_Array();
 			items2 = new Object[vert2.length];
 
 			for(int i = 0; i<vert2.length; i++)
@@ -132,12 +132,24 @@ public class Components_Prices_Panel extends JPanel{
 
             	Selected_Task = jcb2.getSelectedItem().toString();
         		Jframe frame = new Jframe(files,jcb2.getSelectedIndex(),0,0);
+        		String ProjectName = files[0].split("/")[1];
         		frame.pack();
-        		frame.setTitle("Project Management System");
+        		frame.setTitle("Project Management System - "+ProjectName);
         		frame.setSize(1380,780);
         		frame.setLocation(-5,0);
         		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         		frame.pack();
+        		
+        		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		
+        		frame.setIconImage(icon);
+            	fram.setVisible(false);
+        		fram.dispose();
         		
         		frame.setVisible(true);
         		
@@ -190,12 +202,12 @@ public class Components_Prices_Panel extends JPanel{
 			{e.printStackTrace();}
 			
 			g.drawImage(bgImage2,0,0,(ImageObserver) this);
-		    Font font = new Font("Serif", Font.BOLD, 18);
+		    Font font = new Font("Serif", Font.PLAIN, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 		    String dep = label;
 			g.drawString(label,250, 15);
-			g.drawLine(250, 15, 250+dep.length()*10-8, 15);
+			g.drawLine(250, 15, 250+dep.length()*10-15, 15);
 		}	
 	}
 	class label extends JLabel{
@@ -218,7 +230,7 @@ public class Components_Prices_Panel extends JPanel{
 			g.drawImage(bgImage,0,0,(ImageObserver) this);
 		    Font font = new Font("Serif", Font.ITALIC, 18);
 		    g.setFont(font);
-		    g.setColor(Color.BLUE);
+		    g.setColor(Color.BLACK);
 			g.drawString(label, 0, 20);
 		}	
 	}

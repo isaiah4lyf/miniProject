@@ -2,6 +2,7 @@ package Gui;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -75,9 +76,9 @@ public class Jframe extends JFrame {
                 		if(project != null)
                 		{
                     		Jframe frame = new Jframe(project,selected_Task_For_Cost,0,0);
-
+                    		String ProjectName = project[0].split("/")[1];
                     		frame.pack();
-                    		frame.setTitle("Project Management System");
+                    		frame.setTitle("Project Management System - "+ProjectName);
                     		frame.setSize(1380,780);
                     		frame.setLocation(-5,0);
                     		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,6 +86,14 @@ public class Jframe extends JFrame {
                     		
                     		frame.setVisible(true);
                     		
+                    		Image icon = null;
+                    		try 
+                    		{
+                    			icon = ImageIO.read(new File("Files/Images/pj.png"));}
+                    		catch (IOException ex)
+                    		{ex.printStackTrace();}
+                    		
+                    		frame.setIconImage(icon);
                         	fram.setVisible(false);
                     		fram.dispose();
                 		}
@@ -118,13 +127,23 @@ public class Jframe extends JFrame {
             	{
             		String[] project = files_man.Load_Specific_Project(Project[response]); 
             		Jframe frame = new Jframe(project,selected_Task_For_Cost,0,0);
-
+            		String ProjectName = project[0].split("/")[1];
             		frame.pack();
-            		frame.setTitle("Project Management System");
+            		frame.setTitle("Project Management System - "+ProjectName);
             		frame.setSize(1380,780);
             		frame.setLocation(-5,0);
             		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             		frame.pack();
+            		Image icon = null;
+            		try 
+            		{
+            			icon = ImageIO.read(new File("Files/Images/pj.png"));}
+            		catch (IOException ex)
+            		{ex.printStackTrace();}
+            		
+            		frame.setIconImage(icon);
+                	fram.setVisible(false);
+            		fram.dispose();
             		frame.setVisible(true);
                 	fram.setVisible(false);
             		fram.dispose();
@@ -148,14 +167,24 @@ public class Jframe extends JFrame {
             public void actionPerformed(ActionEvent e) {
   
         		Jframe frame = new Jframe(files,selected_Task_For_Cost,0,0);
-
+        		String ProjectName = filesNames[0].split("/")[1];
         		frame.pack();
-        		frame.setTitle("Project Management System");
+        		frame.setTitle("Project Management System - " + ProjectName);
         		frame.setSize(1380,780);
         		frame.setLocation(-5,0);
         		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         		frame.pack();
         		frame.setVisible(true);
+        		Image icon = null;
+        		try 
+        		{
+        			icon = ImageIO.read(new File("Files/Images/pj.png"));}
+        		catch (IOException ex)
+        		{ex.printStackTrace();}
+        		
+        		frame.setIconImage(icon);
+            	fram.setVisible(false);
+        		fram.dispose();
             	fram.setVisible(false);
         		fram.dispose();
 
@@ -190,8 +219,7 @@ public class Jframe extends JFrame {
 		dependency_and_Manage_P.setLayout(new GridLayout(1,2));
 		dependency_and_Manage_P.add(dependency_Panel_scroll);
 		dependency_and_Manage_P.add(Management_Panel_Scroll);
-		
-		
+
 		JPanel components_Man_Panel = new JPanel();
 		components_Man_Panel.setLayout(new GridLayout(2,1));
 		components_Man_Panel.add(display_Graph_Panel_scroll);
@@ -238,22 +266,14 @@ public class Jframe extends JFrame {
 		/**
 		 * Cost Management tab
 		 */
-
 		
 		Prices_Histogram_Panel price_Histo = new Prices_Histogram_Panel(files);
 		JScrollPane price_Histoscroll = new JScrollPane(price_Histo);
 		price_Histoscroll.setPreferredSize(new Dimension( 1200,1200));
-	
-		
-
-		
 
 		Components_Prices_Panel price_Man = new Components_Prices_Panel(pane,files,selected_Task_For_Cost,fram);
 		price_Man.setLayout(new GridLayout(10,1));
 
-
-		
-		
 		Optimization_Histo_Pan someGraph = new Optimization_Histo_Pan(pane,files,fram,selected_Task_For_Cost);
 		JScrollPane someScrtoll = new JScrollPane(someGraph);
 		someScrtoll.setPreferredSize(new Dimension( 1200,1200));
@@ -270,9 +290,7 @@ public class Jframe extends JFrame {
 		cost_Main_Panel.add(price_Histoscroll);
 		cost_Main_Panel.add(DownPanel);
 		pane.addTab("Cost Management", null, cost_Main_Panel, "");
-		
-		
-		
+			
 		/**
 		 * Time Management tab
 		 */
@@ -282,29 +300,21 @@ public class Jframe extends JFrame {
 		Tasks_Histogram_Panel task_Histo = new Tasks_Histogram_Panel(files);
 		JScrollPane task_Histo_scroll = new JScrollPane(task_Histo);
 		task_Histo_scroll.setPreferredSize(new Dimension( 1200,1200));
-
-
-		
-		
+	
 		Specific_Task_Histogram_Panel spec_Task_Pan = new Specific_Task_Histogram_Panel(files,Select_T_1,Select_T_2);
 		JScrollPane spec_Task_Pan_scroll = new JScrollPane(spec_Task_Pan);
 		spec_Task_Pan_scroll.setPreferredSize(new Dimension( 1200,1200));
-		
 		
 		JPanel DownPanel2 = new JPanel();
 		DownPanel2.setLayout(new GridLayout(1,2));
 		DownPanel2.add(spec_Task_Pan);
 		DownPanel2.add(tasks_Sel);
 
-		
 		JPanel time_Main_Panel = new JPanel();
 		time_Main_Panel.setLayout(new GridLayout(2,1));
 		time_Main_Panel.add(task_Histo_scroll);
 		time_Main_Panel.add(DownPanel2);
 		pane.addTab("Time Management", null, time_Main_Panel, "");
-		
-
-		
 		
 		/**
 		 * Overall project statistics
@@ -323,15 +333,12 @@ public class Jframe extends JFrame {
 		Calculations_Panel calc_Pan = new Calculations_Panel(files);
 		panel7.add(calc_Pan);
 		panel7.add(project_Pa);
-		
-		
+				
 		panel6.add(tasks_Pan);
 		panel6.add(comp_Pan);
 		panel6.add(panel7);
 		pane.addTab("Overall Project Optimization", null, panel6, "");
 		
-		
-
 		this.add(pane);
 		this.setLayout(new GridLayout(1,1));
 		this.setJMenuBar(menubar);

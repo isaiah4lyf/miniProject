@@ -1,0 +1,8 @@
+size=7
+Component 1 = 1400
+Component 2 = 1900
+Component 3 = 1100
+Component 4 = 800
+Component 5 = 1200
+Component 6 = 200
+Component 7 = 2100

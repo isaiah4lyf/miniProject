@@ -35,7 +35,7 @@ public class Components_Histogram_Panel extends JPanel{
 	{
 		try 
 		{
-			bgImage = ImageIO.read(new File("Files/Images/df.jpg"));
+			bgImage = ImageIO.read(new File("Files/Images/Hist.jpg"));
 		    iWidth2 = bgImage.getWidth((ImageObserver) this)/2;
 		    iHeight2 = bgImage.getHeight((ImageObserver) this)/2;
 		}
@@ -46,7 +46,9 @@ public class Components_Histogram_Panel extends JPanel{
 		String[] components = files_man.read_Crit_Path_Components(files[5]);
 		double[] prices = files_man.read_Crit_Path_Components_Prices(components,files[0]);
 		
-		g.setColor(Color.CYAN);
+		Color color = new Color(128,128,0);
+		g.setColor(Color.BLUE);
+		
 		g.drawString("Components Required By Tasks in Optimized Critical Path",this.getWidth()/2 - 180,10);
 		g.drawLine(this.getWidth()/2 - 180, 10, this.getWidth()/2 + 140, 10);
 		g.drawLine(10, this.getHeight() - 45, this.getWidth() - 10, this.getHeight() - 45);

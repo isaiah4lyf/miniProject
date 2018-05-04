@@ -4,24 +4,12 @@ import graph.doublyLinkedList.DLLNode;
 import graph.doublyLinkedList.DoublyLinkedList;
 import graph.doublyLinkedList.NodeIterator;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Scanner;
+
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class Graph <E,T> {
 	
@@ -30,11 +18,7 @@ public class Graph <E,T> {
 	private DoublyLinkedList<Edge<E,T>> edgeList;
 	
 
-	private boolean directed;
-	private boolean isCyclic;
-	private boolean isConnected;
-	private int connectedComponents;
-	
+	private boolean directed;	
 	private int unique_id = 0;
 
 	public Graph(boolean directed) {
@@ -43,19 +27,19 @@ public class Graph <E,T> {
 		this.directed = directed;
 	}
 	
-	public Vertex<E,T> addVertex(E data){
-		return addVertex(data, unique_id++);
+	public Vertex<E,T> add_Vertex_To_Graph(E data){
+		return add_Vertex_To_Graph(data, unique_id++);
 	}
 	
 
-	public Edge<E,T>[] addEdge(Vertex<E,T> v1, Vertex<E,T> v2, T label, double weight){
+	public Edge<E,T>[] add_Edge(Vertex<E,T> v1, Vertex<E,T> v2, T label, double weight){
 		Edge<E,T> edges[] = new Edge[directed ? 1 : 2];
 
 		edges[0] = new Edge<E,T>(v1, v2);
+		edges[0].setPosition(edgeList.add(edges[0]));
 		edges[0].setLabel(label);
 		edges[0].setWeight(weight);
-		edges[0].setPosition(edgeList.add(edges[0]));
-
+		
 		if(!directed){
 			edges[1] = new Edge<E,T>(v2, v1);
 			edges[1].setLabel(label);
@@ -65,11 +49,11 @@ public class Graph <E,T> {
 		return edges;
 	}
 	
-	public Edge<E,T>[] addEdge(Vertex<E,T> v1, Vertex<E,T> v2){
-		return addEdge(v1, v2, null, 0.0);
+	public Edge<E,T>[] add_Edge(Vertex<E,T> v1, Vertex<E,T> v2){
+		return add_Edge(v1, v2, null, 0.0);
 	}
 
-	public void removeVertex(Vertex<E,T> vertex){
+	public void remove_Vertex(Vertex<E,T> vertex){
 
 		NodeIterator<Edge<E,T>> iterOutEdges = vertex.getOutEdges();
 		while(iterOutEdges.hasNext()){
@@ -90,83 +74,54 @@ public class Graph <E,T> {
 		vertexList.remove(vertex.getPosition());
 	}
 
-	public void removeEdge(Edge<E,T> edge){
+	public void remove_Edge(Edge<E,T> edge){
 		edge.getV1().removeOutEdge(edge.getIncidentPositionV1());
 		edge.getV2().removeInEdge(edge.getIncidentPositionV2());
 		edgeList.remove(edge.getPosition());
 	}
 
-	public NodeIterator<Vertex<E,T>> vertices() {
+	public NodeIterator<Vertex<E,T>> vertices_Iterator() {
 		return vertexList.iterator();
 	}
 
-	public NodeIterator<Edge<E,T>> edges() {
+	public NodeIterator<Edge<E,T>> edges_Iterator() {
 		return edgeList.iterator();
 	}
 	
-	public Vertex<E,T>[] vertices_array(){
+	public Vertex<E,T>[] return_Vertices_Array(){
 		Vertex<E,T>[] tmp = new Vertex[vertexList.size()];
-		NodeIterator<Vertex<E,T>> iter = vertices();
+		NodeIterator<Vertex<E,T>> iter = vertices_Iterator();
 		int index = 0;
 		while(iter.hasNext())
 			tmp[index++] = iter.next();
 		return tmp;
 	}
 	
-	public Edge<E,T>[] edges_array(){
+	public Edge<E,T>[] return_Edges_Array(){
 		Edge<E,T>[] tmp = new Edge[edgeList.size()];
-		NodeIterator<Edge<E,T>> iter = edges();
+		NodeIterator<Edge<E,T>> iter = edges_Iterator();
 		int index = 0;
 		while(iter.hasNext())
 			tmp[index++] = iter.next();
 		return tmp;
 	}
 
-	public boolean isDirected() {
-		return directed;
-	}
-	
-
-	public boolean areAdjacent(Vertex<E,T> v1, Vertex<E,T> v2){		
-		Vertex<E,T> v = directed || (v1.getOutEdges().size() < v2.getOutEdges().size()) ? v1 : v2;
-		NodeIterator<Edge<E,T>> iterOutE = v.getOutEdges();
-		while(iterOutE.hasNext())
-			if( (v == v1 && iterOutE.next().getV2() == v2) || (v == v2 && iterOutE.next().getV2() == v1) )
-				return true;
-		return false;
-	}
-
-	public void transitiveClosure(){
-		Vertex<E,T> vertices[] = this.vertices_array();
-		for(int k = 0; k < vertices.length; k++){
-			for(int i = 0; i < vertices.length; i++){
-				if(i == k) continue;
-				if(areAdjacent(vertices[i], vertices[k])){
-					for(int j = 0; j < vertices.length; j++){
-						if(j == i || j == k) continue;
-						if(areAdjacent(vertices[k], vertices[j]) && !areAdjacent(vertices[i], vertices[j]))
-							this.addEdge(vertices[i],vertices[j], null, 0.0);
-					}
-				}
-			}
-		}
-	}
 
 	public Graph<E,T> clone(){
 		Graph<E,T> graph = new Graph<E,T>(true);
 		NodeIterator<Vertex<E,T>> iterV = vertexList.iterator();
 		while(iterV.hasNext()){
 			Vertex<E,T> vertex = iterV.next();
-			graph.addVertex(vertex.getData(), vertex.getID());
+			graph.add_Vertex_To_Graph(vertex.getData(), vertex.getID());
 		}
-		Vertex<E,T> vertices[] = graph.vertices_array();
+		Vertex<E,T> vertices[] = graph.return_Vertices_Array();
 		NodeIterator<Edge<E,T>> iterE = edgeList.iterator();
 		while(iterE.hasNext()){
 			Edge<E,T> currentE = iterE.next();
 			
-			Vertex<E,T> v1 = vertices[getIndexOfVertexByID(vertices, currentE.getV1().getID())];
-			Vertex<E,T> v2 = vertices[getIndexOfVertexByID(vertices, currentE.getV2().getID())];
-			graph.addEdge(v1, v2, currentE.getLabel(), currentE.getWeight());
+			Vertex<E,T> v1 = vertices[get_Index_Of_Vertex_By_ID(vertices, currentE.getV1().getID())];
+			Vertex<E,T> v2 = vertices[get_Index_Of_Vertex_By_ID(vertices, currentE.getV2().getID())];
+			graph.add_Edge(v1, v2, currentE.getLabel(), currentE.getWeight());
 		}
 		graph.directed = directed;
 		graph.unique_id = unique_id;
@@ -175,24 +130,24 @@ public class Graph <E,T> {
 
 	public String toString(){
 		String output = "Vertices:\n";
-		for(Vertex<E,T> v : vertices_array())
+		for(Vertex<E,T> v : return_Vertices_Array())
 			output += String.format("%s ", v.toString());		
 		output += "\n\nEdges:\n";		
-		for(Edge<E,T> e : edges_array()){
+		for(Edge<E,T> e : return_Edges_Array()){
 			output += String.format("%s\n", e.toString());
 		}
 		return output;
 	}
 	
 	
-	private Vertex<E,T> addVertex(E data, int id){
+	private Vertex<E,T> add_Vertex_To_Graph(E data, int id){
 		Vertex<E,T> vertex = new Vertex<E,T>(data, id);
 		DLLNode<Vertex<E,T>> node = vertexList.add(vertex);
 		vertex.setPosition(node);
 		return vertex;
 	}
 
-	public int getIndexOfVertexByID(Vertex<E,T>[] vertices, int id){
+	public int get_Index_Of_Vertex_By_ID(Vertex<E,T>[] vertices, int id){
 		int left = 0;
 		int right = vertices.length-1;
 		int mid;
@@ -210,8 +165,8 @@ public class Graph <E,T> {
 	
 	
 	
-	public Edge<E,T>[] dijkstra(Vertex<E,T> vFrom, Vertex<E,T> vTo){
-		this.dijkstra(vFrom);
+	public Edge<E,T>[] dijkstra_Shortest_Path(Vertex<E,T> vFrom, Vertex<E,T> vTo){
+		this.dijkstra_Shortest_Path(vFrom);
 		Stack<Edge<E,T>> path = new Stack<>();
 		Vertex<E,T> current = vTo;
 		
@@ -226,9 +181,9 @@ public class Graph <E,T> {
 		return edges;
 	}
 	
-public void dijkstra(Vertex<E,T> v){
+	public void dijkstra_Shortest_Path(Vertex<E,T> v){
 		
-		NodeIterator<Vertex<E,T>> iterV = vertices();
+		NodeIterator<Vertex<E,T>> iterV = vertices_Iterator();
 		while(iterV.hasNext()){
 			Vertex<E,T> currentV = iterV.next();
 			currentV.setStatus(Vertex.UNVISITED);
@@ -236,7 +191,7 @@ public void dijkstra(Vertex<E,T> v){
 			currentV.setDijkstra_parent(null);
 		}	
 
-		NodeIterator<Edge<E,T>> iterE = edges();
+		NodeIterator<Edge<E,T>> iterE = edges_Iterator();
 		while(iterE.hasNext())
 			iterE.next().setStatus(Edge.UNDISCOVERED);		
 		v.setDijkstra_value(0);		
@@ -277,45 +232,4 @@ public void dijkstra(Vertex<E,T> v){
 		}
 	}
 
-
-	
-	
-	public Vertex<E,T>[] BFS(Vertex<E,T> vertex){
-		
-		NodeIterator<Vertex<E,T>> iterV = vertices();
-		while(iterV.hasNext())
-			iterV.next().setStatus(Vertex.UNVISITED);
-		NodeIterator<Edge<E,T>> iterE = edges();
-		while(iterE.hasNext())
-			iterE.next().setStatus(Edge.UNDISCOVERED);
-		DoublyLinkedList<Vertex<E,T>> BFS_list = new DoublyLinkedList<>();
-		Queue<Vertex<E,T>> q = new LinkedList<Vertex<E,T>>();
-		q.add(vertex);
-		vertex.setStatus(Vertex.VISITING);
-		while(!q.isEmpty()){
-			Vertex<E,T> polled = q.poll();
-			BFS_list.add(polled);
-			polled.setStatus(Vertex.VISITED);
-			NodeIterator<Edge<E,T>> incidentEdges = polled.getOutEdges();
-			while(incidentEdges.hasNext()){
-				Edge<E,T> edge = incidentEdges.next();
-				Vertex<E,T> oppositeVertex = edge.getV2();
-				if(oppositeVertex.getStatus() == Vertex.UNVISITED){
-					edge.setStatus(Edge.DISCOVERED);
-					oppositeVertex.setStatus(Vertex.VISITING);
-					q.offer(oppositeVertex);
-				}else{
-					if(edge.getStatus() == Edge.UNDISCOVERED)
-						edge.setStatus(Edge.CROSS);
-				}
-			}
-		}
-		
-		NodeIterator<Vertex<E,T>> BFS_iter = BFS_list.iterator();
-		Vertex<E,T> BFS[] = new Vertex[BFS_iter.size()];
-		int index = 0;
-		while(BFS_iter.hasNext())
-			BFS[index++] = BFS_iter.next();
-		return BFS;
-	}
 }
