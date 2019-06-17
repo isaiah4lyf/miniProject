@@ -1,5 +1,5 @@
 # Final Year Computer Science Mini Project
-####### Project Management System is a software program that is designed to solve the UN sustainability goal 9(Industry, Innovation an Infrastructure) using Graphs ADT in java. 
+##### Project Management System is a software program that is designed to solve the UN sustainability goal 9(Industry, Innovation an Infrastructure) using Graphs ADT in java. 
 
 It can be used in large projects to layout which components rely on other components, what tasks rely on other tasks and to minimize the total time or cost to completion while abiding by the dependences. 
 
